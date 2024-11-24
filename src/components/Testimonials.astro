@@ -1,0 +1,107 @@
+---
+import testimonio5 from '../images/testimonio/testimonio5.png';
+import workana1 from '../images/testimonio/workana1.jpg';
+
+const testimonials = [
+  {
+    image: testimonio5.src,
+    name: "Milton Orellana",
+    location: "Colombia",
+    position: "Cliente de Workana"
+  },
+  {
+    image: workana1.src,
+    name: "Joel Araujo",
+    location: "Venezuela",
+    position: "Cliente de Workana"
+  }
+  // ... más testimonios
+];
+---
+
+<section id="testimonials-section" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-5">Testimonios</h2>
+
+    <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        {testimonials.map((testimonial, index) => (
+          <div class={`carousel-item ${index === 0 ? 'active' : ''}`}>
+            <div class="card border-0 shadow-sm mx-auto" style="max-width: 700px;">
+              <div class="card-body text-center p-5">
+                <i class="fas fa-quote-left fa-2x text-primary mb-4"></i>
+                <img 
+                  src={testimonial.image} 
+                  alt={`Testimonio de ${testimonial.name}`}
+                  class="img-fluid mb-4"
+                />
+                <div class="testimonial-meta">
+                  <h4 class="h5 mb-2">{testimonial.name}</h4>
+                  <p class="mb-1">{testimonial.location}</p>
+                  <p class="text-muted">{testimonial.position}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+
+    <div class="text-center mt-4">
+      <a href="https://www.workana.com/freelancer/66f3b0e7a046d3bcffe78e3c49b6e8a6" 
+         class="btn btn-primary"
+         target="_blank"
+         rel="nofollow">
+        Ver más de 300 testimonios
+      </a>
+    </div>
+
+    <!-- TrustPilot Widget -->
+    <div class="trustpilot-widget mt-5" 
+         data-locale="es-ES" 
+         data-template-id="5419b6a8b0d04a076446a9ad" 
+         data-businessunit-id="643d86b541a0d9256c416d2a" 
+         data-style-height="24px" 
+         data-style-width="100%" 
+         data-theme="light">
+      <a href="https://es.trustpilot.com/review/darwincedeno.com" 
+         target="_blank" 
+         rel="noopener">Trustpilot</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 1;
+  }
+
+  .carousel-control-prev {
+    left: -50px;
+  }
+
+  .carousel-control-next {
+    right: -50px;
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    width: 30px;
+    height: 30px;
+    padding: 15px;
+  }
+</style>

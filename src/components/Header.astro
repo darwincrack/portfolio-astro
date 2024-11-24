@@ -1,0 +1,322 @@
+---
+import profileImage from '../images/profile-image.jpg';
+---
+
+<header class="header">
+  <div id="particles-js"></div>
+
+  <!-- Navbar superior minimalista -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <div class="d-flex justify-content-between w-100">
+        <a href="/" class="logo">
+          <svg width="40" height="40" viewBox="0 0 40 40">
+            <path class="logo-path" d="M20 0 L40 20 L20 40 L0 20 Z" />
+            <text x="50%" y="50%" text-anchor="middle" dy=".3em" class="logo-text">DC</text>
+          </svg>
+        </a>
+        <div class="d-flex align-items-center">
+          <ul class="list-unstyled d-flex mb-0 me-4">
+            <li class="ms-3">
+              <a href="https://github.com/darwincrack/" class="social-link" title="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
+            </li>
+            <li class="ms-3">
+              <a href="https://twitter.com/darwincrack" class="social-link" title="Twitter">
+                <i class="fa-brands fa-twitter"></i>
+              </a>
+            </li>
+          </ul>
+          <a class="contact-btn" href="#contact-section">
+            Contáctame
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="container text-center">
+      <h1 class="main-title glow-effect">Darwin Cedeño</h1>
+      <h2 class="subtitle">Full Stack Developer</h2>
+      <p class="technologies">
+        PHP • Laravel • JavaScript • React • Node.js • AWS
+      </p>
+      <div class="cta-container">
+        <a href="#contact-section" class="contact-btn">Contáctame</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  /* Variables de color actualizadas basadas en la web de referencia */
+  :root {
+    --gradient-1: #0ea5e9;  /* Sky blue */
+    --gradient-2: #2563eb;  /* Blue */
+    --gradient-3: #4f46e5;  /* Indigo */
+    --background: #0f172a;  /* Dark blue */
+    --text: #f8fafc;       /* Light gray */
+  }
+
+  .header {
+    background-color: var(--background);
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  #particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+
+  .navbar, .hero-section {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Logo */
+  .logo {
+    position: relative;
+    z-index: 2;
+    text-decoration: none;
+  }
+
+  .logo-path {
+    fill: none;
+    stroke: var(--gradient-1);
+    stroke-width: 2;
+    transition: all 0.3s ease;
+  }
+
+  .logo-text {
+    fill: var(--text);
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .logo:hover .logo-path {
+    stroke: var(--gradient-3);
+    transform: rotate(45deg);
+  }
+
+  /* Actualización de estilos existentes */
+  .navbar {
+    position: relative;
+    z-index: 2;
+    padding: 1.5rem 0;
+    background-color: transparent !important;
+  }
+
+  .hero-section {
+    position: relative;
+    z-index: 2;
+    padding-top: 15vh;
+    display: flex;
+    align-items: flex-start;
+    min-height: 100vh;
+  }
+
+  .social-link {
+    color: var(--text);
+    font-size: 1.25rem;
+    transition: color 0.3s ease;
+  }
+  
+  .social-link:hover {
+    color: var(--gradient-1);
+  }
+
+  .contact-btn {
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    color: var(--text);
+    padding: 0.75rem 2.5rem;
+    border-radius: 2rem;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  .contact-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+  }
+
+  .main-title {
+    font-size: 6rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 1rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    animation: glow 3s ease-in-out infinite;
+  }
+
+  @keyframes glow {
+    0% {
+      text-shadow: 0 0 10px rgba(14, 165, 233, 0.3);
+      color: var(--text);
+    }
+    50% {
+      text-shadow: 0 0 20px rgba(14, 165, 233, 0.5),
+                   0 0 30px rgba(14, 165, 233, 0.3);
+      color: #ffffff;
+    }
+    100% {
+      text-shadow: 0 0 10px rgba(14, 165, 233, 0.3);
+      color: var(--text);
+    }
+  }
+
+  .subtitle {
+    font-size: 2rem;
+    color: var(--text);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+  }
+
+  .technologies {
+    color: var(--text);
+    font-size: 1.1rem;
+    font-weight: 500;
+    opacity: 0.7;
+    letter-spacing: 0.5px;
+    margin-bottom: 2rem;
+  }
+
+  .cta-container {
+    margin-top: 2rem;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .hero-section {
+      padding-top: 10vh;
+    }
+
+    .main-title {
+      font-size: 3.5rem;
+    }
+    
+    .subtitle {
+      font-size: 1.5rem;
+    }
+
+    .contact-btn {
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+    }
+  }
+</style>
+
+<script is:inline>
+  const initParticles = () => {
+    particlesJS('particles-js', {
+      particles: {
+        number: {
+          value: 80,
+          density: {
+            enable: true,
+            value_area: 800
+          }
+        },
+        color: {
+          value: "#d1fae5"
+        },
+        shape: {
+          type: "circle"
+        },
+        opacity: {
+          value: 0.5,
+          random: false,
+          anim: {
+            enable: false,
+            speed: 1,
+            opacity_min: 0.3,
+            sync: false
+          }
+        },
+        size: {
+          value: 3,
+          random: true,
+          anim: {
+            enable: false,
+            speed: 40,
+            size_min: 0.1,
+            sync: false
+          }
+        },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: "#d1fae5",
+          opacity: 0.4,
+          width: 1
+        },
+        move: {
+          enable: true,
+          speed: 3,
+          direction: "none",
+          random: false,
+          straight: false,
+          out_mode: "bounce",
+          bounce: false,
+          attract: {
+            enable: false,
+            rotateX: 600,
+            rotateY: 1200
+          }
+        }
+      },
+      interactivity: {
+        detect_on: "window",
+        events: {
+          onhover: {
+            enable: true,
+            mode: "repulse"
+          },
+          onclick: {
+            enable: true,
+            mode: "push"
+          },
+          resize: true
+        },
+        modes: {
+          grab: {
+            distance: 400,
+            line_linked: {
+              opacity: 0.6
+            }
+          },
+          repulse: {
+            distance: 200,
+            duration: 0.4
+          },
+          push: {
+            particles_nb: 4
+          },
+          remove: {
+            particles_nb: 2
+          }
+        }
+      },
+      retina_detect: true
+    });
+  };
+
+  // Ejecutar cuando el DOM esté listo
+  document.addEventListener("DOMContentLoaded", initParticles);
+  // Ejecutar cuando Astro complete la navegación
+  document.addEventListener("astro:page-load", initParticles);
+</script>

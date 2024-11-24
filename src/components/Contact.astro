@@ -1,0 +1,110 @@
+---
+import profileImage from '../images/profile-image.jpg';
+
+
+const services = [
+  "Desarrollo de páginas web a la medida",
+  "Desarrollo de aplicaciones móviles",
+  "Temas de WordPress",
+  "Base de datos",
+  "Posicionamiento SEO",
+  "Asesorías"
+];
+---
+
+<section id="contact-section" class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-5">Contáctame</h2>
+
+    <div class="row align-items-center">
+      <div class="col-md-4 text-center mb-4 mb-md-0">
+
+        <img 
+        class="profile-image rounded-circle mb-4" 
+        src={profileImage.src}
+        alt="Darwin Cedeño"
+        width={200}
+        height={200}
+        loading="eager"
+        decoding="async"
+      />
+      </div>
+      
+      <div class="col-md-8">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+            <p class="lead mb-4">
+              <strong>Más de 200 clientes</strong> en más de 
+              <strong>5 países de América Latina y España</strong> han confiado en mí
+            </p>
+
+            <h3 class="h5 mb-3">Te puedo ayudar en:</h3>
+            <ul class="list-unstyled mb-4">
+              {services.map(service => (
+                <li class="mb-2">
+                  <i class="fas fa-check text-primary me-2"></i>
+                  {service}
+                </li>
+              ))}
+            </ul>
+
+            <div class="contact-info">
+              <p class="mb-3">
+                Escríbeme un correo 
+                <a href="mailto:info@darwincedeno.com" class="text-decoration-none">
+                  info@darwincedeno.com
+                </a> 
+                o llámame al 
+                <a href="tel:+584125447114" class="text-decoration-none">
+                  +58 412 544 7114
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WhatsApp Button -->
+  <a href="https://wa.link/p82cmn" 
+     class="whatsapp-button" 
+     target="_blank">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+</section>
+
+<style>
+  .profile-image {
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .profile-image:hover {
+    transform: scale(1.05);
+  }
+
+  .whatsapp-button {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 2px 2px 3px #999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .whatsapp-button:hover {
+    transform: scale(1.1);
+    color: #FFF;
+  }
+</style>

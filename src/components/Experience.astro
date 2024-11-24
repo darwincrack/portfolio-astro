@@ -1,0 +1,61 @@
+---
+// Puedes definir los datos de experiencia en un archivo separado
+const experiences = [
+  {
+    company: "Freelancer",
+    location: "Global",
+    position: "Desarrollador Web",
+    period: "2017 - Presente",
+    description: `
+      <p><strong>Actualmente me dedico a potenciar, optimizar, mantener y crear páginas web de pequeñas y medianas</strong> empresas alrededor de américa latina y Europa.</p>
+      <p>He estado trabajando en los últimos años de freelancer en la más grande plataforma de freelancer en latinoamerica como lo es <a href="https://www.workana.com" rel="nofollow">workana.com</a>, allí he realizado con éxito <strong>más de 300 proyectos</strong> en diferentes tecnologías con <strong>más de 200 clientes</strong></p>
+    `
+  },
+  // ... más experiencias
+];
+---
+
+<section id="experiences-section" class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-5">Experiencia Laboral</h2>
+    
+    <div class="timeline">
+      {experiences.map((exp) => (
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h3 class="h5 mb-0">{exp.company}</h3>
+              <span class="badge bg-secondary">{exp.period}</span>
+            </div>
+            <div class="mb-2">
+              <i class="fa-solid fa-location-dot me-2"></i>
+              <span class="text-muted">{exp.location}</span>
+            </div>
+            <h4 class="h6 text-primary mb-3">{exp.position}</h4>
+            <div class="description" set:html={exp.description} />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .timeline .card {
+    border-left: 4px solid #0d6efd;
+    transition: transform 0.3s ease;
+  }
+
+  .timeline .card:hover {
+    transform: translateX(10px);
+  }
+
+  .description :global(a) {
+    color: #0d6efd;
+    text-decoration: none;
+  }
+
+  .description :global(a:hover) {
+    text-decoration: underline;
+  }
+</style>

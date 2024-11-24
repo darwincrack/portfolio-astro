@@ -1,0 +1,94 @@
+---
+const education = [
+  {
+    degree: "Ingeniero en Informática",
+    institution: "Instituto Universitario de Tecnologías del oeste Mariscal Sucre",
+    period: "2014 - 2016"
+  },
+  {
+    degree: "T.S.U en Informática",
+    institution: "Instituto Universitario de Tecnología Tomas Lander",
+    period: "2009 - 2011"
+  }
+];
+
+const certifications = [
+  {
+    title: "Certificación AZ900",
+    institution: "Microsoft Certified: Azure Fundamentals",
+    year: "2022",
+    image: "https://images.credly.com/images/be8fcaeb-c769-4858-b567-ffaaa73ce8cf/image.png",
+    link: "https://www.credly.com/badges/7f36d2ec-e6eb-4d9a-bfa1-8ba960a750af/linked_in_profile"
+  },
+  {
+    title: "JavaScript Algorithms and Data Structures",
+    institution: "freeCodeCamp",
+    year: "2022",
+    hours: "300 Horas",
+    link: "https://freecodecamp.org/certification/fcc943de171-3a0f-4d00-b402-627097bd66d9/javascript-algorithms-and-data-structures"
+  }
+  // ... más certificaciones
+];
+---
+
+<section id="education-section" class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-5">Educación Profesional</h2>
+    
+    <!-- Educación Formal -->
+    <div class="row mb-5">
+      {education.map(edu => (
+        <div class="col-12 col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <h3 class="h5 mb-3">{edu.degree}</h3>
+              <p class="text-muted mb-2">{edu.institution}</p>
+              <span class="badge bg-secondary">{edu.period}</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Certificaciones -->
+    <h3 class="text-center h4 mb-4">Cursos y certificaciones</h3>
+    <div class="row g-4">
+      {certifications.map(cert => (
+        <div class="col-12 col-md-4 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              {cert.image && (
+                <img 
+                  src={cert.image} 
+                  alt={cert.title} 
+                  class="mb-3" 
+                  style="width: 40px;"
+                />
+              )}
+              <h4 class="h6 mb-2">
+                <a href={cert.link} class="text-decoration-none">
+                  {cert.title}
+                </a>
+              </h4>
+              <p class="text-muted mb-2">{cert.institution}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge bg-primary">{cert.year}</span>
+                {cert.hours && <small class="text-muted">{cert.hours}</small>}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .card {
+    transition: transform 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+  }
+</style>

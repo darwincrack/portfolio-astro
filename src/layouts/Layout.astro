@@ -1,50 +1,152 @@
 ---
+
+import '../styles/main.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
+// Reemplazar Roboto por Inter
+import '@fontsource/inter/300.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+
+// Opcional: Agregar JetBrains Mono para secciones de código
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
+
+// Agregar CSS para los temas
+const darkThemeColors = {
+  primary: '#0f172a',    // Dark blue
+  secondary: '#1e293b',  // Slightly lighter blue
+  text: '#f8fafc',      // Light gray
+  accent: '#0ea5e9',    // Sky blue
+  gradient1: '#0ea5e9', // Sky blue
+  gradient2: '#2563eb', // Blue
+  gradient3: '#4f46e5', // Indigo
+};
+
+const lightThemeColors = {
+  primary: '#f8fafc',    // Light gray
+  secondary: '#f1f5f9',  // Slightly darker gray
+  text: '#0f172a',      // Dark blue
+  accent: '#0ea5e9',    // Sky blue
+  gradient1: '#0ea5e9', // Sky blue
+  gradient2: '#2563eb', // Blue
+  gradient3: '#4f46e5', // Indigo
+};
+
+// Definir la interfaz Props
 interface Props {
-	title: string;
+  title: string;
+  description?: string;
 }
 
-const { title } = Astro.props;
+// Destructurar las props
+const { title, description = "Darwin Cedeño - Full Stack Developer" } = Astro.props;
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <style is:global>
+      :root[data-theme="light"] {
+        --primary-bg: #{lightThemeColors.primary};
+        --secondary-bg: #{lightThemeColors.secondary};
+        --text-color: #{lightThemeColors.text};
+        --accent-color: #{lightThemeColors.accent};
+      }
+      
+      :root[data-theme="dark"] {
+        --primary-bg: #{darkThemeColors.primary};
+        --secondary-bg: #{darkThemeColors.secondary};
+        --text-color: #{darkThemeColors.text};
+        --accent-color: #{darkThemeColors.accent};
+      }
+
+      body {
+        background-color: var(--primary-bg) !important;
+        color: var(--text-color) !important;
+      }
+
+      /* Forzar estilos sobre Bootstrap */
+      .bg-white {
+        background-color: var(--primary-bg) !important;
+      }
+
+      .navbar {
+        background-color: var(--secondary-bg) !important;
+      }
+    </style>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style is:global>
+      :root {
+        --font-primary: 'Poppins', sans-serif;
+      }
+      
+      body {
+        font-family: var(--font-primary);
+      }
+    </style>
+  </head>
+  <body>
+    <slot />
+    
+    <!-- Botón de tema en la esquina superior derecha -->
+    <button id="theme-toggle" class="theme-toggle">
+      <i class="fas fa-moon dark-icon"></i>
+      <i class="fas fa-sun light-icon"></i>
+    </button>
+
+    <style>
+      .theme-toggle {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 1000;
+        background: var(--secondary-bg);
+        border: 2px solid var(--accent-color);
+        color: var(--text-color);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
+
+      .theme-toggle:hover {
+        transform: scale(1.1);
+      }
+
+      [data-theme="dark"] .dark-icon {
+        display: none;
+      }
+
+      [data-theme="light"] .light-icon {
+        display: none;
+      }
+    </style>
+
+    <script>
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      
+      themeToggle?.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+      });
+    </script>
+  </body>
 </html>
-<style is:global>
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(
-			45deg,
-			rgb(var(--accent)),
-			rgb(var(--accent-light)) 30%,
-			white 60%
-		);
-	}
-	html {
-		font-family: system-ui, sans-serif;
-		background: #13151a;
-	}
-	code {
-		font-family:
-			Menlo,
-			Monaco,
-			Lucida Console,
-			Liberation Mono,
-			DejaVu Sans Mono,
-			Bitstream Vera Sans Mono,
-			Courier New,
-			monospace;
-	}
-</style>
