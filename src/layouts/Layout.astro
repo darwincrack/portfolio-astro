@@ -55,22 +55,26 @@ const { title, description = "Darwin Cedeño - Full Stack Developer" } = Astro.p
     <meta name="description" content={description} />
     <style is:global>
       :root[data-theme="light"] {
-        --primary-bg: #{lightThemeColors.primary};
-        --secondary-bg: #{lightThemeColors.secondary};
-        --text-color: #{lightThemeColors.text};
-        --accent-color: #{lightThemeColors.accent};
+        --primary-bg: #f8fafc;
+        --secondary-bg: #f1f5f9;
+        --text: #0f172a;
+        --gradient-1: #0ea5e9;
+        --gradient-2: #2563eb;
+        --gradient-3: #4f46e5;
       }
       
       :root[data-theme="dark"] {
-        --primary-bg: #{darkThemeColors.primary};
-        --secondary-bg: #{darkThemeColors.secondary};
-        --text-color: #{darkThemeColors.text};
-        --accent-color: #{darkThemeColors.accent};
+        --primary-bg: #0f172a;
+        --secondary-bg: #1e293b;
+        --text: #f8fafc;
+        --gradient-1: #0ea5e9;
+        --gradient-2: #2563eb;
+        --gradient-3: #4f46e5;
       }
 
       body {
-        background-color: var(--primary-bg) !important;
-        color: var(--text-color) !important;
+        background-color: var(--primary-bg);
+        color: var(--text);
       }
 
       /* Forzar estilos sobre Bootstrap */
@@ -97,56 +101,10 @@ const { title, description = "Darwin Cedeño - Full Stack Developer" } = Astro.p
   <body>
     <slot />
     
-    <!-- Botón de tema en la esquina superior derecha -->
-    <button id="theme-toggle" class="theme-toggle">
-      <i class="fas fa-moon dark-icon"></i>
-      <i class="fas fa-sun light-icon"></i>
-    </button>
 
-    <style>
-      .theme-toggle {
-        position: fixed;
-        top: 1rem;
-        right: 1rem;
-        z-index: 1000;
-        background: var(--secondary-bg);
-        border: 2px solid var(--accent-color);
-        color: var(--text-color);
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-      }
 
-      .theme-toggle:hover {
-        transform: scale(1.1);
-      }
-
-      [data-theme="dark"] .dark-icon {
-        display: none;
-      }
-
-      [data-theme="light"] .light-icon {
-        display: none;
-      }
-    </style>
-
-    <script>
-      const themeToggle = document.getElementById('theme-toggle');
-      const savedTheme = localStorage.getItem('theme') || 'dark';
-      document.documentElement.setAttribute('data-theme', savedTheme);
-      
-      themeToggle?.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
         
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-      });
-    </script>
+    
+
   </body>
 </html>

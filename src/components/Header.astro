@@ -19,6 +19,9 @@ import profileImage from '../images/profile-image.jpg';
           <a href="#habilidades" class="nav-link">Habilidades</a>
           <a href="#destacado" class="nav-link">Destacado</a>
           <a href="#contacto" class="nav-link">Contacto</a>
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+            <i class="fa-regular fa-sun"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -57,6 +60,8 @@ import profileImage from '../images/profile-image.jpg';
     --text: #f8fafc;       /* Light gray */
     --navbar-bg-initial: rgba(15, 23, 42, 0.8);
     --navbar-bg-scrolled: #0f172a;
+    --navbar-text-light: #0f172a;  /* Color texto para modo claro */
+    --navbar-text-dark: #f8fafc;   /* Color texto para modo oscuro */
   }
 
   .header {
@@ -113,7 +118,7 @@ import profileImage from '../images/profile-image.jpg';
     left: 0;
     right: 0;
     z-index: 1000;
-    background-color: rgba(15, 23, 42, 0.85) !important;
+    background-color: var(--navbar-bg-initial) !important;
     backdrop-filter: blur(10px);
     padding: 1rem 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -121,8 +126,7 @@ import profileImage from '../images/profile-image.jpg';
   }
 
   .navbar.scrolled {
-    background-color: #0f172a !important;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+    background-color: var(--navbar-bg-scrolled) !important;
   }
 
   .navbar.scrolled .nav-link {
@@ -214,6 +218,34 @@ import profileImage from '../images/profile-image.jpg';
     align-items: center;
     padding-top: calc(80px + 8rem); /* Navbar height (80px) + espacio adicional (8rem) */
     padding-bottom: 4rem;
+    color: #f8fafc !important; /* Color claro fijo */
+  }
+
+  .main-title,
+  .subtitle,
+  .technologies {
+    color: #f8fafc !important; /* Forzar color claro siempre */
+  }
+
+  /* Remover cualquier estilo específico del modo claro para estos elementos */
+  html[data-theme="light"] .hero-section .subtitle,
+  html[data-theme="light"] .hero-section .technologies,
+  html[data-theme="light"] .hero-section .main-title {
+    color: #f8fafc !important;
+  }
+
+  /* Mantener los demás estilos sin cambios */
+  .subtitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .technologies {
+    font-size: 1.1rem;
+    font-weight: 500;
+    opacity: 0.9;
+    margin-bottom: 2rem;
   }
 
   .social-link {
@@ -269,23 +301,6 @@ import profileImage from '../images/profile-image.jpg';
     }
   }
 
-  .subtitle {
-    font-size: 2rem;
-    color: var(--text);
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-    opacity: 0.9;
-  }
-
-  .technologies {
-    color: var(--text);
-    font-size: 1.1rem;
-    font-weight: 500;
-    opacity: 0.7;
-    letter-spacing: 0.5px;
-    margin-bottom: 2rem;
-  }
-
   .cta-container {
     margin-top: 2rem;
   }
@@ -298,14 +313,14 @@ import profileImage from '../images/profile-image.jpg';
   }
 
   .social-link {
-    color: var(--text);
+    color: #f8fafc !important; /* Color fijo claro */
     font-size: 1.5rem;
     transition: all 0.3s ease;
     opacity: 0.8;
   }
   
   .social-link:hover {
-    color: var(--gradient-1);
+    color: var(--gradient-1) !important;
     transform: translateY(-2px);
     opacity: 1;
   }
@@ -383,6 +398,150 @@ import profileImage from '../images/profile-image.jpg';
     justify-content: flex-end;
     flex-grow: 1;
     padding-left: 3rem;
+  }
+
+  .theme-toggle {
+    background: none;
+    border: none;
+    color: var(--text);
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+    margin-left: 1rem;
+  }
+
+  .theme-toggle:hover {
+    opacity: 1;
+    color: var(--gradient-1);
+    transform: rotate(15deg);
+  }
+
+  .theme-toggle i {
+    font-size: 1.1rem;
+  }
+
+  /* Ajustes para modo claro */
+  :root[data-theme="light"] .navbar {
+    background-color: rgba(248, 250, 252, 0.85) !important;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.1);
+  }
+
+  :root[data-theme="light"] .navbar.scrolled {
+    background-color: #f8fafc !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  :root[data-theme="light"] .nav-link,
+  :root[data-theme="light"] .theme-toggle {
+    color: var(--navbar-text-light) !important;
+  }
+
+  /* Ajustes para el hero section en modo claro */
+  :root[data-theme="light"] .subtitle {
+    color: #0f172a !important; /* Azul oscuro para mejor contraste */
+  }
+
+  :root[data-theme="light"] .technologies {
+    color: #1e293b !important; /* Azul oscuro con mejor contraste */
+    opacity: 0.95; /* Aumentada la opacidad para más contraste */
+    font-weight: 600; /* Texto más grueso en modo claro */
+  }
+
+  /* Opcional: Añadir un sutil text-shadow para mejorar la legibilidad */
+  :root[data-theme="light"] .subtitle,
+  :root[data-theme="light"] .technologies {
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Estilos base */
+  .subtitle {
+    color: var(--text);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    transition: color 0.3s ease;
+  }
+
+  .technologies {
+    color: var(--text);
+    font-size: 1.1rem;
+    font-weight: 500;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+    transition: color 0.3s ease;
+  }
+
+  /* Ajustes específicos para modo claro con selectores más específicos */
+  html[data-theme="light"] .hero-section .subtitle {
+    color: #0f172a !important;
+  }
+
+  html[data-theme="light"] .hero-section .technologies {
+    color: #0f172a !important;
+    opacity: 1 !important;
+    font-weight: 600 !important;
+  }
+
+  /* Ajustes para el navbar en modo claro */
+  html[data-theme="light"] .navbar {
+    background-color: rgba(248, 250, 252, 0.85) !important;
+  }
+
+  html[data-theme="light"] .navbar .nav-link,
+  html[data-theme="light"] .navbar .theme-toggle {
+    color: #0f172a !important;
+  }
+
+  html[data-theme="light"] .navbar.scrolled {
+    background-color: #f8fafc !important;
+  }
+
+  /* Eliminar los estilos que cambian el color en modo claro */
+  :root[data-theme="light"] .subtitle,
+  :root[data-theme="light"] .technologies,
+  html[data-theme="light"] .hero-section .subtitle,
+  html[data-theme="light"] .hero-section .technologies {
+    color: #f8fafc !important; /* Mantener el color claro siempre */
+    opacity: 0.9 !important;
+    text-shadow: 0 0 10px rgba(14, 165, 233, 0.3);
+  }
+
+  /* Estilos base para el hero section */
+  .hero-section {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: calc(80px + 8rem);
+    padding-bottom: 4rem;
+  }
+
+  .subtitle {
+    color: #f8fafc;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .technologies {
+    color: #f8fafc;
+    font-size: 1.1rem;
+    font-weight: 500;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+  }
+
+  /* Forzar color claro en modo light */
+  :root[data-theme="light"] .social-link {
+    color: #f8fafc !important;
+  }
+
+  :root[data-theme="light"] .social-link:hover {
+    color: var(--gradient-1) !important;
   }
 </style>
 
@@ -485,6 +644,52 @@ import profileImage from '../images/profile-image.jpg';
   document.addEventListener("DOMContentLoaded", initParticles);
   // Ejecutar cuando Astro complete la navegación
   document.addEventListener("astro:page-load", initParticles);
+</script>
+
+<script>
+  function handleTheme() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const icon = themeToggle?.querySelector('i');
+    
+    // Asegurar que empezamos en modo oscuro
+    if (!localStorage.getItem('theme')) {
+      localStorage.setItem('theme', 'dark');
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+    
+    // Establecer el tema inicial
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    
+    // Establecer el icono inicial
+    if (icon) {
+      icon.className = currentTheme === 'dark' 
+        ? 'fa-regular fa-sun' 
+        : 'fa-regular fa-moon';
+    }
+
+    // Manejar el click
+    themeToggle?.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      // Cambiar el tema
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      
+      // Cambiar el icono
+      if (icon) {
+        icon.className = newTheme === 'dark' 
+          ? 'fa-regular fa-sun' 
+          : 'fa-regular fa-moon';
+      }
+    });
+  }
+
+  // Ejecutar cuando el DOM esté listo
+  document.addEventListener('DOMContentLoaded', handleTheme);
+  // Ejecutar cuando Astro complete la navegación
+  document.addEventListener('astro:page-load', handleTheme);
 </script>
 
 <script>
