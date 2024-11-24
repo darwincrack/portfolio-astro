@@ -5,37 +5,25 @@ import profileImage from '../images/profile-image.jpg';
 <header class="header">
   <div id="particles-js"></div>
 
-  <!-- Navbar superior minimalista -->
-  <nav class="navbar navbar-expand-lg">
+  <!-- Navbar fijo -->
+  <nav class="navbar">
     <div class="container">
-      <div class="d-flex justify-content-between w-100">
+      <div class="navbar-content">
         <a href="/" class="logo">
-          <svg width="40" height="40" viewBox="0 0 40 40">
-            <path class="logo-path" d="M20 0 L40 20 L20 40 L0 20 Z" />
-            <text x="50%" y="50%" text-anchor="middle" dy=".3em" class="logo-text">DC</text>
-          </svg>
+          <span class="logo-text">DC</span>
         </a>
-        <div class="d-flex align-items-center">
-          <ul class="list-unstyled d-flex mb-0 me-4">
-            <li class="ms-3">
-              <a href="https://github.com/darwincrack/" class="social-link" title="GitHub">
-                <i class="fa-brands fa-github"></i>
-              </a>
-            </li>
-            <li class="ms-3">
-              <a href="https://twitter.com/darwincrack" class="social-link" title="Twitter">
-                <i class="fa-brands fa-twitter"></i>
-              </a>
-            </li>
-          </ul>
-          <a class="contact-btn" href="#contact-section">
-            Contáctame
-          </a>
+        <div class="nav-links">
+          <a href="#sobre-mi" class="nav-link">Sobre mí</a>
+          <a href="#blog" class="nav-link">Blog</a>
+          <a href="#reconocimientos" class="nav-link">Reconocimientos</a>
+          <a href="#habilidades" class="nav-link">Habilidades</a>
+          <a href="#destacado" class="nav-link">Destacado</a>
+          <a href="#contacto" class="nav-link">Contacto</a>
         </div>
       </div>
     </div>
   </nav>
-  
+
   <!-- Hero Section -->
   <div class="hero-section">
     <div class="container text-center">
@@ -44,6 +32,14 @@ import profileImage from '../images/profile-image.jpg';
       <p class="technologies">
         PHP • Laravel • JavaScript • React • Node.js • AWS
       </p>
+      <div class="social-links">
+        <a href="https://github.com/darwincrack/" class="social-link" title="GitHub" target="_blank">
+          <i class="fa-brands fa-github"></i>
+        </a>
+        <a href="https://instagram.com/tuinstagram" class="social-link" title="Instagram" target="_blank">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+      </div>
       <div class="cta-container">
         <a href="#contact-section" class="contact-btn">Contáctame</a>
       </div>
@@ -59,6 +55,8 @@ import profileImage from '../images/profile-image.jpg';
     --gradient-3: #4f46e5;  /* Indigo */
     --background: #0f172a;  /* Dark blue */
     --text: #f8fafc;       /* Light gray */
+    --navbar-bg-initial: rgba(15, 23, 42, 0.8);
+    --navbar-bg-scrolled: #0f172a;
   }
 
   .header {
@@ -110,19 +108,112 @@ import profileImage from '../images/profile-image.jpg';
 
   /* Actualización de estilos existentes */
   .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: rgba(15, 23, 42, 0.85) !important;
+    backdrop-filter: blur(10px);
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .navbar.scrolled {
+    background-color: #0f172a !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+  }
+
+  .navbar.scrolled .nav-link {
+    color: white !important;
+    opacity: 0.9;
+  }
+
+  .navbar.scrolled .nav-link:hover {
+    opacity: 1;
+    color: var(--gradient-1) !important;
+  }
+
+  .navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+  }
+
+  .logo {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
+
+  .logo-text {
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.5rem;
+    font-weight: 700;
+    padding: 0.5rem;
+    border: 2px solid transparent;
+    border-image: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    border-image-slice: 1;
+    transition: all 0.3s ease;
+  }
+
+  .logo:hover .logo-text {
+    transform: translateY(-2px);
+    text-shadow: 0 0 10px rgba(14, 165, 233, 0.3);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    justify-content: flex-end;
+    flex-grow: 1;
+    padding-left: 3rem;
+  }
+
+  .nav-link {
+    color: white !important;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0.9;
+    transition: all 0.3s ease;
+    padding: 0.5rem 0;
     position: relative;
-    z-index: 2;
-    padding: 1.5rem 0;
-    background-color: transparent !important;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    transition: width 0.3s ease;
+  }
+
+  .nav-link:hover {
+    opacity: 1;
+  }
+
+  .nav-link:hover::after {
+    width: 100%;
   }
 
   .hero-section {
     position: relative;
     z-index: 2;
-    padding-top: 15vh;
-    display: flex;
-    align-items: flex-start;
     min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: calc(80px + 8rem); /* Navbar height (80px) + espacio adicional (8rem) */
+    padding-bottom: 4rem;
   }
 
   .social-link {
@@ -156,7 +247,7 @@ import profileImage from '../images/profile-image.jpg';
     font-size: 6rem;
     font-weight: 700;
     color: var(--text);
-    margin: 0 0 1rem;
+    margin: 0 0 1.5rem;
     line-height: 1.1;
     letter-spacing: -0.02em;
     animation: glow 3s ease-in-out infinite;
@@ -199,10 +290,30 @@ import profileImage from '../images/profile-image.jpg';
     margin-top: 2rem;
   }
 
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 2rem 0;
+  }
+
+  .social-link {
+    color: var(--text);
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+  }
+  
+  .social-link:hover {
+    color: var(--gradient-1);
+    transform: translateY(-2px);
+    opacity: 1;
+  }
+
   /* Responsive adjustments */
   @media (max-width: 768px) {
     .hero-section {
-      padding-top: 10vh;
+      padding-top: calc(60px + 4rem); /* Ajuste para móviles */
     }
 
     .main-title {
@@ -217,6 +328,61 @@ import profileImage from '../images/profile-image.jpg';
       padding: 0.75rem 2rem;
       font-size: 1rem;
     }
+
+    .nav-links {
+      display: none; /* En móvil necesitarás un menú hamburguesa */
+    }
+
+    /* Agregar botón de menú hamburguesa */
+    .menu-toggle {
+      display: block;
+      font-size: 1.5rem;
+      color: var(--text);
+      cursor: pointer;
+    }
+  }
+
+  /* Estilos para el menú móvil */
+  @media (max-width: 768px) {
+    .nav-links.active {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 60px;
+      left: 0;
+      right: 0;
+      background: rgba(15, 23, 42, 0.95);
+      padding: 1rem;
+      gap: 1rem;
+      backdrop-filter: blur(10px);
+    }
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .logo {
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    justify-content: flex-end;
+    flex-grow: 1;
+    padding-left: 3rem;
   }
 </style>
 
@@ -319,4 +485,40 @@ import profileImage from '../images/profile-image.jpg';
   document.addEventListener("DOMContentLoaded", initParticles);
   // Ejecutar cuando Astro complete la navegación
   document.addEventListener("astro:page-load", initParticles);
+</script>
+
+<script>
+  // Smooth scroll para los enlaces del menú
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+
+  // Asegurarnos de que el script se ejecute después de que el DOM esté listo
+  document.addEventListener('astro:page-load', () => {
+    const navbar = document.querySelector('.navbar');
+    
+    const updateNavbar = () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+        navbar.style.backgroundColor = '#0f172a';
+      } else {
+        navbar.classList.remove('scrolled');
+        navbar.style.backgroundColor = 'rgba(15, 23, 42, 0.85)';
+      }
+    };
+
+    // Ejecutar inmediatamente
+    updateNavbar();
+    
+    // Ejecutar al hacer scroll
+    window.addEventListener('scroll', updateNavbar);
+  });
 </script>
