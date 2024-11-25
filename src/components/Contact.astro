@@ -65,7 +65,10 @@ const services = [
           <div class="card-body p-4 d-flex flex-column">
             <h3 class="h4 mb-4">Envíame un mensaje</h3>
             
-            <form action="https://formspree.io/f/xrbgaarw" method="POST" class="contact-form d-flex flex-column flex-grow-1">
+            <form action="https://formspree.io/f/xrbgaarw" 
+                  method="POST" 
+                  class="contact-form d-flex flex-column flex-grow-1"
+                  accept="application/json">
               <div class="mb-3">
                 <label for="name" class="form-label">Nombre</label>
                 <input type="text" class="form-control" id="name" name="nombre" required>
@@ -259,35 +262,54 @@ const services = [
 </style>
 
 <script>
-  // Script para manejar el envío del formulario y mostrar mensajes
-  document.querySelector('.contact-form')?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const form = e.target as HTMLFormElement;
-    const submitButton = form.querySelector('button[type="submit"]');
+  function initContactForm() {
+    const form = document.querySelector('.contact-form');
     
-    try {
-      submitButton.disabled = true;
-      submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formElement = e.target as HTMLFormElement;
+      const submitButton = formElement.querySelector('button[type="submit"]') as HTMLButtonElement;
+      const formData = new FormData(formElement);
       
-      const response = await fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: {
-          'Accept': 'application/json'
+      try {
+        // Cambiar estado del botón
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+        
+        // Enviar formulario
+        const response = await fetch('https://formspree.io/f/xrbgaarw', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          },
+          mode: 'cors' // Agregar modo CORS
+        });
+
+        const data = await response.json();
+        
+        if (response.ok) {
+          // Éxito
+          formElement.reset();
+          alert('¡Mensaje enviado con éxito! Pronto me pondré en contacto contigo.');
+        } else {
+          // Error con respuesta
+          throw new Error(data.error || 'Error al enviar el mensaje');
         }
-      });
-      
-      if (response.ok) {
-        form.reset();
-        alert('¡Mensaje enviado con éxito! Pronto me pondré en contacto contigo.');
-      } else {
-        throw new Error('Error al enviar el mensaje');
+      } catch (error) {
+        // Error general
+        console.error('Error:', error);
+        alert('Hubo un error al enviar el mensaje. Por favor, intenta nuevamente.');
+      } finally {
+        // Restaurar botón
+        submitButton.disabled = false;
+        submitButton.innerHTML = 'Enviar mensaje <i class="fas fa-paper-plane ms-2"></i>';
       }
-    } catch (error) {
-      alert('Hubo un error al enviar el mensaje. Por favor, intenta nuevamente.');
-    } finally {
-      submitButton.disabled = false;
-      submitButton.innerHTML = 'Enviar mensaje <i class="fas fa-paper-plane ms-2"></i>';
-    }
-  });
+    });
+  }
+
+  // Inicializar cuando el DOM esté listo
+  document.addEventListener('DOMContentLoaded', initContactForm);
+  // Reinicializar cuando Astro complete la navegación
+  document.addEventListener('astro:page-load', initContactForm);
 </script>
