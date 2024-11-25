@@ -1,0 +1,329 @@
+---
+const menuItems = [
+  { href: "#services-section", label: "Servicios" },
+  { href: "#projects-section", label: "Proyectos" },
+  { href: "#experiences-section", label: "Experiencia" },
+  { href: "#education-section", label: "Formación" },
+  { href: "#contact-section", label: "Contacto" },
+];
+---
+
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-content">
+      <a href="/" class="logo">
+        <span class="logo-text">DC</span>
+      </a>
+      <div class="nav-container">
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="nav-links" id="nav-links">
+          {menuItems.map(item => (
+            <a href={item.href} class="nav-link">{item.label}</a>
+          ))}
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+            <i class="fa-regular fa-sun"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: var(--navbar-bg-initial);
+    backdrop-filter: blur(10px);
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .navbar.scrolled {
+    background-color: var(--navbar-bg-scrolled);
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .logo {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
+
+  .logo-text {
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.5rem;
+    font-weight: 700;
+    padding: 0.5rem;
+    border: 2px solid transparent;
+    border-image: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    border-image-slice: 1;
+    transition: all 0.3s ease;
+  }
+
+  .nav-container {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .nav-link {
+    color: var(--text-nav);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0.9;
+    transition: all 0.3s ease;
+    padding: 0.5rem 0;
+    position: relative;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    transition: width 0.3s ease;
+  }
+
+  .nav-link:hover {
+    opacity: 1;
+  }
+
+  .nav-link:hover::after {
+    width: 100%;
+  }
+
+  .theme-toggle {
+    background: none;
+    border: none;
+    color: var(--text);
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+  }
+
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 1000;
+  }
+
+  @media (max-width: 768px) {
+    .menu-toggle {
+      display: block;
+    }
+
+    .nav-container {
+      margin-left: 0;
+    }
+
+    .nav-links {
+      display: none;
+      position: fixed;
+      top: 60px;
+      left: 0;
+      right: 0;
+      background: var(--navbar-bg-scrolled);
+      padding: 1rem;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-links.active {
+      display: flex;
+    }
+
+    .nav-link {
+      width: 100%;
+      text-align: center;
+      padding: 0.75rem 0;
+    }
+
+    .menu-toggle {
+      margin-left: auto;
+    }
+  }
+
+  :root {
+    --text-nav: #f8fafc;
+    --navbar-bg-initial: rgba(15, 23, 42, 0.8);
+    --navbar-bg-scrolled: #0f172a;
+  }
+
+  :root[data-theme="light"] {
+    --text-nav: #0f172a;
+    --navbar-bg-initial: rgba(248, 250, 252, 0.8);
+    --navbar-bg-scrolled: #f8fafc;
+  }
+
+  :root[data-theme="light"] .navbar {
+    border-bottom: 1px solid rgba(15, 23, 42, 0.1);
+  }
+
+  :root[data-theme="light"] .menu-toggle {
+    color: var(--text-nav);
+  }
+
+  :root[data-theme="light"] .theme-toggle {
+    color: var(--text-nav);
+  }
+
+  @media (max-width: 768px) {
+    :root[data-theme="light"] .nav-links {
+      background: var(--navbar-bg-scrolled);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.1);
+    }
+  }
+
+  :root[data-theme="light"] .nav-link:hover {
+    opacity: 1;
+  }
+
+  :root[data-theme="light"] .nav-link::after {
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+  }
+
+  :root[data-theme="light"] .logo-text {
+    border-image: linear-gradient(45deg, var(--gradient-1), var(--gradient-2)) 1;
+  }
+</style>
+
+<script>
+  function initNavigation() {
+    // Manejo del scroll
+    const navbar = document.querySelector('.navbar');
+    const updateNavbar = () => {
+      if (window.scrollY > 50) {
+        navbar?.classList.add('scrolled');
+      } else {
+        navbar?.classList.remove('scrolled');
+      }
+    };
+
+    // Menú móvil
+    const menuToggle = document.getElementById('menu-toggle');
+    const navLinks = document.getElementById('nav-links');
+    const navLinksItems = document.querySelectorAll('.nav-link');
+
+    // Toggle menú
+    menuToggle?.addEventListener('click', () => {
+      navLinks?.classList.toggle('active');
+      const icon = menuToggle.querySelector('i');
+      if (icon) {
+        icon.classList.toggle('fa-bars');
+        icon.classList.toggle('fa-times');
+      }
+    });
+
+    // Cerrar menú al hacer click en enlaces
+    navLinksItems.forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks?.classList.remove('active');
+        const icon = menuToggle?.querySelector('i');
+        if (icon) {
+          icon.classList.add('fa-bars');
+          icon.classList.remove('fa-times');
+        }
+      });
+    });
+
+    // Scroll suave
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          const offset = 60;
+          const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Event listeners
+    window.addEventListener('scroll', updateNavbar);
+    updateNavbar(); // Ejecutar inmediatamente
+  }
+
+  // Agregar detección de cambio de tema
+  function updateThemeColors() {
+    const isLightTheme = document.documentElement.getAttribute('data-theme') === 'light';
+    const navbar = document.querySelector('.navbar');
+    
+    if (navbar) {
+      if (window.scrollY > 50) {
+        navbar.style.backgroundColor = isLightTheme ? 'var(--navbar-bg-scrolled)' : 'var(--navbar-bg-scrolled)';
+      } else {
+        navbar.style.backgroundColor = isLightTheme ? 'var(--navbar-bg-initial)' : 'var(--navbar-bg-initial)';
+      }
+    }
+  }
+
+  // Observar cambios en el atributo data-theme
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === 'data-theme') {
+        updateThemeColors();
+      }
+    });
+  });
+
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme']
+  });
+
+  // Actualizar colores en el scroll
+  window.addEventListener('scroll', updateThemeColors);
+  
+  // Inicializar
+  document.addEventListener('DOMContentLoaded', initNavigation);
+  document.addEventListener('astro:page-load', initNavigation);
+</script> 

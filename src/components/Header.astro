@@ -1,4 +1,5 @@
 ---
+import Navigation from './Navigation.astro';
 import azureBadge from '../images/badges/microsoft-certified-azure-fundamentals.png';
 import pmBadge from '../images/badges/certificado-de-gestion-de-proyectos-de-google.png';
 import aiBadge from '../images/badges/google-ai-essentials.png';
@@ -6,30 +7,8 @@ import aiBadge from '../images/badges/google-ai-essentials.png';
 
 <header class="header">
   <div id="particles-js"></div>
-
-  <!-- Navbar fijo -->
-  <nav class="navbar">
-    <div class="container">
-      <div class="navbar-content">
-        <a href="/" class="logo">
-          <span class="logo-text">DC</span>
-        </a>
-        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
-          <i class="fas fa-bars"></i>
-        </button>
-        <div class="nav-links" id="nav-links">
-          <a href="#services-section" class="nav-link">Servicios</a>
-          <a href="#projects-section" class="nav-link">Proyectos</a>
-          <a href="#experiences-section" class="nav-link">Experiencia</a>
-          <a href="#education-section" class="nav-link">Formación</a>
-          <a href="#contact-section" class="nav-link">Contacto</a>
-          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-            <i class="fa-regular fa-sun"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </nav>
+  
+  <Navigation />
 
   <!-- Hero Section -->
   <div class="hero-section">
@@ -58,7 +37,6 @@ import aiBadge from '../images/badges/google-ai-essentials.png';
            target="_blank" 
            rel="noopener"
            title="Google AI Essentials">
-">
           <img src={aiBadge.src} alt="Google AI Essentials" />
         </a>
       </div>
@@ -244,8 +222,8 @@ import aiBadge from '../images/badges/google-ai-essentials.png';
     min-height: 100vh;
     display: flex;
     align-items: center;
-    padding-top: calc(80px + 8rem); /* Navbar height (80px) + espacio adicional (8rem) */
-    padding-bottom: 4rem;
+    padding-top: calc(80px + 4rem);
+    padding-bottom: 2rem;
     color: #f8fafc !important; /* Color claro fijo */
   }
 
@@ -307,7 +285,7 @@ import aiBadge from '../images/badges/google-ai-essentials.png';
     font-size: 6rem;
     font-weight: 700;
     color: var(--text);
-    margin: 0 0 1.5rem;
+    margin: 0 0 1rem;
     line-height: 1.1;
     letter-spacing: -0.02em;
     animation: glow 3s ease-in-out infinite;
@@ -337,7 +315,7 @@ import aiBadge from '../images/badges/google-ai-essentials.png';
     display: flex;
     justify-content: center;
     gap: 2rem;
-    margin: 2rem 0;
+    margin: 1.5rem 0;
   }
 
   .social-link {
@@ -356,7 +334,7 @@ import aiBadge from '../images/badges/google-ai-essentials.png';
   /* Responsive adjustments */
   @media (max-width: 768px) {
     .hero-section {
-      padding-top: calc(60px + 4rem); /* Ajuste para móviles */
+      padding-top: calc(60px + 2rem); /* Ajuste para móviles */
     }
 
     .main-title {
@@ -544,8 +522,8 @@ import aiBadge from '../images/badges/google-ai-essentials.png';
     min-height: 100vh;
     display: flex;
     align-items: center;
-    padding-top: calc(80px + 8rem);
-    padding-bottom: 4rem;
+    padding-top: calc(80px + 4rem);
+    padding-bottom: 2rem;
   }
 
   .subtitle {
@@ -580,12 +558,12 @@ import aiBadge from '../images/badges/google-ai-essentials.png';
     display: flex;
     justify-content: center;
     gap: 1.5rem;
-    margin: 2rem 0;
+    margin: 1.5rem 0;
   }
 
   .certifications-badges a {
-    width: 100px; /* Tamaño fijo para los badges */
-    height: 100px;
+    width: 90px;
+    height: 90px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -610,8 +588,8 @@ import aiBadge from '../images/badges/google-ai-essentials.png';
     }
     
     .certifications-badges a {
-      width: 80px;
-      height: 80px;
+      width: 70px;
+      height: 70px;
     }
   }
 
