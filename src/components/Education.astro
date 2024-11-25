@@ -74,7 +74,7 @@ const certifications = [
     <div class="row mb-5">
       {education.map(edu => (
         <div class="col-12 col-md-6 mb-4">
-          <div class="card h-100">
+          <div class="card h-100 animate-initial">
             <div class="card-body p-4">
               <div class="d-flex justify-content-between align-items-center mb-3">
                 <h3 class="h5 mb-0 gradient-text">{edu.degree}</h3>
@@ -94,7 +94,7 @@ const certifications = [
     <div class="row g-4" id="certifications-container">
       {certifications.map((cert, index) => (
         <div class={`col-12 col-md-6 col-lg-4 mb-4 certification-item ${index >= 3 ? 'hidden' : ''}`}>
-          <div class="card h-100">
+          <div class="card h-100 animate-initial">
             <div class="card-body p-4">
               <h4 class="h6 mb-3">
                 <a href={cert.link} class="gradient-text text-decoration-none" target="_blank">
@@ -201,6 +201,19 @@ const certifications = [
     opacity: 1;
     transition: opacity 0.3s ease, transform 0.3s ease;
   }
+
+  /* Animaciones */
+  .card.animate-initial {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, opacity;
+  }
+
+  .card.animate-in {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
 </style>
 
 <script>
@@ -238,4 +251,28 @@ const certifications = [
       isExpanded = !isExpanded;
     });
   }
+
+  function initEducationAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '50px'
+    });
+
+    document.querySelectorAll('#education-section .card').forEach((card, index) => {
+      card.style.opacity = '0';
+      card.classList.add('animate-initial');
+      card.style.transitionDelay = `${index * 0.2}s`;
+      observer.observe(card);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initEducationAnimations);
+  document.addEventListener('astro:page-load', initEducationAnimations);
 </script>

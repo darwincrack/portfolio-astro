@@ -102,6 +102,50 @@ const services = [
   </div>
 </section>
 
+<script>
+  function initServiceAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '50px'
+    });
+
+    // Observar las cards de servicios con delay escalonado
+    document.querySelectorAll('.service-card').forEach((card, index) => {
+      card.style.opacity = '0';
+      card.classList.add('animate-initial');
+      card.style.transitionDelay = `${index * 0.1}s`;
+      observer.observe(card);
+    });
+
+    // Observar el título
+    const title = document.querySelector('#services-section h2');
+    if (title) {
+      title.style.opacity = '0';
+      title.classList.add('animate-initial');
+      observer.observe(title);
+    }
+
+    // Observar el botón de contacto
+    const contactButton = document.querySelector('.contact-button');
+    if (contactButton) {
+      contactButton.style.opacity = '0';
+      contactButton.classList.add('animate-initial');
+      observer.observe(contactButton);
+    }
+  }
+
+  // Inicializar en ambos eventos
+  document.addEventListener('DOMContentLoaded', initServiceAnimations);
+  document.addEventListener('astro:page-load', initServiceAnimations);
+</script>
+
 <style>
   h2.text-center {
     font-size: 3rem;
@@ -188,5 +232,40 @@ const services = [
 
   .contact-button:hover i {
     transform: translateX(5px);
+  }
+
+  /* Animaciones mejoradas */
+  .animate-initial {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .animate-in {
+    opacity: 1 !important;
+    transform: translateY(0);
+  }
+
+  /* Animación especial para el título */
+  #services-section h2.animate-initial {
+    transform: translateY(-30px);
+  }
+
+  /* Animación para el botón de contacto */
+  .contact-button.animate-initial {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  .contact-button.animate-in {
+    opacity: 1 !important;
+    transform: scale(1);
+  }
+
+  /* Ajuste para móvil */
+  @media (max-width: 768px) {
+    .service-card {
+      transition-delay: 0s !important; /* Eliminar delays en móvil */
+    }
   }
 </style> 
