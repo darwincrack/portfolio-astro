@@ -1,4 +1,6 @@
 ---
+import ContactMenu from './ContactMenu.astro';
+
 import profileImage from '../images/profile-image.jpg';
 
 const services = [
@@ -45,6 +47,7 @@ const RECAPTCHA_SITE_KEY = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY || '6Lf22Yk
               </div>
 
               <div class="contact-method">
+                
                 <i class="fab fa-whatsapp gradient-text me-2"></i>
                 <a href="https://wa.link/p82cmn" class="gradient-text text-decoration-none">
                   WhatsApp
@@ -104,12 +107,9 @@ const RECAPTCHA_SITE_KEY = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY || '6Lf22Yk
     </div>
   </div>
 
-  <!-- WhatsApp Button -->
-  <a href="https://wa.link/p82cmn" 
-     class="whatsapp-button" 
-     target="_blank">
-    <i class="fab fa-whatsapp"></i>
-  </a>
+
+  <ContactMenu />
+ 
 </section>
 
 <style>

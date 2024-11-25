@@ -1,0 +1,151 @@
+---
+const contactOptions = [
+  { icon: 'fab fa-whatsapp', label: 'WhatsApp', url: 'https://wa.link/p82cmn' },
+  { icon: 'fas fa-envelope', label: 'Email', url: 'mailto:darwinc.dev@gmail.com' },
+  { icon: 'fas fa-phone', label: 'Llamar', url: 'tel:+584125447114' }
+];
+---
+
+<div class="contact-menu">
+  <div class="contact-wrapper">
+    <button class="contact-toggle">
+      <i class="fas fa-comments"></i>
+    </button>
+    
+    <div class="contact-options">
+      {contactOptions.map(option => (
+        <a href={option.url} class="contact-option" target="_blank" rel="noopener">
+          <i class={option.icon}></i>
+          <span>{option.label}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .contact-menu {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
+
+  .contact-menu.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+  }
+
+  .contact-wrapper {
+    position: relative;
+    padding: 10px;
+    padding-top: 150px;
+    margin-top: -150px;
+  }
+
+  .contact-toggle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .contact-toggle:hover {
+    transform: scale(1.1);
+  }
+
+  .contact-options {
+    position: absolute;
+    bottom: 70px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+
+  .contact-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    background: var(--secondary-bg);
+    border-radius: 25px;
+    color: var(--text);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+
+  .contact-option:hover {
+    transform: translateX(-5px);
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    color: white;
+  }
+
+  .contact-wrapper:hover .contact-options {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+  }
+
+  @media (max-width: 768px) {
+    .contact-wrapper {
+      padding-top: 120px;
+      margin-top: -120px;
+    }
+
+    .contact-option span {
+      display: none;
+    }
+    
+    .contact-option {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  function initContactMenu() {
+    const contactMenu = document.querySelector('.contact-menu');
+    const contactBtn = document.querySelector('.contact-btn');
+    
+    if (!contactMenu || !contactBtn) {
+      console.log('No se encontraron los elementos necesarios');
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+          contactMenu.classList.add('visible');
+        } else {
+          contactMenu.classList.remove('visible');
+        }
+      });
+    }, {
+      threshold: 0,
+      rootMargin: '-50px 0px 0px 0px'
+    });
+
+    observer.observe(contactBtn);
+  }
+
+  document.addEventListener('DOMContentLoaded', initContactMenu);
+  document.addEventListener('astro:page-load', initContactMenu);
+</script> 
