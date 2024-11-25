@@ -1,17 +1,75 @@
 ---
-// Puedes definir los datos de experiencia en un archivo separado
 const experiences = [
   {
-    company: "Freelancer",
+    company: "Consultor Independiente",
     location: "Global",
-    position: "Desarrollador Web",
+    position: "Full Stack Developer Senior",
     period: "2017 - Presente",
     description: `
-      <p><strong>Actualmente me dedico a potenciar, optimizar, mantener y crear páginas web de pequeñas y medianas</strong> empresas alrededor de américa latina y Europa.</p>
-      <p>He estado trabajando en los últimos años de freelancer en la más grande plataforma de freelancer en latinoamerica como lo es <a href="https://www.workana.com" rel="nofollow">workana.com</a>, allí he realizado con éxito <strong>más de 300 proyectos</strong> en diferentes tecnologías con <strong>más de 200 clientes</strong></p>
+      <p>Top Rated Developer especializado en desarrollo web y consultoría técnica para empresas en América Latina y Europa.</p>
+      <ul class="mb-0">
+        <li>Más de <strong>300 proyectos exitosos</strong> en Workana con calificación promedio de 5 estrellas</li>
+        <li>Desarrollo de aplicaciones web con <strong>React, Node.js, PHP, WordPress</strong> y otras tecnologías modernas</li>
+        <li>Especialista en optimización de rendimiento, SEO y arquitectura de soluciones web</li>
+      </ul>
     `
   },
-  // ... más experiencias
+  {
+    company: "Bloque de Armas",
+    location: "Caracas",
+    position: "Lead Project Manager",
+    period: "2016 - 2018",
+    description: `
+      <p>Lideré la transformación digital de los principales medios de comunicación de Venezuela, gestionando un equipo de desarrollo para plataformas que reciben <strong>más de 1 millón de visitas mensuales</strong>.</p>
+      <ul class="mb-0">
+        <li>Dirección técnica y desarrollo de meridiano.net (principal portal deportivo), 2001online.com (noticias) y revistaronda.net (entretenimiento)</li>
+        <li>Incremento del 200% en tráfico orgánico mediante implementación de estrategias SEO y optimización de rendimiento</li>
+        <li>Gestión ágil de equipos multidisciplinarios utilizando SCRUM, cumpliendo exitosamente con más de 50 sprints</li>
+      </ul>
+    `
+  },
+  {
+    company: "Galpa Service",
+    location: "Caracas",
+    position: "Full Stack Developer",
+    period: "2016",
+    description: `
+      <p>Desarrollador principal en proyectos web empresariales, enfocado en soluciones tecnológicas escalables.</p>
+      <ul class="mb-0">
+        <li>Desarrollo de aplicaciones web utilizando <strong>PHP, JavaScript</strong> y arquitecturas modernas</li>
+        <li>Implementación de sistemas de gestión con <strong>MySQL</strong> para manejo de datos empresariales</li>
+        <li>Optimización de rendimiento y seguridad en aplicaciones web existentes</li>
+      </ul>
+    `
+  },
+  {
+    company: "Buriza Labs",
+    location: "Caracas",
+    position: "Mobile & WordPress Developer",
+    period: "2016",
+    description: `
+      <p>Especialista en desarrollo móvil y soluciones WordPress para clientes corporativos.</p>
+      <ul class="mb-0">
+        <li>Desarrollo de aplicaciones nativas para Android con enfoque en experiencia de usuario</li>
+        <li>Creación de temas y plugins personalizados para WordPress</li>
+        <li>Implementación de metodologías ágiles (SCRUM) para gestión de proyectos</li>
+      </ul>
+    `
+  },
+  {
+    company: "Servicio de Administración Tributaria del DC",
+    location: "Caracas",
+    position: "Programador",
+    period: "2011 - 2015",
+    description: `
+      <p>Desarrollo integral de aplicaciones y administración de sistemas.</p>
+      <ul class="mb-0">
+        <li>Desarrollo web con PHP, HTML5, CSS3, JavaScript (jQuery, CodeIgniter, Bootstrap)</li>
+        <li>Desarrollo de aplicaciones de escritorio en VB 6.0 y C#</li>
+        <li>Administración de servidores Linux (Apache, MySQL)</li>
+      </ul>
+    `
+  }
 ];
 ---
 
@@ -24,14 +82,14 @@ const experiences = [
         <div class="card mb-4">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-3">
-              <h3 class="h5 mb-0">{exp.company}</h3>
-              <span class="badge bg-secondary">{exp.period}</span>
+              <h3 class="h5 mb-0 gradient-text">{exp.company}</h3>
+              <span class="badge">{exp.period}</span>
             </div>
             <div class="mb-2">
-              <i class="fa-solid fa-location-dot me-2"></i>
+              <i class="fa-solid fa-location-dot me-2 gradient-text"></i>
               <span class="text-muted">{exp.location}</span>
             </div>
-            <h4 class="h6 text-primary mb-3">{exp.position}</h4>
+            <h4 class="h6 mb-3 position-title">{exp.position}</h4>
             <div class="description" set:html={exp.description} />
           </div>
         </div>
@@ -41,21 +99,102 @@ const experiences = [
 </section>
 
 <style>
+  /* Estilos para el título principal */
+  h2.text-center {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
   .timeline .card {
-    border-left: 4px solid #0d6efd;
-    transition: transform 0.3s ease;
+    background-color: var(--primary-bg);
+    border: 1px solid var(--secondary-bg);
+    border-left: 4px solid var(--gradient-1);
+    transition: all 0.3s ease;
+    color: var(--text);
   }
 
   .timeline .card:hover {
     transform: translateX(10px);
+    border-left-color: var(--gradient-2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .badge {
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+  }
+
+  .position-title {
+    color: var(--gradient-1);
+    font-weight: 600;
+  }
+
+  .description :global(ul) {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  .description :global(li) {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .description :global(li::before) {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--gradient-1);
   }
 
   .description :global(a) {
-    color: #0d6efd;
+    color: var(--gradient-1);
     text-decoration: none;
+    transition: color 0.3s ease;
   }
 
   .description :global(a:hover) {
-    text-decoration: underline;
+    color: var(--gradient-2);
+    text-decoration: none;
+  }
+
+  /* Ajustes para modo oscuro */
+  :root[data-theme="dark"] .timeline .card {
+    background-color: rgba(17, 25, 40, 0.75);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e5e7eb;
+  }
+
+  :root[data-theme="dark"] .timeline .card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  :root[data-theme="dark"] .description {
+    color: #e5e7eb;
+  }
+
+  :root[data-theme="dark"] .text-muted {
+    color: #9ca3af !important;
+  }
+
+  :root[data-theme="dark"] .description :global(p),
+  :root[data-theme="dark"] .description :global(li) {
+    color: #e5e7eb;
+  }
+
+  :root[data-theme="dark"] .description :global(strong) {
+    color: #fff;
   }
 </style>

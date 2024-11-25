@@ -1,0 +1,192 @@
+---
+const services = [
+  {
+    title: "Desarrollo Web Frontend",
+    description: "Creación de interfaces modernas y responsivas",
+    icon: "fa-solid fa-code",
+    capabilities: [
+      "Sitios web con React, Vue, Angular",
+      "Aplicaciones web progresivas (PWA)",
+      "Optimización de rendimiento",
+      "Diseño responsivo y mobile-first"
+    ]
+  },
+  {
+    title: "Desarrollo Backend",
+    description: "Implementación de lógica de servidor y APIs",
+    icon: "fa-solid fa-server",
+    capabilities: [
+      "APIs RESTful",
+      "Bases de datos SQL y NoSQL",
+      "Autenticación y autorización",
+      "Integración con servicios externos"
+    ]
+  },
+  {
+    title: "E-commerce",
+    description: "Soluciones completas de comercio electrónico",
+    icon: "fa-solid fa-shopping-cart",
+    capabilities: [
+      "Tiendas online con WooCommerce",
+      "Pasarelas de pago",
+      "Gestión de inventario",
+      "Sistemas de envío"
+    ]
+  },
+  {
+    title: "WordPress",
+    description: "Desarrollo y personalización de sitios WordPress",
+    icon: "fa-brands fa-wordpress",
+    capabilities: [
+      "Temas personalizados",
+      "Plugins a medida",
+      "Optimización y seguridad",
+      "Migración y mantenimiento"
+    ]
+  },
+  {
+    title: "Optimización y Rendimiento",
+    description: "Mejora de velocidad y experiencia de usuario",
+    icon: "fa-solid fa-gauge-high",
+    capabilities: [
+      "Optimización de carga",
+      "SEO técnico",
+      "Core Web Vitals",
+      "Caché y CDN"
+    ]
+  },
+  {
+    title: "Mantenimiento y Soporte",
+    description: "Servicios continuos de mantenimiento web",
+    icon: "fa-solid fa-wrench",
+    capabilities: [
+      "Actualizaciones de seguridad",
+      "Copias de seguridad",
+      "Resolución de problemas",
+      "Monitoreo 24/7"
+    ]
+  }
+];
+---
+
+<section id="services-section" class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-5">Servicios</h2>
+
+    <div class="row g-4">
+      {services.map(service => (
+        <div class="col-md-6 col-lg-4">
+          <div class="service-card">
+            <div class="service-icon">
+              <i class={service.icon}></i>
+            </div>
+            <h4 class="h5">{service.title}</h4>
+            <p>{service.description}</p>
+            <ul class="capabilities-list">
+              {service.capabilities.map(capability => (
+                <li>{capability}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Botón de contacto -->
+    <div class="text-center mt-5">
+      <a href="#contact-section" class="contact-button">
+        Contáctame
+        <i class="fas fa-arrow-right ms-2"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  h2.text-center {
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .service-card {
+    background: var(--primary-bg);
+    border: 1px solid var(--secondary-bg);
+    border-radius: 1rem;
+    padding: 2rem;
+    height: 100%;
+    transition: all 0.3s ease;
+  }
+
+  .service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .service-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .capabilities-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1rem;
+  }
+
+  .capabilities-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+
+  .capabilities-list li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--gradient-1);
+  }
+
+  @media (max-width: 768px) {
+    .service-card {
+      padding: 1.5rem;
+    }
+  }
+
+  .contact-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    border-radius: 2rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+  }
+
+  .contact-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    color: white;
+  }
+
+  .contact-button i {
+    transition: transform 0.3s ease;
+  }
+
+  .contact-button:hover i {
+    transform: translateX(5px);
+  }
+</style> 

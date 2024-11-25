@@ -1,0 +1,154 @@
+---
+// Importar logos
+import logo1 from '../images/clients/logo1.jpg';
+import logo2 from '../images/clients/logo2.png';
+import logo3 from '../images/clients/logo3.png';
+import logo4 from '../images/clients/logo4.jpg';
+import logo5 from '../images/clients/logo5.png';
+import logo6 from '../images/clients/logo6.png';
+
+
+const clients = [
+  {
+    name: "Bloque de Armas",
+    logo: logo1,
+  },
+  {
+    name: "Avisajes",
+    logo: logo2,
+  },
+  // Duplicar los logos para crear un efecto infinito
+  {
+    name: "Vipticket",
+    logo: logo3,
+  },
+  {
+    name: "Latampaper",
+    logo: logo4,
+  },
+  {
+    name: "Abrevius",
+    logo: logo5,
+  },
+  {
+    name: "Dakve",
+    logo: logo6,
+    link: "#"
+  }
+];
+---
+
+<section class="clients-section py-5">
+  <div class="container">
+    <h2 class="text-center mb-5">Clientes que confían en mí</h2>
+    
+    <div class="logos-slider">
+      <div class="logos-slide">
+        {[...clients, ...clients].map((client) => (
+          <div class="logo-item">
+            <a href={client.link} target="_blank" rel="noopener noreferrer">
+              <img 
+                src={client.logo.src} 
+                alt={`Logo de ${client.name}`}
+                width="150"
+                height="80"
+              />
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .clients-section {
+    background: var(--primary-bg);
+    overflow: hidden;
+  }
+
+  h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .logos-slider {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 2rem 0;
+  }
+
+  .logos-slide {
+    display: flex;
+    animation: slide 30s linear infinite;
+    gap: 4rem;
+  }
+
+  .logo-item {
+    flex: 0 0 auto;
+    padding: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .logo-item img {
+    max-width: 150px;
+    height: 80px;
+    object-fit: contain;
+    filter: grayscale(100%) contrast(0.8) brightness(1.2);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+  }
+
+  .logo-item:hover img {
+    filter: grayscale(0%) contrast(1) brightness(1);
+    opacity: 1;
+  }
+
+  @keyframes slide {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Pausar la animación al hacer hover */
+  .logos-slider:hover .logos-slide {
+    animation-play-state: paused;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .logo-item img {
+      max-width: 120px;
+      height: 60px;
+    }
+    
+    .logos-slide {
+      gap: 2rem;
+    }
+  }
+</style>
+
+<script>
+  // Ajustar la velocidad del slider basado en el ancho de la pantalla
+  function adjustSliderSpeed() {
+    const slider = document.querySelector('.logos-slide');
+    if (slider) {
+      const speed = window.innerWidth < 768 ? '20s' : '30s';
+      slider.style.animationDuration = speed;
+    }
+  }
+
+  // Inicializar y manejar resize
+  document.addEventListener('astro:page-load', () => {
+    adjustSliderSpeed();
+    window.addEventListener('resize', adjustSliderSpeed);
+  });
+</script> 

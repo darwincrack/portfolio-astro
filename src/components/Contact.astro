@@ -1,7 +1,6 @@
 ---
 import profileImage from '../images/profile-image.jpg';
 
-
 const services = [
   "Desarrollo de páginas web a la medida",
   "Desarrollo de aplicaciones móviles",
@@ -16,50 +15,77 @@ const services = [
   <div class="container">
     <h2 class="text-center mb-5">Contáctame</h2>
 
-    <div class="row align-items-center">
-      <div class="col-md-4 text-center mb-4 mb-md-0">
-
-        <img 
-        class="profile-image rounded-circle mb-4" 
-        src={profileImage.src}
-        alt="Darwin Cedeño"
-        width={200}
-        height={200}
-        loading="eager"
-        decoding="async"
-      />
-      </div>
-      
-      <div class="col-md-8">
-        <div class="card border-0 shadow-sm">
-          <div class="card-body p-4">
+    <div class="row g-4 h-100">
+      <!-- Columna izquierda con información de contacto -->
+      <div class="col-md-6 d-flex">
+        <div class="card border-0 shadow-sm w-100">
+          <div class="card-body p-4 d-flex flex-column">
+            <h3 class="h5 mb-4">¿Necesitas ayuda con tu proyecto?</h3>
+            
             <p class="lead mb-4">
-              <strong>Más de 200 clientes</strong> en más de 
-              <strong>5 países de América Latina y España</strong> han confiado en mí
+              Estoy aquí para ayudarte a hacer realidad tu visión digital. Contáctame por cualquiera de estos medios:
             </p>
 
-            <h3 class="h5 mb-3">Te puedo ayudar en:</h3>
-            <ul class="list-unstyled mb-4">
-              {services.map(service => (
-                <li class="mb-2">
-                  <i class="fas fa-check text-primary me-2"></i>
-                  {service}
-                </li>
-              ))}
-            </ul>
-
-            <div class="contact-info">
-              <p class="mb-3">
-                Escríbeme un correo 
-                <a href="mailto:info@darwincedeno.com" class="text-decoration-none">
-                  info@darwincedeno.com
-                </a> 
-                o llámame al 
-                <a href="tel:+584125447114" class="text-decoration-none">
+            <div class="contact-methods mb-4">
+              <div class="contact-method mb-3">
+                <i class="fas fa-envelope gradient-text me-2"></i>
+                <a href="mailto:darwinc.dev@gmail.com" class="gradient-text text-decoration-none">
+                  darwinc.dev@gmail.com
+                </a>
+              </div>
+              
+              <div class="contact-method mb-3">
+                <i class="fas fa-phone gradient-text me-2"></i>
+                <a href="tel:+584125447114" class="gradient-text text-decoration-none">
                   +58 412 544 7114
                 </a>
+              </div>
+
+              <div class="contact-method">
+                <i class="fab fa-whatsapp gradient-text me-2"></i>
+                <a href="https://wa.link/p82cmn" class="gradient-text text-decoration-none">
+                  WhatsApp
+                </a>
+              </div>
+            </div>
+
+            <div class="availability mt-auto">
+              <p class="mb-0">
+                <i class="fas fa-clock gradient-text me-2"></i>
+                Disponible de Lunes a Viernes, 9:00 AM - 6:00 PM (GMT-4)
               </p>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna derecha con el formulario -->
+      <div class="col-md-6 d-flex">
+        <div class="card border-0 shadow-sm w-100">
+          <div class="card-body p-4 d-flex flex-column">
+            <h3 class="h4 mb-4">Envíame un mensaje</h3>
+            
+            <form action="https://formspree.io/f/xrbgaarw" method="POST" class="contact-form d-flex flex-column flex-grow-1">
+              <div class="mb-3">
+                <label for="name" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+              </div>
+              
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+              </div>
+              
+              <div class="mb-3 flex-grow-1">
+                <label for="message" class="form-label">Mensaje</label>
+                <textarea class="form-control h-100" id="message" name="message" style="min-height: 150px;" required></textarea>
+              </div>
+              
+              <button type="submit" class="btn btn-primary w-100 mt-auto">
+                Enviar mensaje
+                <i class="fas fa-paper-plane ms-2"></i>
+              </button>
+            </form>
           </div>
         </div>
       </div>
@@ -75,15 +101,138 @@ const services = [
 </section>
 
 <style>
-  .profile-image {
-    object-fit: cover;
-    transition: transform 0.3s ease;
+  /* Añade esto al inicio de tus estilos */
+  #contact-section {
+    scroll-margin-top: 30px; /* Ajusta este valor según necesites */
   }
 
-  .profile-image:hover {
-    transform: scale(1.05);
+  /* Estilos base */
+  section {
+    background-color: var(--primary-bg);
+    color: var(--text);
   }
 
+  /* Estilos para las cards */
+  .card {
+    background-color: var(--primary-bg) !important;
+    border: 1px solid var(--secondary-bg) !important;
+    color: var(--text) !important;
+  }
+
+  /* Estilos para el formulario */
+  .contact-form .form-control {
+    background-color: var(--secondary-bg) !important;
+    border: 1px solid var(--secondary-bg);
+    color: var(--text) !important;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .contact-form .form-control:focus {
+    border-color: var(--gradient-1);
+    box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.2);
+    background-color: var(--secondary-bg) !important;
+  }
+
+  .contact-form .form-control::placeholder {
+    color: var(--text-muted);
+  }
+
+  /* Ajustes específicos para modo oscuro */
+  :root[data-theme="dark"] .card {
+    background-color: rgba(17, 25, 40, 0.75) !important;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+
+  :root[data-theme="dark"] .form-control {
+    background-color: rgba(17, 25, 40, 0.75) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  :root[data-theme="dark"] .form-control:focus {
+    background-color: rgba(17, 25, 40, 0.9) !important;
+    border-color: var(--gradient-1);
+  }
+
+  /* Estilos para títulos */
+  h2.text-center {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Efecto de brillo para modo oscuro */
+  :root[data-theme="dark"] h2.text-center {
+    text-shadow: 0 0 20px rgba(14, 165, 233, 0.5),
+                 0 0 30px rgba(14, 165, 233, 0.3);
+    animation: glow 3s ease-in-out infinite;
+  }
+
+  @keyframes glow {
+    0% {
+      text-shadow: 0 0 10px rgba(14, 165, 233, 0.3);
+    }
+    50% {
+      text-shadow: 0 0 20px rgba(14, 165, 233, 0.5),
+                   0 0 30px rgba(14, 165, 233, 0.3);
+    }
+    100% {
+      text-shadow: 0 0 10px rgba(14, 165, 233, 0.3);
+    }
+  }
+
+  /* Estilos para subtítulos */
+  h3.h4, h3.h5 {
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+  }
+
+  :root[data-theme="dark"] h3.h4,
+  :root[data-theme="dark"] h3.h5 {
+    text-shadow: 0 0 10px rgba(14, 165, 233, 0.3);
+  }
+
+  /* Estilos para el texto gradiente */
+  .gradient-text {
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .contact-form .form-label {
+    color: var(--text);
+  }
+
+  .contact-form .btn-primary {
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    border: none;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    color: #fff;
+  }
+
+  .contact-form .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+  }
+
+  /* Estilos para el botón de WhatsApp */
   .whatsapp-button {
     position: fixed;
     width: 60px;
@@ -108,3 +257,37 @@ const services = [
     color: #FFF;
   }
 </style>
+
+<script>
+  // Script para manejar el envío del formulario y mostrar mensajes
+  document.querySelector('.contact-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const submitButton = form.querySelector('button[type="submit"]');
+    
+    try {
+      submitButton.disabled = true;
+      submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+      
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        form.reset();
+        alert('¡Mensaje enviado con éxito! Pronto me pondré en contacto contigo.');
+      } else {
+        throw new Error('Error al enviar el mensaje');
+      }
+    } catch (error) {
+      alert('Hubo un error al enviar el mensaje. Por favor, intenta nuevamente.');
+    } finally {
+      submitButton.disabled = false;
+      submitButton.innerHTML = 'Enviar mensaje <i class="fas fa-paper-plane ms-2"></i>';
+    }
+  });
+</script>

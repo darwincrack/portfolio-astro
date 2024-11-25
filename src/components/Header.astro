@@ -1,5 +1,7 @@
 ---
-import profileImage from '../images/profile-image.jpg';
+import azureBadge from '../images/badges/microsoft-certified-azure-fundamentals.png';
+import pmBadge from '../images/badges/certificado-de-gestion-de-proyectos-de-google.png';
+import aiBadge from '../images/badges/google-ai-essentials.png';
 ---
 
 <header class="header">
@@ -12,13 +14,15 @@ import profileImage from '../images/profile-image.jpg';
         <a href="/" class="logo">
           <span class="logo-text">DC</span>
         </a>
-        <div class="nav-links">
-          <a href="#sobre-mi" class="nav-link">Sobre mí</a>
-          <a href="#blog" class="nav-link">Blog</a>
-          <a href="#reconocimientos" class="nav-link">Reconocimientos</a>
-          <a href="#habilidades" class="nav-link">Habilidades</a>
-          <a href="#destacado" class="nav-link">Destacado</a>
-          <a href="#contacto" class="nav-link">Contacto</a>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="nav-links" id="nav-links">
+          <a href="#services-section" class="nav-link">Servicios</a>
+          <a href="#projects-section" class="nav-link">Proyectos</a>
+          <a href="#experiences-section" class="nav-link">Experiencia</a>
+          <a href="#education-section" class="nav-link">Formación</a>
+          <a href="#contact-section" class="nav-link">Contacto</a>
           <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
             <i class="fa-regular fa-sun"></i>
           </button>
@@ -33,13 +37,37 @@ import profileImage from '../images/profile-image.jpg';
       <h1 class="main-title glow-effect">Darwin Cedeño</h1>
       <h2 class="subtitle">Full Stack Developer</h2>
       <p class="technologies">
-        PHP • Laravel • JavaScript • React • Node.js • AWS
+        PHP • JavaScript • WordPress • Laravel • React • Node.js  • MySQL
       </p>
+      
+      <!-- Certificaciones con imágenes -->
+      <div class="certifications-badges">
+        <a href="https://www.credly.com/badges/7f36d2ec-e6eb-4d9a-bfa1-8ba960a750af/public_url" 
+           target="_blank" 
+           rel="noopener"
+           title="Microsoft Certified: Azure Fundamentals">
+          <img src={azureBadge.src} alt="Microsoft Certified: Azure Fundamentals" />
+        </a>
+        <a href="https://www.credly.com/badges/583f34eb-f507-48f0-9865-7a09fb730dda/public_url" 
+           target="_blank" 
+           rel="noopener"
+           title="Certificado de gestión de proyectos de Google">
+          <img src={pmBadge.src} alt="Certificado de gestión de proyectos de Google" />
+        </a>
+        <a href="https://www.credly.com/badges/4252e689-70c1-40e8-b539-d3f1f0e7e00d/public_url" 
+           target="_blank" 
+           rel="noopener"
+           title="Google AI Essentials">
+">
+          <img src={aiBadge.src} alt="Google AI Essentials" />
+        </a>
+      </div>
+
       <div class="social-links">
         <a href="https://github.com/darwincrack/" class="social-link" title="GitHub" target="_blank">
           <i class="fa-brands fa-github"></i>
         </a>
-        <a href="https://instagram.com/tuinstagram" class="social-link" title="Instagram" target="_blank">
+        <a href="https://www.instagram.com/mecanicosdelaweb" class="social-link" title="Instagram" target="_blank">
           <i class="fa-brands fa-instagram"></i>
         </a>
       </div>
@@ -543,6 +571,95 @@ import profileImage from '../images/profile-image.jpg';
   :root[data-theme="light"] .social-link:hover {
     color: var(--gradient-1) !important;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  .certifications-badges {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .certifications-badges a {
+    width: 100px; /* Tamaño fijo para los badges */
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    filter: grayscale(20%) opacity(0.9);
+  }
+
+  .certifications-badges img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .certifications-badges a:hover {
+    transform: translateY(-3px);
+    filter: grayscale(0%) opacity(1);
+  }
+
+  @media (max-width: 768px) {
+    .certifications-badges {
+      gap: 1rem;
+    }
+    
+    .certifications-badges a {
+      width: 80px;
+      height: 80px;
+    }
+  }
+
+  .menu-toggle {
+    display: none; /* Oculto en desktop */
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 1000;
+  }
+
+  @media (max-width: 768px) {
+    .menu-toggle {
+      display: block; /* Visible en móvil */
+    }
+
+    .nav-links {
+      display: none;
+      position: fixed;
+      top: 60px; /* Altura del navbar */
+      left: 0;
+      right: 0;
+      background: var(--navbar-bg-scrolled);
+      padding: 1rem;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-links.active {
+      display: flex;
+    }
+
+    .nav-link {
+      width: 100%;
+      text-align: center;
+      padding: 0.75rem 0;
+    }
+
+    .theme-toggle {
+      margin: 0.5rem 0;
+    }
+  }
 </style>
 
 <script is:inline>
@@ -693,6 +810,25 @@ import profileImage from '../images/profile-image.jpg';
 </script>
 
 <script>
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      
+      if (target) {
+        const offset = 40;
+        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+        
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+</script>
+
+<script>
   // Smooth scroll para los enlaces del menú
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -726,4 +862,52 @@ import profileImage from '../images/profile-image.jpg';
     // Ejecutar al hacer scroll
     window.addEventListener('scroll', updateNavbar);
   });
+</script>
+
+<script>
+  function initMobileMenu() {
+    const menuToggle = document.getElementById('menu-toggle');
+    const navLinks = document.getElementById('nav-links');
+    const navLinksItems = document.querySelectorAll('.nav-link');
+
+    // Toggle menu
+    menuToggle?.addEventListener('click', () => {
+      navLinks?.classList.toggle('active');
+      // Cambiar el ícono
+      const icon = menuToggle.querySelector('i');
+      if (icon) {
+        icon.classList.toggle('fa-bars');
+        icon.classList.toggle('fa-times');
+      }
+    });
+
+    // Cerrar menú al hacer click en un enlace
+    navLinksItems.forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks?.classList.remove('active');
+        const icon = menuToggle?.querySelector('i');
+        if (icon) {
+          icon.classList.add('fa-bars');
+          icon.classList.remove('fa-times');
+        }
+      });
+    });
+
+    // Cerrar menú al hacer scroll
+    window.addEventListener('scroll', () => {
+      if (navLinks?.classList.contains('active')) {
+        navLinks.classList.remove('active');
+        const icon = menuToggle?.querySelector('i');
+        if (icon) {
+          icon.classList.add('fa-bars');
+          icon.classList.remove('fa-times');
+        }
+      }
+    });
+  }
+
+  // Inicializar cuando el DOM esté listo
+  document.addEventListener('DOMContentLoaded', initMobileMenu);
+  // Reinicializar cuando Astro complete la navegación
+  document.addEventListener('astro:page-load', initMobileMenu);
 </script>

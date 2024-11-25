@@ -14,36 +14,73 @@ const education = [
 
 const certifications = [
   {
-    title: "Certificación AZ900",
-    institution: "Microsoft Certified: Azure Fundamentals",
-    year: "2022",
-    image: "https://images.credly.com/images/be8fcaeb-c769-4858-b567-ffaaa73ce8cf/image.png",
-    link: "https://www.credly.com/badges/7f36d2ec-e6eb-4d9a-bfa1-8ba960a750af/linked_in_profile"
+    title: "Certificado profesional de Gestión de Proyectos de Google",
+    institution: "Google",
+    year: "2024",
+    link: "https://coursera.org/share/a820bf9db7de8cbd50756a224bd89d2f"
   },
+  {
+    title: "Google AI Essentials",
+    institution: "Google",
+    year: "2024",
+    link: "https://coursera.org/share/7b8f334438e22ae14f862edd3ce45759"
+  },
+
+  {
+    title: "Microsoft Certified: Azure Fundamentals",
+    institution: "Microsoft",
+    year: "2022",
+    link: "https://www.credly.com/badges/7f36d2ec-e6eb-4d9a-bfa1-8ba960a750af"
+  },
+
   {
     title: "JavaScript Algorithms and Data Structures",
     institution: "freeCodeCamp",
     year: "2022",
-    hours: "300 Horas",
     link: "https://freecodecamp.org/certification/fcc943de171-3a0f-4d00-b402-627097bd66d9/javascript-algorithms-and-data-structures"
-  }
-  // ... más certificaciones
+  },
+
+  {
+    title: "Curso profesional de JavaScript",
+    institution: "CódigoFacilito",
+    year: "2022",
+  },
+
+  {
+    title: "Curso profesional de Python",
+    institution: "CódigoFacilito",
+    year: "2022",
+  },
+
+  {
+    title: "Curso de Docker",
+    institution: "CódigoFacilito",
+    year: "2022",
+  },
+  {
+    title: "Curso de introducción a Machine Learning",
+    institution: "CódigoFacilito",
+    year: "2022",
+  },
+
 ];
 ---
 
 <section id="education-section" class="py-5">
   <div class="container">
-    <h2 class="text-center mb-5">Educación Profesional</h2>
+    <h2 class="text-center mb-5">Educación</h2>
     
     <!-- Educación Formal -->
     <div class="row mb-5">
       {education.map(edu => (
         <div class="col-12 col-md-6 mb-4">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body">
-              <h3 class="h5 mb-3">{edu.degree}</h3>
-              <p class="text-muted mb-2">{edu.institution}</p>
-              <span class="badge bg-secondary">{edu.period}</span>
+          <div class="card h-100">
+            <div class="card-body p-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="h5 mb-0 gradient-text">{edu.degree}</h3>
+                <span class="badge">{edu.period}</span>
+              </div>
+              <p class="mb-0 text-muted">{edu.institution}</p>
             </div>
           </div>
         </div>
@@ -51,28 +88,22 @@ const certifications = [
     </div>
 
     <!-- Certificaciones -->
-    <h3 class="text-center h4 mb-4">Cursos y certificaciones</h3>
-    <div class="row g-4">
-      {certifications.map(cert => (
-        <div class="col-12 col-md-4 mb-4">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body">
-              {cert.image && (
-                <img 
-                  src={cert.image} 
-                  alt={cert.title} 
-                  class="mb-3" 
-                  style="width: 40px;"
-                />
-              )}
-              <h4 class="h6 mb-2">
-                <a href={cert.link} class="text-decoration-none">
+    <h3 class="text-center h4 mb-4 gradient-text">Cursos y certificaciones</h3>
+    <h6 class="text-center h6 mb-4 gradient-text">Recientes</h3>
+
+    <div class="row g-4" id="certifications-container">
+      {certifications.map((cert, index) => (
+        <div class={`col-12 col-md-6 col-lg-4 mb-4 certification-item ${index >= 3 ? 'hidden' : ''}`}>
+          <div class="card h-100">
+            <div class="card-body p-4">
+              <h4 class="h6 mb-3">
+                <a href={cert.link} class="gradient-text text-decoration-none" target="_blank">
                   {cert.title}
                 </a>
               </h4>
               <p class="text-muted mb-2">{cert.institution}</p>
               <div class="d-flex justify-content-between align-items-center">
-                <span class="badge bg-primary">{cert.year}</span>
+                <span class="badge">{cert.year}</span>
                 {cert.hours && <small class="text-muted">{cert.hours}</small>}
               </div>
             </div>
@@ -80,15 +111,131 @@ const certifications = [
         </div>
       ))}
     </div>
+
+    <div class="text-center mt-4">
+      <button id="show-more" class="btn btn-outline-primary">
+        Ver más
+      </button>
+    </div>
   </div>
 </section>
 
 <style>
+  h2.text-center {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
   .card {
-    transition: transform 0.3s ease;
+    background-color: var(--primary-bg);
+    border: 1px solid var(--secondary-bg);
+    border-left: 4px solid var(--gradient-1);
+    transition: all 0.3s ease;
   }
 
   .card:hover {
-    transform: translateY(-5px);
+    transform: translateX(10px);
+    border-left-color: var(--gradient-2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .badge {
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+  }
+
+  .gradient-text {
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Ajustes para modo oscuro */
+  :root[data-theme="dark"] .card {
+    background-color: rgba(17, 25, 40, 0.75);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  :root[data-theme="dark"] .card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  :root[data-theme="dark"] .text-muted {
+    color: #9ca3af !important;
+  }
+
+  .btn-outline-primary {
+    color: var(--gradient-1);
+    border: 2px solid var(--gradient-1);
+    padding: 0.5rem 2rem;
+    border-radius: 2rem;
+    transition: all 0.3s ease;
+  }
+
+  .btn-outline-primary:hover {
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    border-color: transparent;
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  .certification-item.hidden {
+    display: none;
+    opacity: 0;
+  }
+
+  .certification-item {
+    opacity: 1;
+    transition: opacity 0.3s ease, transform 0.3s ease;
   }
 </style>
+
+<script>
+  const showMoreBtn = document.getElementById('show-more');
+  const container = document.getElementById('certifications-container');
+  let isExpanded = false;
+
+  if (showMoreBtn && container) {
+    showMoreBtn.addEventListener('click', () => {
+      const hiddenCerts = document.querySelectorAll('.certification-item.hidden');
+      
+      if (!isExpanded) {
+        // Mostrar todas las certificaciones
+        hiddenCerts.forEach(cert => {
+          cert.style.display = 'block';
+          setTimeout(() => {
+            cert.style.opacity = '1';
+            cert.classList.remove('hidden');
+          }, 50);
+        });
+        showMoreBtn.textContent = 'Ver menos';
+      } else {
+        // Ocultar certificaciones adicionales
+        const certsToHide = Array.from(document.querySelectorAll('.certification-item')).slice(3);
+        certsToHide.forEach(cert => {
+          cert.style.opacity = '0';
+          setTimeout(() => {
+            cert.style.display = 'none';
+            cert.classList.add('hidden');
+          }, 300);
+        });
+        showMoreBtn.textContent = 'Ver más certificaciones';
+      }
+      
+      isExpanded = !isExpanded;
+    });
+  }
+</script>

@@ -1,10 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
-import Experience from '../components/Experience.astro';
-import Education from '../components/Education.astro';
-import Skills from '../components/Skills.astro';
+import Services from '../components/Services.astro';
+import Projects from '../components/Projects.astro';
+import ClientLogos from '../components/ClientLogos.astro';
 import Testimonials from '../components/Testimonials.astro';
+import Experience from '../components/Experience.astro';
+import Certifications from '../components/Certifications.astro';
+import Education from '../components/Education.astro';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 ---
@@ -13,10 +16,13 @@ import Footer from '../components/Footer.astro';
   <Header />
   
   <div class="wrapper container">
+    <Services />
+    <Projects />
+    <ClientLogos />
+    <Testimonials />
     <Experience />
     <Education />
-    <Skills />
-    <Testimonials />
+    <Certifications />
     <Contact />
   </div>
 
