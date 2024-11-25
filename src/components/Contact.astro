@@ -9,6 +9,9 @@ const services = [
   "Posicionamiento SEO",
   "Asesorías"
 ];
+
+// Agregar la clave del sitio como variable de entorno
+const RECAPTCHA_SITE_KEY = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY || '6Lf22YkqAAAAAI3bpWLQB0_UYS3HWEHQ5THo1ZjC';
 ---
 
 <section id="contact-section" class="py-5">
@@ -83,8 +86,14 @@ const services = [
                 <label for="message" class="form-label">Mensaje</label>
                 <textarea class="form-control h-100" id="message" name="message" style="min-height: 150px;" required></textarea>
               </div>
-              
-              <button type="submit" class="btn btn-primary w-100 mt-auto">
+
+              <div class="g-recaptcha flex-grow-1 mb-3  mt-4" 
+                   data-sitekey={RECAPTCHA_SITE_KEY}
+                   data-callback="onRecaptchaSuccess"
+                   data-expired-callback="onRecaptchaExpired">
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100 mt-auto" disabled>
                 Enviar mensaje
                 <i class="fas fa-paper-plane ms-2"></i>
               </button>
@@ -305,11 +314,41 @@ const services = [
 </style>
 
 <script>
+  // Mover la lógica de reCAPTCHA aquí
+  function loadRecaptcha() {
+    if (typeof window.grecaptcha === 'undefined') {
+      const script = document.createElement('script');
+      script.src = 'https://www.google.com/recaptcha/api.js';
+      script.async = true;
+      script.defer = true;
+      document.body.appendChild(script);
+    }
+  }
+
+  // Funciones de callback para reCAPTCHA
+  window.onRecaptchaSuccess = function() {
+    const submitButton = document.querySelector('.contact-form button[type="submit"]');
+    if (submitButton) submitButton.disabled = false;
+  };
+
+  window.onRecaptchaExpired = function() {
+    const submitButton = document.querySelector('.contact-form button[type="submit"]');
+    if (submitButton) submitButton.disabled = true;
+  };
+
   function initContactForm() {
     const form = document.querySelector('.contact-form');
     
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
+      
+      // Verificar reCAPTCHA
+      const recaptchaResponse = grecaptcha.getResponse();
+      if (!recaptchaResponse) {
+        alert('Por favor, completa el reCAPTCHA');
+        return;
+      }
+
       const formElement = e.target as HTMLFormElement;
       const submitButton = formElement.querySelector('button[type="submit"]') as HTMLButtonElement;
       const formData = new FormData(formElement);
@@ -351,9 +390,12 @@ const services = [
     });
   }
 
-  // Inicializar cuando el DOM esté listo
+  // Cargar reCAPTCHA cuando se necesite
+  document.addEventListener('DOMContentLoaded', loadRecaptcha);
+  document.addEventListener('astro:page-load', loadRecaptcha);
+  
+  // Inicializar formulario
   document.addEventListener('DOMContentLoaded', initContactForm);
-  // Reinicializar cuando Astro complete la navegación
   document.addEventListener('astro:page-load', initContactForm);
 
   function initContactAnimations() {
@@ -398,3 +440,5 @@ const services = [
   document.addEventListener('DOMContentLoaded', initContactAnimations);
   document.addEventListener('astro:page-load', initContactAnimations);
 </script>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
