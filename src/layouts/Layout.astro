@@ -44,6 +44,7 @@ interface Props {
 
 // Destructurar las props
 const { title, description = "Darwin Cedeño - Full Stack Developer" } = Astro.props;
+
 ---
 
 <!DOCTYPE html>
@@ -86,7 +87,6 @@ const { title, description = "Darwin Cedeño - Full Stack Developer" } = Astro.p
         background-color: var(--secondary-bg) !important;
       }
     </style>
-    <script is:inline src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <style is:global>
       :root {
         --font-primary: 'Poppins', sans-serif;
@@ -99,11 +99,5 @@ const { title, description = "Darwin Cedeño - Full Stack Developer" } = Astro.p
   </head>
   <body>
     <slot />
-    
-
-
-        
-    
-
   </body>
 </html>
