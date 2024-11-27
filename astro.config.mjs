@@ -6,5 +6,8 @@ export default defineConfig({
     ssr: {
       noExternal: ['bootstrap'],
     },
+    optimizeDeps: {
+      include: ['tsparticles', 'tsparticles-engine'],
+    },
   },
 });
