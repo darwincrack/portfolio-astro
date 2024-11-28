@@ -16,7 +16,7 @@ import aiBadge from '../images/badges/google-ai-essentials.avif';
   <!-- Hero Section -->
   <div class="hero-section">
     <div class="container text-center">
-      <h1 class="main-title glow-effect">Darwin Cedeño</h1>
+      <h1 class="main-title glow-effect" style="visibility: visible">Darwin Cedeño</h1>
       <h2 class="subtitle">Full Stack Developer</h2>
       <p class="technologies">
         PHP • JavaScript • WordPress • Laravel • React • Node.js  • MySQL
@@ -303,17 +303,32 @@ import aiBadge from '../images/badges/google-ai-essentials.avif';
   }
 
   .main-title {
-    font-size: 4rem;
+    font-size: clamp(2.5rem, 8vw, 4rem);
     font-weight: 700;
     color: var(--text);
     margin: 0 0 1rem;
     line-height: 1.1;
     letter-spacing: -0.02em;
-    animation: glow 3s ease-in-out infinite;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    animation: slideInDown 0.8s ease-out forwards,
+             glow 3s ease-in-out infinite 0.8s;
+  }
+
+  @keyframes slideInDown {
+    0% {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   @keyframes glow {
-    0% {
+    0%, 100% {
       text-shadow: 0 0 10px rgba(14, 165, 233, 0.3);
       color: var(--text);
     }
@@ -321,10 +336,6 @@ import aiBadge from '../images/badges/google-ai-essentials.avif';
       text-shadow: 0 0 20px rgba(14, 165, 233, 0.5),
                    0 0 30px rgba(14, 165, 233, 0.3);
       color: #ffffff;
-    }
-    100% {
-      text-shadow: 0 0 10px rgba(14, 165, 233, 0.3);
-      color: var(--text);
     }
   }
 
@@ -359,7 +370,8 @@ import aiBadge from '../images/badges/google-ai-essentials.avif';
     }
 
     .main-title {
-      font-size: 3.5rem;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      margin-bottom: 0.5rem;
     }
     
     .subtitle {
@@ -666,6 +678,14 @@ import aiBadge from '../images/badges/google-ai-essentials.avif';
       margin: 0.5rem 0;
     }
   }
+
+  /* Preload de fuentes críticas */
+  @font-face {
+    font-family: 'Inter';
+    font-weight: 700;
+    font-display: swap;
+    src: local('Inter Bold');
+  }
 </style>
 
 <script>
@@ -815,4 +835,17 @@ import aiBadge from '../images/badges/google-ai-essentials.avif';
   document.addEventListener('DOMContentLoaded', initMobileMenu);
   // Reinicializar cuando Astro complete la navegación
   document.addEventListener('astro:page-load', initMobileMenu);
+</script>
+
+<script>
+  // Optimización de carga
+  document.addEventListener('astro:page-load', () => {
+    const title = document.querySelector('.main-title');
+    if (title) {
+      requestAnimationFrame(() => {
+        title.style.opacity = '1';
+        title.style.transform = 'translateY(0)';
+      });
+    }
+  });
 </script>
