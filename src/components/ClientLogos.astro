@@ -1,4 +1,7 @@
 ---
+// Importar el componente Image de Astro
+import { Image } from 'astro:assets';
+
 // Importar logos
 import logo1 from '../images/clients/logo1.avif';
 import logo2 from '../images/clients/logo2.avif';
@@ -51,14 +54,19 @@ const clients = [
     
     <div class="logos-slider">
       <div class="logos-slide">
-        {[...clients, ...clients].map((client) => (
+        {[...clients, ...clients].map((client, index) => (
           <div class="logo-item">
             <a href={client.link} target="_blank" rel="noopener noreferrer">
-              <img 
-                src={client.logo.src} 
+              <Image 
+                src={client.logo} 
                 alt={`Logo de ${client.name}`}
-                width="150"
-                height="80"
+                width={150}
+                height={80}
+                loading={index < 4 ? "eager" : "lazy"}
+                decoding="async"
+                class="client-logo"
+                format="avif"
+                quality={90}
               />
             </a>
           </div>
@@ -100,9 +108,11 @@ const clients = [
     flex: 0 0 auto;
     padding: 1rem;
     transition: all 0.3s ease;
+    background-size: 200% 100%;
+    animation: 1.5s shine linear infinite;
   }
 
-  .logo-item img {
+  .logo-item :global(img) {
     max-width: 150px;
     height: 80px;
     object-fit: contain;
@@ -111,7 +121,7 @@ const clients = [
     transition: all 0.3s ease;
   }
 
-  .logo-item:hover img {
+  .logo-item:hover :global(img) {
     filter: grayscale(0%) contrast(1) brightness(1);
     opacity: 1;
   }
@@ -132,13 +142,19 @@ const clients = [
 
   /* Responsive */
   @media (max-width: 768px) {
-    .logo-item img {
+    .logo-item :global(img) {
       max-width: 120px;
       height: 60px;
     }
     
     .logos-slide {
       gap: 2rem;
+    }
+  }
+
+  @keyframes shine {
+    to {
+      background-position-x: -200%;
     }
   }
 </style>

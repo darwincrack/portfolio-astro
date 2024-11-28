@@ -1,4 +1,7 @@
 ---
+// Importar el componente Image de Astro
+import { Image } from 'astro:assets';
+
 import Navigation from './Navigation.astro';
 import ParticlesBackground from './ParticlesBackground.astro';
 import azureBadge from '../images/badges/microsoft-certified-azure-fundamentals.avif';
@@ -21,24 +24,42 @@ import aiBadge from '../images/badges/google-ai-essentials.avif';
       
       <!-- Certificaciones con imágenes -->
       <div class="certifications-badges">
-        <a href="https://www.credly.com/badges/7f36d2ec-e6eb-4d9a-bfa1-8ba960a750af/public_url" 
-           target="_blank" 
-           rel="noopener"
-           title="Microsoft Certified: Azure Fundamentals">
-          <img src={azureBadge.src} alt="Microsoft Certified: Azure Fundamentals" />
-        </a>
-        <a href="https://www.credly.com/badges/583f34eb-f507-48f0-9865-7a09fb730dda/public_url" 
-           target="_blank" 
-           rel="noopener"
-           title="Certificado de gestión de proyectos de Google">
-          <img src={pmBadge.src} alt="Certificado de gestión de proyectos de Google" />
-        </a>
-        <a href="https://www.credly.com/badges/4252e689-70c1-40e8-b539-d3f1f0e7e00d/public_url" 
-           target="_blank" 
-           rel="noopener"
-           title="Google AI Essentials">
-          <img src={aiBadge.src} alt="Google AI Essentials" />
-        </a>
+        {[
+          {
+            url: "https://www.credly.com/badges/7f36d2ec-e6eb-4d9a-bfa1-8ba960a750af/public_url",
+            img: azureBadge,
+            alt: "Microsoft Certified: Azure Fundamentals",
+            title: "Microsoft Certified: Azure Fundamentals"
+          },
+          {
+            url: "https://www.credly.com/badges/583f34eb-f507-48f0-9865-7a09fb730dda/public_url",
+            img: pmBadge,
+            alt: "Certificado de gestión de proyectos de Google",
+            title: "Certificado de gestión de proyectos de Google"
+          },
+          {
+            url: "https://www.credly.com/badges/4252e689-70c1-40e8-b539-d3f1f0e7e00d/public_url",
+            img: aiBadge,
+            alt: "Google AI Essentials",
+            title: "Google AI Essentials"
+          }
+        ].map((badge, index) => (
+          <a href={badge.url} 
+             target="_blank" 
+             rel="noopener"
+             title={badge.title}>
+            <Image 
+              src={badge.img} 
+              alt={badge.alt}
+              width={90}
+              height={90}
+              loading={index === 0 ? "eager" : "lazy"}
+              decoding={index === 0 ? "sync" : "async"}
+              format="avif"
+              quality={90}
+            />
+          </a>
+        ))}
       </div>
 
       <div class="social-links">
@@ -568,18 +589,25 @@ import aiBadge from '../images/badges/google-ai-essentials.avif';
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
-    filter: grayscale(20%) opacity(0.9);
+    filter: grayscale(20%) brightness(1.1);
+    position: relative;
   }
 
-  .certifications-badges img {
+  /* Eliminar el pseudo-elemento que creaba el fondo */
+  .certifications-badges :global(img) {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    transition: all 0.3s ease;
   }
 
   .certifications-badges a:hover {
     transform: translateY(-3px);
-    filter: grayscale(0%) opacity(1);
+    filter: grayscale(0%) brightness(1.2);
+  }
+
+  .certifications-badges a:hover :global(img) {
+    filter: drop-shadow(0 4px 12px rgba(14, 165, 233, 0.3));
   }
 
   @media (max-width: 768px) {
