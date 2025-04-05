@@ -23,14 +23,18 @@ const projects = [
     description: "Para crear un nuevo metodo de pago venezolano 'pago Movil'",
     tags: ["WordPress", "Plugins", "WooCommerce"],
     link: "https://iqsalud.app/tienda/",
-    image: project11
+    image: project11,
+    priority: 5,
+    github: "https://github.com/darwincrack/wp-payment-pago-movil"
 },
 {
     title: "Plugin de WordPress para auto importar propiedades XML",
     description: "Importa automaticamente propiedades de diferentes fuentes XML",
-    tags: ["WordPress", "Plugins", "WooCommerce"],
+    tags: ["WordPress", "Plugins"],
     link: "https://www.bioalimento.com.mx/calculadora-de-alimentos/",
-    image: project10
+    image: project10,
+    priority: 5,
+    github: "https://github.com/darwincrack/real-estate-xml-importer"
 },
 
 {
@@ -38,63 +42,85 @@ const projects = [
     description: "Sugiere la comida y cantidad adecuada para una mascota, basándose en un formulario, y genera un carrito de compra con estos productos.",
     tags: ["WordPress", "Plugins", "WooCommerce"],
     link: "https://www.bioalimento.com.mx/calculadora-de-alimentos/",
-    image: project9
+    image: project9,
+    priority: 5,
+    github: "https://github.com/darwincrack/wp-custom-pets-calculator"
 },
  {
     title: "Me Link",
     description: "Gestor de enlaces con vista previa, etiquetas y búsqueda avanzada.",
     tags: ["React", "TypeScript", "Tailwind", "Supabase"],
     link: "https://melink-two.vercel.app/",
-    image: project8
+    image: project8,
+    priority: 6,
+    github: "https://github.com/darwincrack/melink"
   },
   {
     title: "Vipticket",
     description: "Sistema de gestión de eventos para venta de entradas con pasarela de pagos",
     tags: ["PHP", "MySQL", "JavaScript"],
     link: "https://vipticket.mx/",
-    image: project1
+    image: project1,
+    priority: 5,
+    github: ""
   },
   {
     title: "E-commerce Avisajes",
     description: "Tienda online completa con pasarela de pagos, gestión de inventario y sistema de envíos",
     tags: ["CodeIgniter", "PHP", "JavaScript", "API REST"],
     link: "https://avisajes.com",
-    image: project2
+    image: project2,
+    priority: 4,
+    github: ""
   },
   {
     title: "Ribera gestión",
     description: "Sistema de gestion inmobiliaria",
     tags: ["React", "Node", "API REST","MySQL"],
     link: "https://ribera-gestion-patrimonio.onrender.com/",
-    image: project3
+    image: project3,
+    priority: 2,
+    github: ""
   },
   {
     title: "Latampaper",
     description: "Web informativa y CMS",
     tags: ["PHP", "JavaScript", "MySQL"],
     link: "https://latampaper.com",
-    image: project4
+    image: project4,
+    priority: 3,
+    github: ""
   },
   {
     title: "meridiano.net",
     description: "Web de noticias deportivas",
     tags: ["PHP", "JavaScript", "MySQL", "CMS"],
     link: "https://meridiano.net",
-    image: project5
+    image: project5,
+    priority: 1,
+    github: ""
   },
   {
     title: "Revista Ronda",
     description: "Web de noticias de farándula",
     tags: ["PHP", "JavaScript", "MySQL", "CMS"],
-    image: project6
+    image: project6,
+    priority: 1,
+    github: ""
   },
   {
-    title: "Implik-2",
+    title: "hotsswingers.com",
     description: "Red social y streaming de videos para adultos",
     tags: ["Node.js", "Laravel", "MySQL", "API REST"],
-    image: project7
+    image: project7,
+    link: "https://hotsswingers.com",
+    priority: 2,
+    github: ""
   }
 ];
+
+// Ordenar proyectos por prioridad
+const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
 ---
 
 <section id="projects-section" class="py-5">
@@ -107,7 +133,7 @@ const projects = [
       </button>
 
       <div class="projects-slider">
-        {projects.map((project, index) => (
+        {sortedProjects.map((project, index) => (
           <div class="project-card" data-index={index} title={project.title}>
             <div class={`project-image ${!project.image ? 'no-image' : ''}`}>
               {project.image ? (
@@ -116,23 +142,28 @@ const projects = [
                   alt={project.title}
                   width={800}
                   height={450}
-                  loading={index < 3 ? "eager" : "lazy"} // Carga inmediata para los primeros 3 proyectos
+                  loading={index < 3 ? "eager" : "lazy"}
                   decoding={index < 3 ? "sync" : "async"}
                   class="project-img"
-                  format="avif"  // Mantener formato AVIF
-                  quality={90}   // Aumentar calidad ya que AVIF es muy eficiente
-                  densities={[1, 2]} // Soporte para pantallas retina
-                  priority={index === 0} // Prioridad máxima al primer proyecto
+                  format="avif"
+                  quality={90}
+                  densities={[1, 2]}
                 />
               ) : (
                 <div class="pattern-overlay"></div>
               )}
-              {project.link ? ( 
-                <div class="project-overlay">
-                <a href={project.link} target="_blank" rel="noopener noreferrer" class="btn btn-light">
-                  Ver Proyecto
-                </a>
-              </div>) : null}
+              <div class="project-overlay">
+                {project.link && (
+                  <a href={project.link} target="_blank" rel="noopener noreferrer" class="btn btn-light">
+                    Ver Proyecto
+                  </a>
+                )}
+                {project.github && (
+                  <a href={project.github} target="_blank" rel="noopener noreferrer" class="btn btn-github">
+                    <i class="fab fa-github"></i> GitHub
+                  </a>
+                )}
+              </div>
             </div>
             <div class="project-content">
               <h4 class="h5">{project.title}</h4>
@@ -255,6 +286,8 @@ const projects = [
     justify-content: center;
     opacity: 0;
     transition: opacity 0.3s ease;
+    gap: 10px;
+    flex-wrap: wrap;
   }
 
   .project-card:hover .project-overlay {
@@ -447,6 +480,39 @@ const projects = [
   .project-card.animate-in {
     opacity: 1 !important;
     transform: translateY(0) !important;
+  }
+
+  .btn-github {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .btn-github:hover {
+    background-color: #24292e;
+    transform: translateY(-2px);
+  }
+
+  .btn-light {
+    background-color: white;
+    color: #333;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-light:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-2px);
   }
 </style>
 
