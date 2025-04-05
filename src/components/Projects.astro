@@ -11,8 +11,35 @@ import project5 from '../images/project5.avif';
 import project6 from '../images/project6.avif';
 import project7 from '../images/project7.avif';
 import project8 from '../images/project8.avif';
+import project9 from '../images/project9.avif';
+import project10 from '../images/project10.avif';
+import project11 from '../images/project11.avif';
+
 
 const projects = [
+
+{
+    title: "Plugins de WordPress/ Woocommerce",
+    description: "Para crear un nuevo metodo de pago venezolano 'pago Movil'",
+    tags: ["WordPress", "Plugins", "WooCommerce"],
+    link: "https://iqsalud.app/tienda/",
+    image: project11
+},
+{
+    title: "Plugin de WordPress para auto importar propiedades XML",
+    description: "Importa automaticamente propiedades de diferentes fuentes XML",
+    tags: ["WordPress", "Plugins", "WooCommerce"],
+    link: "https://www.bioalimento.com.mx/calculadora-de-alimentos/",
+    image: project10
+},
+
+{
+    title: "Plugin de WordPress/WooCommerce",
+    description: "Sugiere la comida y cantidad adecuada para una mascota, basándose en un formulario, y genera un carrito de compra con estos productos.",
+    tags: ["WordPress", "Plugins", "WooCommerce"],
+    link: "https://www.bioalimento.com.mx/calculadora-de-alimentos/",
+    image: project9
+},
  {
     title: "Me Link",
     description: "Gestor de enlaces con vista previa, etiquetas y búsqueda avanzada.",
@@ -81,7 +108,7 @@ const projects = [
 
       <div class="projects-slider">
         {projects.map((project, index) => (
-          <div class="project-card" data-index={index}>
+          <div class="project-card" data-index={index} title={project.title}>
             <div class={`project-image ${!project.image ? 'no-image' : ''}`}>
               {project.image ? (
                 <Image 
@@ -109,7 +136,7 @@ const projects = [
             </div>
             <div class="project-content">
               <h4 class="h5">{project.title}</h4>
-              <p>{project.description}</p>
+              <p class="text-sm" title={project.description}>{project.description}</p>
               <div class="project-tags">
                 {project.tags.map(tag => (
                   <span class="tag">{tag}</span>
