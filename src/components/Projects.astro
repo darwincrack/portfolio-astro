@@ -17,17 +17,18 @@ import project11 from '../images/project11.avif';
 import project12 from '../images/project12.avif';
 
 const projects = [
-
-{
+  {
     title: "Plugins de WordPress/ Woocommerce",
     description: "Para crear un nuevo metodo de pago venezolano 'pago Movil'",
+    detailedDescription: "Desarrollo de un plugin personalizado para WordPress/WooCommerce que implementa el método de pago 'Pago Móvil' específico para Venezuela. El plugin permite a los comerciantes recibir pagos a través de transferencias bancarias móviles, integrando con los principales bancos venezolanos.",
     tags: ["WordPress", "Plugins", "WooCommerce"],
     link: "https://iqsalud.app/tienda/",
     image: project11,
+    additionalImages: [project11], // Aquí agregarías más imágenes si las tuvieras
     priority: 5,
     github: "https://github.com/darwincrack/wp-payment-pago-movil"
-},
-{
+  },
+  {
     title: "Plugin de WordPress para auto importar propiedades XML",
     description: "Importa automaticamente propiedades de diferentes fuentes XML",
     tags: ["WordPress", "Plugins"],
@@ -35,9 +36,9 @@ const projects = [
     image: project10,
     priority: 5,
     github: "https://github.com/darwincrack/real-estate-xml-importer"
-},
+  },
 
-{
+  {
     title: "Plugin de WordPress/WooCommerce",
     description: "Sugiere la comida y cantidad adecuada para una mascota, basándose en un formulario, y genera un carrito de compra con estos productos.",
     tags: ["WordPress", "Plugins", "WooCommerce"],
@@ -45,7 +46,7 @@ const projects = [
     image: project9,
     priority: 5,
     github: "https://github.com/darwincrack/wp-custom-pets-calculator"
-},
+  },
  {
     title: "Me Link",
     description: "Gestor de enlaces con vista previa, etiquetas y búsqueda avanzada.",
@@ -167,6 +168,11 @@ const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
                   <i class="fab fa-github"></i> GitHub
                 </a>
               )}
+              {project.detailedDescription && (
+                <button class="btn btn-info details-btn" data-index={index}>
+                  <i class="fas fa-info-circle"></i> Detalles
+                </button>
+              )}
             </div>
           </div>
           <div class="project-content">
@@ -189,6 +195,33 @@ const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
     </div>
   </div>
 </section>
+
+<!-- Modal para detalles del proyecto -->
+<div id="projectModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <div class="modal-body">
+      <div class="project-slider">
+        <div class="slider-container">
+          <button class="slider-nav prev" onclick="prevSlide()">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <div class="slider-images"></div>
+          <button class="slider-nav next" onclick="nextSlide()">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        <div class="slider-dots"></div>
+      </div>
+      <div class="project-details">
+        <h3 class="project-title"></h3>
+        <p class="project-description"></p>
+        <div class="project-tags"></div>
+        <div class="project-links"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <style>
   h2.text-center {
@@ -403,15 +436,348 @@ const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
       grid-template-columns: 1fr;
     }
   }
+
+  /* Estilos para el modal */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    overflow-y: auto;
+  }
+
+  .modal-content {
+    position: relative;
+    background-color: var(--primary-bg);
+    margin: 5% auto;
+    padding: 2rem;
+    width: 90%;
+    max-width: 1200px;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+
+  .close-modal {
+    position: absolute;
+    right: 1.5rem;
+    top: 1rem;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--text);
+    transition: color 0.3s ease;
+  }
+
+  .close-modal:hover {
+    color: var(--gradient-1);
+  }
+
+  .modal-body {
+    display: grid;
+    grid-template-columns: minmax(300px, 1fr) 1fr;
+    gap: 2rem;
+    margin-top: 1rem;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  /* Estilos para el slider */
+  .project-slider {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .slider-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    background: var(--secondary-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .slider-images {
+    display: flex;
+    transition: transform 0.3s ease;
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .slider-images img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    flex-shrink: 0;
+    background: var(--secondary-bg);
+  }
+
+  .slider-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    z-index: 2;
+  }
+
+  .slider-nav:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .slider-nav.prev {
+    left: 1rem;
+  }
+
+  .slider-nav.next {
+    right: 1rem;
+  }
+
+  .slider-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--secondary-bg);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .dot.active {
+    background: var(--gradient-1);
+  }
+
+  /* Estilos para los detalles del proyecto */
+  .project-details {
+    padding: 1rem;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .project-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .project-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+  }
+
+  .project-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .btn-info {
+    background: var(--gradient-1);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .btn-info:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: 768px) {
+    .modal-body {
+      grid-template-columns: 1fr;
+    }
+    
+    .modal-content {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+    }
+
+    .project-details {
+      max-height: none;
+    }
+
+    .slider-container {
+      max-width: 100%;
+      aspect-ratio: 4/3;
+    }
+  }
 </style>
 
-<script>
+<script define:vars={{ sortedProjects }}>
+  let currentProject = null;
+  let currentSlide = 0;
+  const projects = sortedProjects;
+
+  function openProjectModal(index) {
+    currentProject = projects[index];
+    currentSlide = 0;
+    
+    const modal = document.getElementById('projectModal');
+    const sliderImages = modal.querySelector('.slider-images');
+    const sliderDots = modal.querySelector('.slider-dots');
+    const projectTitle = modal.querySelector('.project-title');
+    const projectDescription = modal.querySelector('.project-description');
+    const projectTags = modal.querySelector('.project-tags');
+    const projectLinks = modal.querySelector('.project-links');
+    
+    // Limpiar contenido anterior
+    sliderImages.innerHTML = '';
+    sliderDots.innerHTML = '';
+    projectTags.innerHTML = '';
+    projectLinks.innerHTML = '';
+    
+    // Configurar imágenes
+    const allImages = [currentProject.image, ...(currentProject.additionalImages || [])];
+    allImages.forEach((image, i) => {
+      const img = document.createElement('img');
+      img.src = image.src || image.default;
+      img.alt = `${currentProject.title} - Imagen ${i + 1}`;
+      sliderImages.appendChild(img);
+      
+      const dot = document.createElement('div');
+      dot.className = `dot ${i === 0 ? 'active' : ''}`;
+      dot.onclick = () => goToSlide(i);
+      sliderDots.appendChild(dot);
+    });
+    
+    // Configurar detalles
+    projectTitle.textContent = currentProject.title;
+    projectDescription.textContent = currentProject.detailedDescription || currentProject.description;
+    
+    // Configurar tags
+    currentProject.tags.forEach(tag => {
+      const tagSpan = document.createElement('span');
+      tagSpan.className = 'tag';
+      tagSpan.textContent = tag;
+      projectTags.appendChild(tagSpan);
+    });
+    
+    // Configurar enlaces
+    if (currentProject.link) {
+      const linkBtn = document.createElement('a');
+      linkBtn.href = currentProject.link;
+      linkBtn.target = '_blank';
+      linkBtn.rel = 'noopener noreferrer';
+      linkBtn.className = 'btn btn-light';
+      linkBtn.textContent = 'Ver Proyecto';
+      projectLinks.appendChild(linkBtn);
+    }
+    
+    if (currentProject.github) {
+      const githubBtn = document.createElement('a');
+      githubBtn.href = currentProject.github;
+      githubBtn.target = '_blank';
+      githubBtn.rel = 'noopener noreferrer';
+      githubBtn.className = 'btn btn-github';
+      githubBtn.innerHTML = '<i class="fab fa-github"></i> GitHub';
+      projectLinks.appendChild(githubBtn);
+    }
+    
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    const modal = document.getElementById('projectModal');
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+
+  function nextSlide() {
+    const sliderImages = document.querySelector('.slider-images');
+    const dots = document.querySelectorAll('.dot');
+    const totalSlides = dots.length;
+    
+    currentSlide = (currentSlide + 1) % totalSlides;
+    updateSlider();
+  }
+
+  function prevSlide() {
+    const sliderImages = document.querySelector('.slider-images');
+    const dots = document.querySelectorAll('.dot');
+    const totalSlides = dots.length;
+    
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    updateSlider();
+  }
+
+  function goToSlide(index) {
+    currentSlide = index;
+    updateSlider();
+  }
+
+  function updateSlider() {
+    const sliderImages = document.querySelector('.slider-images');
+    const dots = document.querySelectorAll('.dot');
+    
+    if (sliderImages) {
+      sliderImages.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === currentSlide);
+    });
+  }
+
+  // Event Listeners
+  document.querySelector('.close-modal').addEventListener('click', closeModal);
+  window.addEventListener('click', (e) => {
+    const modal = document.getElementById('projectModal');
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+
+  // Inicializar proyectos
   function initProjectsGrid() {
     const projectsGrid = document.querySelector('.projects-grid');
-    const loadMoreBtn = document.querySelector('#load-more-projects') as HTMLButtonElement;
+    const loadMoreBtn = document.querySelector('#load-more-projects');
     const projectCards = document.querySelectorAll('.project-card');
     let visibleCount = 6;
     const increment = 3;
+
+    // Agregar event listeners a los botones de detalles
+    document.querySelectorAll('.details-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const index = parseInt(btn.getAttribute('data-index') || '0');
+        openProjectModal(index);
+      });
+    });
 
     // Configurar el IntersectionObserver para las animaciones iniciales
     const observer = new IntersectionObserver((entries) => {
@@ -427,9 +793,9 @@ const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
     });
 
     // Función para animar un proyecto
-    function animateProject(card: Element, delay: number) {
+    function animateProject(card, delay) {
       card.classList.add('visible', 'animate-initial');
-      (card as HTMLElement).style.transitionDelay = `${delay}s`;
+      card.style.transitionDelay = `${delay}s`;
       observer.observe(card);
     }
 
@@ -441,22 +807,24 @@ const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
     });
 
     // Manejar el botón "Ver más"
-    loadMoreBtn?.addEventListener('click', () => {
-      const newVisibleCount = visibleCount + increment;
-      
-      projectCards.forEach((card, index) => {
-        if (index >= visibleCount && index < newVisibleCount) {
-          animateProject(card, (index - visibleCount) * 0.1);
+    if (loadMoreBtn) {
+      loadMoreBtn.addEventListener('click', () => {
+        const newVisibleCount = visibleCount + increment;
+        
+        projectCards.forEach((card, index) => {
+          if (index >= visibleCount && index < newVisibleCount) {
+            animateProject(card, (index - visibleCount) * 0.1);
+          }
+        });
+
+        visibleCount = newVisibleCount;
+
+        // Ocultar el botón si ya se mostraron todos los proyectos
+        if (visibleCount >= projectCards.length) {
+          loadMoreBtn.style.display = 'none';
         }
       });
-
-      visibleCount = newVisibleCount;
-
-      // Ocultar el botón si ya se mostraron todos los proyectos
-      if (visibleCount >= projectCards.length) {
-        loadMoreBtn.style.display = 'none';
-      }
-    });
+    }
   }
 
   // Inicializar cuando el DOM esté listo
