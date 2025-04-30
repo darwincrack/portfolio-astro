@@ -15,6 +15,7 @@ import project9 from '../images/project9.avif';
 import project10 from '../images/project10.avif';
 import project11 from '../images/project11.avif';
 import project12 from '../images/project12.avif';
+import projectsupport1 from '../images/projectsupport1.avif';
 
 const projects = [
   {
@@ -24,9 +25,10 @@ const projects = [
     tags: ["WordPress", "Plugins", "WooCommerce"],
     link: "https://iqsalud.app/tienda/",
     image: project11,
-    additionalImages: [project11], // Aquí agregarías más imágenes si las tuvieras
+    additionalImages: [project11],
     priority: 5,
-    github: "https://github.com/darwincrack/wp-payment-pago-movil"
+    github: "https://github.com/darwincrack/wp-payment-pago-movil",
+    type: "fullstack"
   },
   {
     title: "Plugin de WordPress para auto importar propiedades XML",
@@ -35,7 +37,8 @@ const projects = [
     link: "https://www.bioalimento.com.mx/calculadora-de-alimentos/",
     image: project10,
     priority: 5,
-    github: "https://github.com/darwincrack/real-estate-xml-importer"
+    github: "https://github.com/darwincrack/real-estate-xml-importer",
+     type: "fullstack"
   },
 
   {
@@ -45,7 +48,8 @@ const projects = [
     link: "https://www.bioalimento.com.mx/calculadora-de-alimentos/",
     image: project9,
     priority: 5,
-    github: "https://github.com/darwincrack/wp-custom-pets-calculator"
+    github: "https://github.com/darwincrack/wp-custom-pets-calculator",
+     type: "fullstack"
   },
  {
     title: "Me Link",
@@ -54,7 +58,8 @@ const projects = [
     link: "https://melink-two.vercel.app/",
     image: project8,
     priority: 6,
-    github: "https://github.com/darwincrack/melink"
+    github: "https://github.com/darwincrack/melink",
+     type: "fullstack"
   },
   {
     title: "Vipticket",
@@ -63,7 +68,8 @@ const projects = [
     link: "https://vipticket.mx/",
     image: project1,
     priority: 5,
-    github: ""
+    github: "",
+     type: "fullstack"
   },
   {
     title: "E-commerce Avisajes",
@@ -72,7 +78,8 @@ const projects = [
     link: "https://avisajes.com",
     image: project2,
     priority: 4,
-    github: ""
+    github: "",
+     type: "fullstack"
   },
   {
     title: "Ribera gestión",
@@ -81,7 +88,8 @@ const projects = [
     link: "https://ribera-gestion-patrimonio.onrender.com/",
     image: project3,
     priority: 2,
-    github: ""
+    github: "",
+    type: "fullstack"
   },
   {
     title: "Latampaper",
@@ -90,7 +98,8 @@ const projects = [
     link: "https://latampaper.com",
     image: project4,
     priority: 3,
-    github: ""
+    github: "",
+    type: "fullstack"
   },
   {
     title: "meridiano.net",
@@ -107,7 +116,8 @@ const projects = [
     tags: ["PHP", "JavaScript", "MySQL", "CMS"],
     image: project6,
     priority: 1,
-    github: ""
+    github: "",
+    type: "fullstack"
   },
   {
     title: "hotsswingers.com",
@@ -116,7 +126,8 @@ const projects = [
     image: project7,
     link: "https://hotsswingers.com",
     priority: 2,
-    github: ""
+    github: "",
+    type: "fullstack"
   },
   {
     title: "Sistema de gestión de inventario",
@@ -125,21 +136,45 @@ const projects = [
     image: project12,
     link: "",
     priority: 2,
-    github: ""
+    github: "",
+    type: "fullstack"
+  },
+  {
+    title: "Implementación de reCAPTCHA Invisible",
+    description: "Mitigación de spam en formulario de contacto",
+    detailedDescription: "Implementación de reCAPTCHA invisible en el formulario de contacto de Máquinas de Café para prevenir el envío de spam y proteger el sistema de correo. La solución mantiene la experiencia de usuario intacta mientras proporciona una capa adicional de seguridad.",
+    tags: ["Seguridad", "reCAPTCHA", "PHP", "JavaScript"],
+    link: "https://maquinasdecafe.com.mx/html/forma.php",
+    image: projectsupport1,
+    priority: 10,
+    type: "support"
   }
 ];
 
 // Ordenar proyectos por prioridad
 const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
+
+// Obtener tipos únicos de proyectos
+const projectTypes = [...new Set(projects.map(project => project.type || 'fullstack'))];
 ---
 
 <section id="projects-section" class="py-5">
   <div class="container">
     <h2 class="text-center mb-5">Proyectos Destacados</h2>
     
+    <!-- Filtros de proyectos -->
+    <div class="project-filters mb-4">
+      <button class="filter-btn active" data-filter="all">Todos</button>
+      {projectTypes.map(type => (
+        <button class="filter-btn" data-filter={type}>
+          {type === 'fullstack' ? 'Desarrollo Full Stack' : 'Soporte y Mantenimiento'}
+        </button>
+      ))}
+    </div>
+    
     <div class="projects-grid">
       {sortedProjects.map((project, index) => (
-        <div class="project-card" data-index={index} title={project.title}>
+        <div class="project-card" data-index={index} title={project.title} data-type={project.type || 'fullstack'}>
           <div class={`project-image ${!project.image ? 'no-image' : ''}`}>
             {project.image ? (
               <Image 
@@ -160,7 +195,7 @@ const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
             <div class="project-overlay">
               {project.link && (
                 <a href={project.link} target="_blank" rel="noopener noreferrer" class="btn btn-light">
-                  Ver Proyecto
+                  Ir
                 </a>
               )}
               {project.github && (
@@ -176,6 +211,9 @@ const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
             </div>
           </div>
           <div class="project-content">
+            <div class="project-type-badge">
+              {project.type === 'support' ? 'Soporte' : 'Full Stack'}
+            </div>
             <h4 class="h5">{project.title}</h4>
             <p class="text-sm" title={project.description}>{project.description}</p>
             <div class="project-tags">
@@ -637,6 +675,60 @@ const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
       aspect-ratio: 4/3;
     }
   }
+
+  /* Estilos para los filtros */
+  .project-filters {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+
+  .filter-btn {
+    padding: 0.5rem 1.5rem;
+    border: 2px solid var(--gradient-1);
+    border-radius: 2rem;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+  }
+
+  .filter-btn:hover,
+  .filter-btn.active {
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    color: white;
+    border-color: transparent;
+  }
+
+  /* Estilo para el badge de tipo de proyecto */
+  .project-type-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background: var(--gradient-1);
+    color: white;
+    z-index: 1;
+  }
+
+  /* Ajustes para la visualización de proyectos filtrados */
+  .project-card {
+    display: none;
+  }
+
+  .project-card.visible {
+    display: block;
+  }
+
+  .project-card[data-type="support"] .project-type-badge {
+    background: var(--gradient-2);
+  }
 </style>
 
 <script define:vars={{ sortedProjects }}>
@@ -763,6 +855,26 @@ const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
     }
   });
 
+  // Función para filtrar proyectos
+  function filterProjects(type) {
+    const projectCards = document.querySelectorAll('.project-card');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    
+    // Actualizar botones de filtro
+    filterBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-filter') === type);
+    });
+    
+    // Filtrar proyectos
+    projectCards.forEach(card => {
+      if (type === 'all' || card.getAttribute('data-type') === type) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
   // Inicializar proyectos
   function initProjectsGrid() {
     const projectsGrid = document.querySelector('.projects-grid');
@@ -770,6 +882,14 @@ const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
     const projectCards = document.querySelectorAll('.project-card');
     let visibleCount = 6;
     const increment = 3;
+
+    // Agregar event listeners a los botones de filtro
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filterType = btn.getAttribute('data-filter');
+        filterProjects(filterType);
+      });
+    });
 
     // Agregar event listeners a los botones de detalles
     document.querySelectorAll('.details-btn').forEach(btn => {
