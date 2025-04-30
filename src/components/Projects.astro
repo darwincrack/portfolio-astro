@@ -14,7 +14,7 @@ import project8 from '../images/project8.avif';
 import project9 from '../images/project9.avif';
 import project10 from '../images/project10.avif';
 import project11 from '../images/project11.avif';
-
+import project12 from '../images/project12.avif';
 
 const projects = [
 
@@ -116,6 +116,15 @@ const projects = [
     link: "https://hotsswingers.com",
     priority: 2,
     github: ""
+  },
+  {
+    title: "Sistema de gestión de inventario",
+    description: "Sistema de gestión de inventario",
+    tags: ["PHP", "Laravel 12", "MySQL"],
+    image: project12,
+    link: "",
+    priority: 2,
+    github: ""
   }
 ];
 
@@ -127,59 +136,55 @@ const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
   <div class="container">
     <h2 class="text-center mb-5">Proyectos Destacados</h2>
     
-    <div class="projects-slider-container">
-      <button class="slider-arrow prev" aria-label="Previous project">
-        <i class="fas fa-chevron-left"></i>
-      </button>
-
-      <div class="projects-slider">
-        {sortedProjects.map((project, index) => (
-          <div class="project-card" data-index={index} title={project.title}>
-            <div class={`project-image ${!project.image ? 'no-image' : ''}`}>
-              {project.image ? (
-                <Image 
-                  src={project.image} 
-                  alt={project.title}
-                  width={800}
-                  height={450}
-                  loading={index < 3 ? "eager" : "lazy"}
-                  decoding={index < 3 ? "sync" : "async"}
-                  class="project-img"
-                  format="avif"
-                  quality={90}
-                  densities={[1, 2]}
-                />
-              ) : (
-                <div class="pattern-overlay"></div>
+    <div class="projects-grid">
+      {sortedProjects.map((project, index) => (
+        <div class="project-card" data-index={index} title={project.title}>
+          <div class={`project-image ${!project.image ? 'no-image' : ''}`}>
+            {project.image ? (
+              <Image 
+                src={project.image} 
+                alt={project.title}
+                width={800}
+                height={450}
+                loading={index < 6 ? "eager" : "lazy"}
+                decoding={index < 6 ? "sync" : "async"}
+                class="project-img"
+                format="avif"
+                quality={90}
+                densities={[1, 2]}
+              />
+            ) : (
+              <div class="pattern-overlay"></div>
+            )}
+            <div class="project-overlay">
+              {project.link && (
+                <a href={project.link} target="_blank" rel="noopener noreferrer" class="btn btn-light">
+                  Ver Proyecto
+                </a>
               )}
-              <div class="project-overlay">
-                {project.link && (
-                  <a href={project.link} target="_blank" rel="noopener noreferrer" class="btn btn-light">
-                    Ver Proyecto
-                  </a>
-                )}
-                {project.github && (
-                  <a href={project.github} target="_blank" rel="noopener noreferrer" class="btn btn-github">
-                    <i class="fab fa-github"></i> GitHub
-                  </a>
-                )}
-              </div>
-            </div>
-            <div class="project-content">
-              <h4 class="h5">{project.title}</h4>
-              <p class="text-sm" title={project.description}>{project.description}</p>
-              <div class="project-tags">
-                {project.tags.map(tag => (
-                  <span class="tag">{tag}</span>
-                ))}
-              </div>
+              {project.github && (
+                <a href={project.github} target="_blank" rel="noopener noreferrer" class="btn btn-github">
+                  <i class="fab fa-github"></i> GitHub
+                </a>
+              )}
             </div>
           </div>
-        ))}
-      </div>
+          <div class="project-content">
+            <h4 class="h5">{project.title}</h4>
+            <p class="text-sm" title={project.description}>{project.description}</p>
+            <div class="project-tags">
+              {project.tags.map(tag => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
 
-      <button class="slider-arrow next" aria-label="Next project">
-        <i class="fas fa-chevron-right"></i>
+    <div class="text-center mt-5">
+      <button id="load-more-projects" class="btn btn-primary">
+        Ver más proyectos
       </button>
     </div>
   </div>
@@ -195,13 +200,39 @@ const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
     -webkit-text-fill-color: transparent;
   }
 
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 1rem;
+  }
+
   .project-card {
     background: var(--primary-bg);
     border-radius: 1rem;
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     height: 100%;
     border: 1px solid var(--secondary-bg);
+    opacity: 0;
+    transform: translateY(20px);
+    display: none;
+  }
+
+  .project-card.visible {
+    display: block;
+  }
+
+  .project-card.animate-initial {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, opacity;
+  }
+
+  .project-card.animate-in {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
   }
 
   .project-card:hover {
@@ -230,13 +261,12 @@ const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
   }
 
   .project-image img {
-
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: fill;
+    object-fit: cover;
     transition: transform 0.3s ease;
   }
 
@@ -298,16 +328,6 @@ const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
     padding: 1.5rem;
   }
 
-  .project-type {
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 600;
-  }
-
   .project-tags {
     margin-top: 1rem;
     display: flex;
@@ -321,165 +341,6 @@ const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
     border-radius: 1rem;
     background: var(--secondary-bg);
     color: var(--text);
-  }
-
-  .support-card {
-    background: var(--primary-bg);
-    border: 1px solid var(--secondary-bg);
-    border-radius: 1rem;
-    padding: 2rem;
-    height: 100%;
-    transition: all 0.3s ease;
-  }
-
-  .support-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-
-  .support-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1.5rem;
-    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .examples-list {
-    list-style: none;
-    padding-left: 0;
-    margin-top: 1rem;
-  }
-
-  .examples-list li {
-    position: relative;
-    padding-left: 1.5rem;
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-    color: var(--text);
-  }
-
-  .examples-list li::before {
-    content: "→";
-    position: absolute;
-    left: 0;
-    color: var(--gradient-1);
-  }
-
-  .projects-slider-container {
-    position: relative;
-    max-width: 1200px;
-    margin: 0 auto;
-    overflow: hidden;
-    padding: 0 2rem;
-  }
-
-  .projects-slider {
-    display: flex;
-    transition: transform 0.5s ease;
-    gap: 1.5rem;
-    height: 100%;
-  }
-
-  .project-card {
-    min-width: calc((100% - 3rem) / 3);
-    opacity: 1;
-    transform: scale(1);
-    transition: all 0.5s ease;
-    display: flex;
-    flex-direction: column;
-    height: auto;
-  }
-
-  .slider-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
-    color: white;
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 2;
-    transition: all 0.3s ease;
-  }
-
-  .slider-arrow:hover {
-    transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  }
-
-  .slider-arrow.prev {
-    left: 0;
-  }
-
-  .slider-arrow.next {
-    right: 0;
-  }
-
-  .project-image {
-    position: relative;
-    overflow: hidden;
-    padding-top: 56.25%; /* 16:9 aspect ratio */
-    background: var(--secondary-bg);
-    flex: 0 0 auto;
-  }
-
-  .project-content {
-    padding: 1.5rem;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .project-content h4 {
-    margin-bottom: 0.5rem;
-  }
-
-  .project-content p {
-    flex: 1;
-    margin-bottom: 1rem;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .project-tags {
-    margin-top: auto;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  @media (max-width: 992px) {
-    .project-card {
-      min-width: calc((100% - 1.5rem) / 2);
-      height: auto;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .project-card {
-      min-width: 100%;
-      height: auto;
-    }
-  }
-
-  /* Animaciones */
-  .project-card.animate-initial {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform, opacity;
-  }
-
-  .project-card.animate-in {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
   }
 
   .btn-github {
@@ -514,88 +375,45 @@ const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
     background-color: #f8f9fa;
     transform: translateY(-2px);
   }
+
+  .btn-primary {
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: 992px) {
+    .projects-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
 
 <script>
-  function initProjectsSlider() {
-    const slider = document.querySelector('.projects-slider');
-    const cards = document.querySelectorAll('.project-card');
-    const prevBtn = document.querySelector('#projects-section .slider-arrow.prev');
-    const nextBtn = document.querySelector('#projects-section .slider-arrow.next');
-    let currentIndex = 0;
-    let autoplayInterval;
+  function initProjectsGrid() {
+    const projectsGrid = document.querySelector('.projects-grid');
+    const loadMoreBtn = document.querySelector('#load-more-projects') as HTMLButtonElement;
+    const projectCards = document.querySelectorAll('.project-card');
+    let visibleCount = 6;
+    const increment = 3;
 
-    function updateSlider() {
-      const cardWidth = slider.querySelector('.project-card').offsetWidth;
-      const gap = 24;
-      const offset = currentIndex * -(cardWidth + gap);
-      
-      slider.style.transform = `translateX(${offset}px)`;
-    }
-
-    function nextSlide() {
-      const totalSlides = cards.length;
-      const visibleSlides = window.innerWidth > 992 ? 3 : window.innerWidth > 768 ? 2 : 1;
-      const maxIndex = totalSlides - visibleSlides;
-      
-      if (currentIndex >= maxIndex) {
-        currentIndex = 0;
-      } else {
-        currentIndex++;
-      }
-      updateSlider();
-    }
-
-    function prevSlide() {
-      const totalSlides = cards.length;
-      const visibleSlides = window.innerWidth > 992 ? 3 : window.innerWidth > 768 ? 2 : 1;
-      const maxIndex = totalSlides - visibleSlides;
-      
-      if (currentIndex <= 0) {
-        currentIndex = maxIndex;
-      } else {
-        currentIndex--;
-      }
-      updateSlider();
-    }
-
-    function startAutoplay() {
-      stopAutoplay();
-      autoplayInterval = setInterval(nextSlide, 5000);
-    }
-
-    function stopAutoplay() {
-      if (autoplayInterval) {
-        clearInterval(autoplayInterval);
-      }
-    }
-
-    // Event Listeners
-    prevBtn?.addEventListener('click', () => {
-      prevSlide();
-      startAutoplay();
-    });
-
-    nextBtn?.addEventListener('click', () => {
-      nextSlide();
-      startAutoplay();
-    });
-
-    // Manejar cambios de tamaño de ventana
-    window.addEventListener('resize', updateSlider);
-
-    // Iniciar autoplay
-    startAutoplay();
-
-    // Pausar autoplay al hover
-    slider?.addEventListener('mouseenter', stopAutoplay);
-    slider?.addEventListener('mouseleave', startAutoplay);
-
-    // Primera actualización
-    updateSlider();
-  }
-
-  function initProjectAnimations() {
+    // Configurar el IntersectionObserver para las animaciones iniciales
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -608,18 +426,41 @@ const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
       rootMargin: '50px'
     });
 
-    document.querySelectorAll('#projects-section .project-card').forEach((card, index) => {
-      card.style.opacity = '0';
-      card.classList.add('animate-initial');
-      card.style.transitionDelay = `${index * 0.2}s`;
+    // Función para animar un proyecto
+    function animateProject(card: Element, delay: number) {
+      card.classList.add('visible', 'animate-initial');
+      (card as HTMLElement).style.transitionDelay = `${delay}s`;
       observer.observe(card);
+    }
+
+    // Mostrar los primeros 6 proyectos con animación escalonada
+    projectCards.forEach((card, index) => {
+      if (index < visibleCount) {
+        animateProject(card, index * 0.1);
+      }
+    });
+
+    // Manejar el botón "Ver más"
+    loadMoreBtn?.addEventListener('click', () => {
+      const newVisibleCount = visibleCount + increment;
+      
+      projectCards.forEach((card, index) => {
+        if (index >= visibleCount && index < newVisibleCount) {
+          animateProject(card, (index - visibleCount) * 0.1);
+        }
+      });
+
+      visibleCount = newVisibleCount;
+
+      // Ocultar el botón si ya se mostraron todos los proyectos
+      if (visibleCount >= projectCards.length) {
+        loadMoreBtn.style.display = 'none';
+      }
     });
   }
 
   // Inicializar cuando el DOM esté listo
-  document.addEventListener('DOMContentLoaded', initProjectsSlider);
-  document.addEventListener('DOMContentLoaded', initProjectAnimations);
+  document.addEventListener('DOMContentLoaded', initProjectsGrid);
   // Reinicializar cuando Astro complete la navegación
-  document.addEventListener('astro:page-load', initProjectsSlider);
-  document.addEventListener('astro:page-load', initProjectAnimations);
+  document.addEventListener('astro:page-load', initProjectsGrid);
 </script>
