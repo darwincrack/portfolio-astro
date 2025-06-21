@@ -1,9 +1,11 @@
 ---
 const menuItems = [
+
   { href: "#services-section", label: "Servicios" },
   { href: "#projects-section", label: "Proyectos" },
   { href: "#experiences-section", label: "Experiencia" },
   { href: "#education-section", label: "Formación" },
+  { href: "/#blog-section", label: "Blog" },
   { href: "#contact-section", label: "Contacto" },
 ];
 ---
@@ -248,7 +250,7 @@ const menuItems = [
     }
 
     // Remover listeners anteriores para evitar duplicados
-    const newMenuToggle = menuToggle.cloneNode(true);
+    const newMenuToggle = menuToggle.cloneNode(true) as HTMLElement;
     menuToggle.parentNode.replaceChild(newMenuToggle, menuToggle);
 
     // Agregar nuevo listener

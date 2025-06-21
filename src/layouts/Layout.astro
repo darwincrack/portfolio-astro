@@ -35,9 +35,14 @@ const lightThemeColors = {
   gradient2: '#2563eb', // Blue
   gradient3: '#4f46e5', // Indigo
 };
-const metaTitle = 'Darwin Cedeño - Desarrollador Web Freelance en Venezuela';
-const metaDescription = 'Desarrollador web freelance en Venezuela. Experto en PHP, Javascript, WordPress, Laravel, React y más, dedicado a impulsar tu negocio online. Conoce mis proyectos y servicios.';
 
+const defaultTitle = 'Darwin Cedeño - Desarrollador Web Freelance en Venezuela';
+const defaultDescription = 'Desarrollador web freelance en Venezuela. Experto en PHP, Javascript, WordPress, Laravel, React y más, dedicado a impulsar tu negocio online. Conoce mis proyectos y servicios.';
+
+const { title = defaultTitle, description = defaultDescription } = Astro.props;
+
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
 
 ---
 
@@ -46,23 +51,23 @@ const metaDescription = 'Desarrollador web freelance en Venezuela. Experto en PH
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{metaTitle} </title>
-    <meta name="description" content={metaDescription} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
 
     <meta name="keywords" content="desarrollador web, full stack, WordPress, SEO, aplicaciones móviles, Venezuela, laravel, react, shopify, woocommerce, desarrollo web, freelance, programador, PHP, HTML, CSS, JavaScript">
     <meta name="author" content="Darwin Cedeño">
     <meta name="robots" content="index, follow">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://darwincd.com/">
-    <meta property="og:title" content={metaTitle}>
-    <meta property="og:description" content={metaDescription}>
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={description}>
     <meta property="og:image" content="https://darwincd.com/logodc.jpg">
     <meta property="og:locale" content="es_ES" />
     <meta property="og:site_name" content="Darwin Cedeño" />
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://darwincd.com/">
-    <meta property="twitter:title" content={metaTitle}>
-    <meta property="twitter:description" content={metaDescription}>
+    <meta property="twitter:title" content={title}>
+    <meta property="twitter:description" content={description}>
     <meta property="twitter:image" content="https://darwincd.com/logodc.jpg">
 
     <script type="application/ld+json">
@@ -123,7 +128,7 @@ const metaDescription = 'Desarrollador web freelance en Venezuela. Experto en PH
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-320P4MZGS0"></script>
-<script>
+<script is:inline>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
@@ -132,6 +137,8 @@ const metaDescription = 'Desarrollador web freelance en Venezuela. Experto en PH
 </script>
   </head>
   <body>
+    <Navigation />
     <slot />
+    <Footer />
   </body>
 </html>

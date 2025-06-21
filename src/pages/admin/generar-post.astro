@@ -1,0 +1,144 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+<Layout title="Generar Nuevo Post de Blog">
+    <div id="admin-content" style="display: none;">
+        <main class="container blog-page-container">
+            <h1>Generador de Posts</h1>
+            <p>Haz clic en el botón para buscar nuevas noticias de tecnología. Se mostrarán 3 opciones.</p>
+            <button id="fetch-news">Buscar Noticias</button>
+            <div id="news-container"></div>
+            <div id="loading" style="display: none;">Cargando...</div>
+            <div id="result-message"></div>
+        </main>
+    </div>
+
+    <div id="auth-error" style="display: none;">
+        <p>Acceso denegado. Contraseña incorrecta.</p>
+    </div>
+
+    <script is:inline>
+        const password = prompt("Por favor, introduce la contraseña para acceder:");
+        if (password === "Ligia2025") {
+            document.getElementById('admin-content').style.display = 'block';
+        } else {
+            document.getElementById('auth-error').style.display = 'block';
+        }
+
+        document.getElementById('fetch-news').addEventListener('click', async () => {
+            const newsContainer = document.getElementById('news-container');
+            const loading = document.getElementById('loading');
+            const resultMessage = document.getElementById('result-message');
+
+            newsContainer.innerHTML = '';
+            resultMessage.innerHTML = '';
+            loading.style.display = 'block';
+
+            try {
+                const response = await fetch('/api/obtener-noticias');
+                if (!response.ok) {
+                    throw new Error('La respuesta de la red no fue correcta');
+                }
+                const articles = await response.json();
+                
+                if (articles.length === 0) {
+                    newsContainer.innerHTML = '<p>No se encontraron noticias.</p>';
+                } else {
+                    articles.forEach((article, index) => {
+                        const articleEl = document.createElement('div');
+                        articleEl.className = 'article-candidate';
+                        articleEl.innerHTML = `
+                            <h3>${article.title}</h3>
+                            <p>${article.description}</p>
+                            <a href="${article.url}" target="_blank">Leer original</a>
+                            <button type="button" class="select-btn" data-index="${index}">Seleccionar y Crear Post</button>
+                        `;
+                        newsContainer.appendChild(articleEl);
+                    });
+
+                    document.querySelectorAll('.select-btn').forEach(button => {
+                        button.addEventListener('click', async (event) => {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            
+                            loading.style.display = 'block';
+                            resultMessage.textContent = 'Procesando con IA y creando post... Esto puede tardar un momento.';
+                            
+                            const target = event.target;
+                            const selectedArticle = articles[target.dataset.index];
+
+                            console.log("Enviando este artículo para crear el post:", selectedArticle);
+
+                            const myHeaders = new Headers();
+                            myHeaders.append("Content-Type", "application/json");
+
+                            const createResponse = await fetch('/api/crear-post', {
+                                method: 'POST',
+                                headers: myHeaders,
+                                body: JSON.stringify(selectedArticle),
+                            });
+                            
+                            const result = await createResponse.json();
+                            
+                            loading.style.display = 'none';
+                            if (createResponse.ok) {
+                                resultMessage.innerHTML = `¡Éxito! Post creado: <a href="${result.postUrl}" target="_blank">${result.postUrl}</a>`;
+                            } else {
+                                resultMessage.textContent = `Error: ${result.error}`;
+                            }
+
+                            return false;
+                        });
+                    });
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                newsContainer.innerHTML = `<p>Error al cargar noticias: ${error.message}</p>`;
+            } finally {
+                loading.style.display = 'none';
+            }
+        });
+    </script>
+
+    <style>
+        .container {
+            padding-top: 90px;
+            max-width: 800px;
+            margin: auto;
+            padding: 2rem;
+        }
+        #auth-error {
+            padding-top: 90px;
+            text-align: center;
+            font-size: 1.2rem;
+            color: red;
+        }
+        .article-candidate {
+            border: 1px solid #ccc;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+        }
+        .article-candidate a {
+            margin-right: 1rem;
+        }
+        #result-message {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+
+        .blog-page-container {
+            padding-top: 90px !important;
+        }
+ 
+        .main-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .content {
+            line-height: 1.7;
+        }
+    </style>
+</Layout> 

@@ -12,5 +12,6 @@ export default defineConfig({
     },
   },
   site: 'https://darwincd.com',
-  integrations: [sitemap()]
+  integrations: [sitemap()],
+  output: 'hybrid'
 });

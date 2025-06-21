@@ -1,0 +1,129 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const posts = (await getCollection('blog')).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const pageTitle = "Mi Blog de Tecnología";
+const pageDescription = "Noticias y artículos sobre el mundo de la programación y la tecnología.";
+---
+<Layout title={pageTitle} description={pageDescription}>
+    <main class="container blog-page-container">
+        <h1 class="page-title">{pageTitle}</h1>
+        <p class="text-center mb-5">{pageDescription}</p>
+        <div class="post-grid">
+            {posts.map(post => (
+                <a href={`/blog/${post.slug}/`} class="card-link">
+                    <div class="card h-100">
+                        {post.data.image && (
+                            <img src={post.data.image.url} alt={post.data.image.alt} class="card-img-top" />
+                        )}
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{post.data.title}</h5>
+                            <p class="card-text flex-grow-1">{post.data.description.slice(0, 100)}...</p>
+                            <time class="post-date mt-auto" datetime={post.data.pubDate.toISOString()}>
+                                {post.data.pubDate.toLocaleDateString('es-ES', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                })}
+                            </time>
+                        </div>
+                    </div>
+                </a>
+            ))}
+        </div>
+    </main>
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 2rem;
+        }
+
+        .blog-page-container {
+            padding-top: 90px;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-5 {
+            margin-bottom: 3rem;
+        }
+
+        .post-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            height: 100%;
+        }
+
+        .card {
+            background: var(--secondary-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-title,
+        .card-text,
+        .post-date {
+            color: var(--text);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-text {
+            opacity: 0.8;
+            flex-grow: 1;
+        }
+
+        .post-date {
+            font-size: 0.8rem;
+            opacity: 0.6;
+            margin-top: 1rem;
+        }
+
+    </style>
+</Layout> 
