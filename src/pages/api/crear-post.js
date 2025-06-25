@@ -26,7 +26,7 @@ async function reescribirContenido(titulo, contenido) {
         messages: [
             {
                 role: 'system',
-                content: 'Eres un experto escritor de blogs de tecnología. Tu tarea es reescribir el siguiente artículo para que sea único, atractivo y optimizado para SEO. Proporciona un nuevo título y un nuevo cuerpo para el post. El resultado debe estar en formato JSON con las claves "nuevoTitulo" y "nuevoCuerpo". Asegúrate de que el JSON sea siempre válido.'
+                content: 'Eres un experto escritor de blogs de tecnología. Tu tarea es reescribir el siguiente artículo para que sea único, atractivo y optimizado para SEO. Proporciona un nuevo título y un nuevo cuerpo para el post. El cuerpo debe estar en formato Markdown, usando saltos de línea para separar párrafos, **negritas** para resaltar, listas, encabezados, etc. El resultado debe estar en formato JSON con las claves "nuevoTitulo" y "nuevoCuerpo". Asegúrate de que el JSON sea siempre válido.'
             },
             {
                 role: 'user',
