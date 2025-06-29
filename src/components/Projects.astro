@@ -15,6 +15,11 @@ import project9 from '../images/project9.avif';
 import project10 from '../images/project10.avif';
 import project11 from '../images/project11.avif';
 import project12 from '../images/project12.avif';
+import project13 from '../images/project13.avif';
+import project13_1 from '../images/project13.1.avif';
+import project13_2 from '../images/project13.2.avif';
+import project14 from '../images/project14.avif';
+
 import projectsupport1 from '../images/projectsupport1.avif';
 
 const projects = [
@@ -67,7 +72,7 @@ const projects = [
     tags: ["PHP", "MySQL", "JavaScript"],
     link: "https://vipticket.mx/",
     image: project1,
-    priority: 5,
+    priority: 1,
     github: "",
      type: "fullstack"
   },
@@ -77,7 +82,7 @@ const projects = [
     tags: ["CodeIgniter", "PHP", "JavaScript", "API REST"],
     link: "https://avisajes.com",
     image: project2,
-    priority: 4,
+    priority: 2,
     github: "",
      type: "fullstack"
   },
@@ -101,6 +106,18 @@ const projects = [
     github: "",
     type: "fullstack"
   },
+
+  {
+    title: "Focus Piedra",
+    description: "Web de noticias sobre el sector de la piedra natural",
+    tags: ["WordPress", "theme",'Newspaper'],
+    image: project14,
+    link: "https://focuspiedra.com",
+    priority: 1,
+    github: "",
+    type: "fullstack"
+  },
+
   {
     title: "meridiano.net",
     description: "Web de noticias deportivas",
@@ -148,7 +165,22 @@ const projects = [
     image: projectsupport1,
     priority: 10,
     type: "support"
-  }
+  },
+  {
+    title: "Sistema de control de ingresos y egresos para desktop",
+    description: "Sistema de control de ingresos y egresos para desktop",
+    detailedDescription: "Aplicación de escritorio desarrollada con Electron para la gestión financiera empresarial. Ofrece un control completo de ingresos y egresos con una interfaz intuitiva y funcional. Diseñada para PyMEs que requieren una solución práctica y eficiente para el seguimiento de sus finanzas, sin la complejidad de sistemas más robustos.",
+    tags: ["Electron", "JavaScript", "SQLite"],
+    image: project13,
+    additionalImages: [project13_1, project13_2,project13],
+    link: "",
+    priority: 1,
+    github: "https://github.com/darwincrack/sistema-control-de-ingresos-y-egresos",
+    type: "fullstack"
+  },
+
+  
+  
 ];
 
 // Ordenar proyectos por prioridad
@@ -241,11 +273,11 @@ const projectTypes = [...new Set(projects.map(project => project.type || 'fullst
     <div class="modal-body">
       <div class="project-slider">
         <div class="slider-container">
-          <button class="slider-nav prev" onclick="prevSlide()">
+          <button class="slider-nav prev" id="prev-btn">
             <i class="fas fa-chevron-left"></i>
           </button>
           <div class="slider-images"></div>
-          <button class="slider-nav next" onclick="nextSlide()">
+          <button class="slider-nav next" id="next-btn">
             <i class="fas fa-chevron-right"></i>
           </button>
         </div>
@@ -414,7 +446,7 @@ const projectTypes = [...new Set(projects.map(project => project.type || 'fullst
     color: var(--text);
   }
 
-  .btn-github {
+  :global(.btn-github) {
     background-color: #333;
     color: white;
     border: none;
@@ -427,7 +459,7 @@ const projectTypes = [...new Set(projects.map(project => project.type || 'fullst
     transition: all 0.3s ease;
   }
 
-  .btn-github:hover {
+  :global(.btn-github:hover) {
     background-color: #24292e;
     transform: translateY(-2px);
   }
@@ -729,6 +761,33 @@ const projectTypes = [...new Set(projects.map(project => project.type || 'fullst
   .project-card[data-type="support"] .project-type-badge {
     background: var(--gradient-2);
   }
+
+
+  .project-card[data-type="support"] span.tag{
+    font-size: 0.8rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    background: var(--secondary-bg);
+    color: var(--text);
+  }
+
+  /* Estilos para tags en el modal */
+  .project-details .project-tags {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Estilos globales para tags dinámicos del modal */
+  :global(.modal-content .project-tags .tag) {
+    font-size: 0.8rem !important;
+    padding: 0.25rem 0.75rem !important;
+    border-radius: 1rem !important;
+    background: var(--secondary-bg) !important;
+    color: var(--text) !important;
+  }
+
 </style>
 
 <script define:vars={{ sortedProjects }}>
@@ -848,6 +907,11 @@ const projectTypes = [...new Set(projects.map(project => project.type || 'fullst
 
   // Event Listeners
   document.querySelector('.close-modal').addEventListener('click', closeModal);
+  
+  // Event listeners para los botones del slider
+  document.getElementById('prev-btn').addEventListener('click', prevSlide);
+  document.getElementById('next-btn').addEventListener('click', nextSlide);
+  
   window.addEventListener('click', (e) => {
     const modal = document.getElementById('projectModal');
     if (e.target === modal) {
