@@ -24,4 +24,4 @@ Un reciente estudio realizado por NordVPN ha revelado algunas de las preguntas m
 
 Estas preguntas no solo son divertidas, sino que también nos hacen reflexionar sobre la **necesidad de educar** a los usuarios sobre lo que la inteligencia artificial puede y no puede hacer. Es crucial fomentar un uso responsable y consciente de estas herramientas para evitar riesgos innecesarios.
 
-¿Te has encontrado con alguna pregunta similar? ¡Comparte tus experiencias en los comentarios!
+¿Te has encontrado con alguna pregunta similar? ¡Reflexiona!
