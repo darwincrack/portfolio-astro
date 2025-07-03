@@ -4,7 +4,7 @@ pubDate: 2025-07-03T16:40:20.612Z
 description: "El procedimiento para instalar ChatGPT en WhatsApp es sencillo y accesible para cualquier usuario"
 originalUrl: "https://www.infobae.com/tecno/2025/07/03/asi-puedes-usar-chatgpt-en-whatsapp-sigue-estos-pasos-para-iniciar-una-conversacion-con-la-ia/"
 image:
-  url: "https://es.wikipedia.org/wiki/ChatGPT#/media/Archivo:ChatGPT-Logo.svg"
+  url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/ChatGPT-Logo.svg/800px-ChatGPT-Logo.svg.png"
   alt: "Descubre Cómo Integrar ChatGPT en WhatsApp: Guía Paso a Paso"
 ---
 
