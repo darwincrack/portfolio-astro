@@ -19,6 +19,7 @@ import project13 from '../images/project13.avif';
 import project13_1 from '../images/project13.1.avif';
 import project13_2 from '../images/project13.2.avif';
 import project14 from '../images/project14.avif';
+import project15 from '../images/project15.avif';
 
 import projectsupport1 from '../images/projectsupport1.avif';
 
@@ -33,7 +34,7 @@ const projects = [
     additionalImages: [project11],
     priority: 5,
     github: "https://github.com/darwincrack/wp-payment-pago-movil",
-    type: "fullstack"
+    type: "plugins"
   },
   {
     title: "Plugin de WordPress para auto importar propiedades desde fuentes XML",
@@ -43,7 +44,7 @@ const projects = [
     image: project10,
     priority: 5,
     github: "https://github.com/darwincrack/real-estate-xml-importer",
-     type: "fullstack"
+     type: "plugins"
   },
 
   {
@@ -54,7 +55,7 @@ const projects = [
     image: project9,
     priority: 5,
     github: "https://github.com/darwincrack/wp-custom-pets-calculator",
-     type: "fullstack"
+     type: "plugins"
   },
  {
     title: "Me Link",
@@ -176,7 +177,20 @@ const projects = [
     link: "",
     priority: 1,
     github: "https://github.com/darwincrack/sistema-control-de-ingresos-y-egresos",
-    type: "fullstack"
+    type: "tools"
+  },
+
+  {
+    title: "Convirtidor de imágenes en lote a webp",
+    description: "Convierte .png, .jpg, .jpeg a .webp en lote",
+    detailedDescription: "Herramienta en Python para convertir imágenes a formato WEBP de manera masiva, con soporte para subcarpetas, control de calidad, exclusión de archivos, logs y más. tambien se puedes decargar el .exe gratis y usarlo sin necesidad de instalar python.",
+    tags: ["Python", "Webp",".exe"],
+    image: project15,
+    additionalImages: [project15],
+    link: "",
+    priority: 1,
+    github: "https://github.com/darwincrack/convertir_webp",
+    type: "tools"
   },
 
   
@@ -188,6 +202,10 @@ const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
 
 // Obtener tipos únicos de proyectos
 const projectTypes = [...new Set(projects.map(project => project.type || 'fullstack'))];
+
+// Definir el orden deseado de los tipos
+const filterOrder = ['fullstack', 'plugins', 'tools', 'support'];
+const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(type));
 ---
 
 <section id="projects-section" class="py-5">
@@ -197,9 +215,17 @@ const projectTypes = [...new Set(projects.map(project => project.type || 'fullst
     <!-- Filtros de proyectos -->
     <div class="project-filters mb-4">
       <button class="filter-btn active" data-filter="all">Todos</button>
-      {projectTypes.map(type => (
+      {orderedProjectTypes.map(type => (
         <button class="filter-btn" data-filter={type}>
-          {type === 'fullstack' ? 'Desarrollo Full Stack' : 'Soporte y Mantenimiento'}
+          {type === 'fullstack'
+            ? 'Web y App Web'
+            : type === 'plugins'
+              ? 'Plugins'
+              : type === 'support'
+                ? 'Soporte'
+                : type === 'tools'
+                  ? 'Herramientas'
+                  : type}
         </button>
       ))}
     </div>
@@ -244,7 +270,11 @@ const projectTypes = [...new Set(projects.map(project => project.type || 'fullst
           </div>
           <div class="project-content">
             <div class="project-type-badge">
-              {project.type === 'support' ? 'Soporte' : 'Full Stack'}
+              {project.type === 'support'
+                ? 'Soporte'
+                : project.type === 'tools'
+                  ? 'Herramienta'
+                  : 'Web/App Web'}
             </div>
             <h4 class="h5">{project.title}</h4>
             <p class="text-sm" title={project.description}>{project.description}</p>
