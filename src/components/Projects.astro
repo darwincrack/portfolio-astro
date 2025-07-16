@@ -818,6 +818,12 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
     color: var(--text) !important;
   }
 
+  #load-more-projects {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
 </style>
 
 <script define:vars={{ sortedProjects }}>
@@ -953,20 +959,43 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
   function filterProjects(type) {
     const projectCards = document.querySelectorAll('.project-card');
     const filterBtns = document.querySelectorAll('.filter-btn');
-    
+    const loadMoreBtn = document.querySelector('#load-more-projects');
+
     // Actualizar botones de filtro
     filterBtns.forEach(btn => {
       btn.classList.toggle('active', btn.getAttribute('data-filter') === type);
     });
-    
-    // Filtrar proyectos
-    projectCards.forEach(card => {
-      if (type === 'all' || card.getAttribute('data-type') === type) {
-        card.style.display = 'block';
-      } else {
-        card.style.display = 'none';
+
+    if (type === 'all') {
+      let visibleCount = 6;
+      const increment = 3;
+      projectCards.forEach((card, index) => {
+        if (index < visibleCount) {
+          card.style.display = 'block';
+          card.classList.add('visible', 'animate-initial', 'animate-in');
+        } else {
+          card.style.display = 'none';
+          card.classList.remove('visible', 'animate-initial', 'animate-in');
+        }
+      });
+      if (loadMoreBtn) {
+        loadMoreBtn.style.display = projectCards.length > visibleCount ? 'block' : 'none';
       }
-    });
+    } else {
+      // Mostrar todos los proyectos de la categoría seleccionada
+      projectCards.forEach(card => {
+        if (card.getAttribute('data-type') === type) {
+          card.style.display = 'block';
+          card.classList.add('visible', 'animate-initial', 'animate-in');
+        } else {
+          card.style.display = 'none';
+          card.classList.remove('visible', 'animate-initial', 'animate-in');
+        }
+      });
+      if (loadMoreBtn) {
+        loadMoreBtn.style.display = 'none';
+      }
+    }
   }
 
   // Inicializar proyectos
@@ -1022,18 +1051,16 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
 
     // Manejar el botón "Ver más"
     if (loadMoreBtn) {
+      loadMoreBtn.style.display = projectCards.length > visibleCount ? 'block' : 'none';
       loadMoreBtn.addEventListener('click', () => {
         const newVisibleCount = visibleCount + increment;
-        
         projectCards.forEach((card, index) => {
           if (index >= visibleCount && index < newVisibleCount) {
             animateProject(card, (index - visibleCount) * 0.1);
+            card.style.display = 'block';
           }
         });
-
         visibleCount = newVisibleCount;
-
-        // Ocultar el botón si ya se mostraron todos los proyectos
         if (visibleCount >= projectCards.length) {
           loadMoreBtn.style.display = 'none';
         }
