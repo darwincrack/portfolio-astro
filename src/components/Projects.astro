@@ -20,6 +20,9 @@ import project13_1 from '../images/project13.1.avif';
 import project13_2 from '../images/project13.2.avif';
 import project14 from '../images/project14.avif';
 import project15 from '../images/project15.avif';
+import project16 from '../images/project16.avif';
+import project16_1 from '../images/project16_1.avif';
+import project16_2 from '../images/project16_2.avif';
 
 import projectsupport1 from '../images/projectsupport1.avif';
 
@@ -36,6 +39,23 @@ const projects = [
     github: "https://github.com/darwincrack/wp-payment-pago-movil",
     type: "plugins"
   },
+
+
+  {
+    title: "Mejora y actualización de la App Educativa CropLife",
+    description: "Mejora y actualización de la App Educativa CropLife",
+    detailedDescription: "Se realizó una actualización integral de la aplicación móvil educativa CropLife, migrando el proyecto de React Native 0.67 a la versión 0.79.6. Este proceso implicó una refactorización completa del código fuente para garantizar la compatibilidad con la nueva versión del framework, así como con las últimas versiones de dependencias clave y librerías de terceros.",
+    tags: ["React Native", "iOS", "Android"],
+    link: "",
+    image: project16_1,
+    additionalImages: [project16, project16_1, project16_2],
+    priority: 1,
+    github: "",
+    type: "mobile"
+  },
+
+
+
   {
     title: "Plugin de WordPress para auto importar propiedades desde fuentes XML",
     description: "Importa automaticamente propiedades de diferentes fuentes XML, con un sistema de filtrado y búsqueda avanzada.",
@@ -204,7 +224,7 @@ const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
 const projectTypes = [...new Set(projects.map(project => project.type || 'fullstack'))];
 
 // Definir el orden deseado de los tipos
-const filterOrder = ['fullstack', 'plugins', 'tools', 'support'];
+const filterOrder = ['fullstack', 'plugins', 'tools', 'support', 'Movil'];
 const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(type));
 ---
 
@@ -223,6 +243,8 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
               ? 'Plugins'
               : type === 'support'
                 ? 'Soporte'
+                : type === 'mobile'
+                  ? 'Movil'
                 : type === 'tools'
                   ? 'Herramientas'
                   : type}
@@ -274,6 +296,8 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
                 ? 'Soporte'
                 : project.type === 'tools'
                   ? 'Herramienta'
+                  : project.type === 'mobile'
+                    ? 'Movil'
                   : 'Web/App Web'}
             </div>
             <h4 class="h5">{project.title}</h4>
