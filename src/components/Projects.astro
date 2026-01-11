@@ -259,7 +259,7 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
             {project.image ? (
               <Image 
                 src={project.image} 
-                alt={project.title}
+                alt={`Captura de pantalla del proyecto ${project.title} - ${project.description}`}
                 width={800}
                 height={450}
                 loading={index < 6 ? "eager" : "lazy"}
@@ -878,7 +878,9 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
     allImages.forEach((image, i) => {
       const img = document.createElement('img');
       img.src = image.src || image.default;
-      img.alt = `${currentProject.title} - Imagen ${i + 1}`;
+      img.alt = i === 0 
+        ? `Vista principal del proyecto ${currentProject.title}: ${currentProject.description}`
+        : `Vista adicional ${i + 1} del proyecto ${currentProject.title}`;
       sliderImages.appendChild(img);
       
       const dot = document.createElement('div');

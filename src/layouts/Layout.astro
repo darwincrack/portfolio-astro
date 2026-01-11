@@ -39,7 +39,32 @@ const lightThemeColors = {
 const defaultTitle = 'Darwin Cedeño - Desarrollador Web Freelance en Venezuela';
 const defaultDescription = 'Desarrollador web freelance en Venezuela. Experto en PHP, Javascript, WordPress, Laravel, React y más, dedicado a impulsar tu negocio online. Conoce mis proyectos y servicios.';
 
-const { title = defaultTitle, description = defaultDescription } = Astro.props;
+const { 
+  title = defaultTitle, 
+  description = defaultDescription,
+  image = 'https://darwincd.com/logodc.jpg',
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+  author = 'Darwin Cedeño',
+  section
+} = Astro.props;
+
+// Construir URL canónica
+const siteUrl = 'https://darwincd.com';
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
+const ogUrl = canonicalUrl;
+
+// Función para optimizar títulos (50-60 caracteres recomendado)
+function optimizeTitle(title: string, maxLength: number = 60): string {
+  if (title.length <= maxLength) return title;
+  // Truncar en el último espacio antes del límite para evitar cortar palabras
+  const truncated = title.substring(0, maxLength);
+  const lastSpace = truncated.lastIndexOf(' ');
+  return lastSpace > 0 ? truncated.substring(0, lastSpace) + '...' : truncated + '...';
+}
+
+const optimizedTitle = optimizeTitle(title);
 
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
@@ -51,34 +76,99 @@ import Footer from '../components/Footer.astro';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title}</title>
+    
+    {/* Preconnect para recursos externos */}
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    
+    {/* Favicon */}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/logodc.png" />
+    
+    {/* URL Canónica */}
+    <link rel="canonical" href={canonicalUrl} />
+    
+    <title>{optimizedTitle}</title>
     <meta name="description" content={description} />
-
-    <meta name="keywords" content="desarrollador web, full stack, WordPress, SEO, aplicaciones móviles, Venezuela, laravel, react, shopify, woocommerce, desarrollo web, freelance, programador, PHP, HTML, CSS, JavaScript">
     <meta name="author" content="Darwin Cedeño">
     <meta name="robots" content="index, follow">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://darwincd.com/">
-    <meta property="og:title" content={title}>
+    
+    {/* Open Graph / Facebook */}
+    <meta property="og:type" content={type}>
+    <meta property="og:url" content={ogUrl}>
+    <meta property="og:title" content={optimizedTitle}>
     <meta property="og:description" content={description}>
-    <meta property="og:image" content="https://darwincd.com/logodc.jpg">
+    <meta property="og:image" content={image}>
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="es_ES" />
     <meta property="og:site_name" content="Darwin Cedeño" />
+    
+    {/* Twitter Card */}
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://darwincd.com/">
-    <meta property="twitter:title" content={title}>
+    <meta property="twitter:url" content={ogUrl}>
+    <meta property="twitter:title" content={optimizedTitle}>
     <meta property="twitter:description" content={description}>
-    <meta property="twitter:image" content="https://darwincd.com/logodc.jpg">
+    <meta property="twitter:image" content={image}>
+    
+    {/* Meta tags para artículos (si aplica) */}
+    {type === 'article' && publishedTime && (
+      <>
+        <meta property="article:published_time" content={publishedTime} />
+        {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+        <meta property="article:author" content={author} />
+        {section && <meta property="article:section" content={section} />}
+      </>
+    )}
 
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "Darwin Cedeño",
-        "url": "https://darwincd.com",
-        "description": "'Desarrollador web freelance en Venezuela. Experto en PHP, Javascript, WordPress, Laravel, React y más, dedicado a impulsar tu negocio online. Conoce mis proyectos y servicios.'"
-    }
-    </script>
+    {/* Schema.org - WebSite */}
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Darwin Cedeño",
+      "url": "https://darwincd.com",
+      "description": "Desarrollador web freelance en Venezuela. Experto en PHP, Javascript, WordPress, Laravel, React y más, dedicado a impulsar tu negocio online. Conoce mis proyectos y servicios.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://darwincd.com/blog/?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    })} />
+    
+    {/* Schema.org - Person */}
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Darwin Cedeño",
+      "url": "https://darwincd.com",
+      "jobTitle": "Desarrollador Web Full Stack",
+      "description": "Desarrollador web freelance especializado en PHP, JavaScript, WordPress, Laravel, React y Node.js",
+      "sameAs": [
+        "https://github.com/darwincrack/",
+        "https://www.linkedin.com/in/darwincrack/",
+        "https://www.instagram.com/darwinc.dev/"
+      ],
+      "knowsAbout": [
+        "Desarrollo Web",
+        "PHP",
+        "JavaScript",
+        "WordPress",
+        "Laravel",
+        "React",
+        "Node.js",
+        "MySQL",
+        "SEO"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "VE"
+      }
+    })} />
 
     <style is:global>
       :root[data-theme="light"] {

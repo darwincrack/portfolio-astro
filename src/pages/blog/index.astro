@@ -8,17 +8,51 @@ const posts = (await getCollection('blog')).sort(
 
 const pageTitle = "Mi Blog de Tecnología";
 const pageDescription = "Noticias y artículos sobre el mundo de la programación y la tecnología.";
+
+// Breadcrumb Schema para la página del blog
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Inicio",
+      "item": "https://darwincd.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://darwincd.com/blog/"
+    }
+  ]
+};
 ---
 <Layout title={pageTitle} description={pageDescription}>
+    {/* Schema Breadcrumb */}
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
     <main class="container blog-page-container">
         <h1 class="page-title">{pageTitle}</h1>
         <p class="text-center mb-5">{pageDescription}</p>
         <div class="post-grid">
-            {posts.map(post => (
+            {posts.map((post, index) => (
                 <a href={`/blog/${post.slug}/`} class="card-link">
                     <div class="card h-100">
-                        {post.data.image && (
-                            <img src={post.data.image.url} alt={post.data.image.alt} class="card-img-top" />
+                        {post.data.image ? (
+                            <img 
+                                src={post.data.image.url} 
+                                alt={post.data.image.alt} 
+                                width={400} 
+                                height={200} 
+                                class="card-img-top"
+                                loading={index < 6 ? "eager" : "lazy"}
+                                decoding={index < 6 ? "sync" : "async"}
+                            />
+                        ) : (
+                            <div class="card-img-top no-image" style="height: 200px; background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">
+                                📝
+                            </div>
                         )}
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">{post.data.title}</h5>
@@ -93,6 +127,16 @@ const pageDescription = "Noticias y artículos sobre el mundo de la programació
             width: 100%;
             height: 200px;
             object-fit: cover;
+        }
+        
+        .card-img-top :global(img) {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .no-image {
+            width: 100%;
         }
 
         .card-body {

@@ -1,2 +1,6 @@
 User-agent: *
+Allow: /
 Disallow: /admin/generar-post
+
+# Sitemap
+Sitemap: https://darwincd.com/sitemap-index.xml

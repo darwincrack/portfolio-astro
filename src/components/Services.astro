@@ -1,4 +1,86 @@
 ---
+const siteUrl = 'https://darwincd.com';
+
+// Schema Service para SEO
+const servicesSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": [
+    {
+      "@type": "Service",
+      "name": "Desarrollo Web Frontend",
+      "description": "Creación de interfaces modernas y responsivas con React, Vue, Angular, PWA y diseño mobile-first",
+      "provider": {
+        "@type": "Person",
+        "name": "Darwin Cedeño",
+        "url": siteUrl
+      },
+      "serviceType": "Desarrollo Web",
+      "areaServed": "VE"
+    },
+    {
+      "@type": "Service",
+      "name": "Desarrollo Backend",
+      "description": "Implementación de lógica de servidor, APIs RESTful, bases de datos SQL y NoSQL, autenticación y autorización",
+      "provider": {
+        "@type": "Person",
+        "name": "Darwin Cedeño",
+        "url": siteUrl
+      },
+      "serviceType": "Desarrollo Web",
+      "areaServed": "VE"
+    },
+    {
+      "@type": "Service",
+      "name": "E-commerce",
+      "description": "Soluciones completas de comercio electrónico con WooCommerce, pasarelas de pago, gestión de inventario y sistemas de envío",
+      "provider": {
+        "@type": "Person",
+        "name": "Darwin Cedeño",
+        "url": siteUrl
+      },
+      "serviceType": "E-commerce",
+      "areaServed": "VE"
+    },
+    {
+      "@type": "Service",
+      "name": "WordPress",
+      "description": "Desarrollo y personalización de sitios WordPress con temas personalizados, plugins a medida, optimización y seguridad",
+      "provider": {
+        "@type": "Person",
+        "name": "Darwin Cedeño",
+        "url": siteUrl
+      },
+      "serviceType": "Desarrollo Web",
+      "areaServed": "VE"
+    },
+    {
+      "@type": "Service",
+      "name": "Optimización y Rendimiento",
+      "description": "Mejora de velocidad y experiencia de usuario con optimización de carga, SEO técnico, Core Web Vitals, caché y CDN",
+      "provider": {
+        "@type": "Person",
+        "name": "Darwin Cedeño",
+        "url": siteUrl
+      },
+      "serviceType": "Optimización Web",
+      "areaServed": "VE"
+    },
+    {
+      "@type": "Service",
+      "name": "Mantenimiento y Soporte",
+      "description": "Servicios continuos de mantenimiento web con actualizaciones de seguridad, copias de seguridad, resolución de problemas y monitoreo 24/7",
+      "provider": {
+        "@type": "Person",
+        "name": "Darwin Cedeño",
+        "url": siteUrl
+      },
+      "serviceType": "Mantenimiento Web",
+      "areaServed": "VE"
+    }
+  ]
+};
+
 const services = [
   {
     title: "Desarrollo Web Frontend",
@@ -68,6 +150,9 @@ const services = [
   }
 ];
 ---
+
+{/* Schema Service para SEO */}
+<script type="application/ld+json" set:html={JSON.stringify(servicesSchema)} />
 
 <section id="services-section" class="py-5">
   <div class="container">

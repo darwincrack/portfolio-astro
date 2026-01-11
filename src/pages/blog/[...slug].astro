@@ -2,6 +2,7 @@
 export const prerender = true;
 import { getCollection, type CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -13,14 +14,114 @@ export async function getStaticPaths() {
 
 const post: CollectionEntry<'blog'> = Astro.props;
 const { Content } = await post.render();
+
+// Construir URL del post
+const siteUrl = 'https://darwincd.com';
+const postUrl = `${siteUrl}/blog/${post.slug}/`;
+const postImage = post.data.image?.url || `${siteUrl}/logodc.jpg`;
+
+// Schema Article para el post
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": post.data.title,
+  "description": post.data.description,
+  "image": postImage,
+  "datePublished": post.data.pubDate.toISOString(),
+  "dateModified": post.data.updatedDate ? new Date(post.data.updatedDate).toISOString() : post.data.pubDate.toISOString(),
+  "author": {
+    "@type": "Person",
+    "name": post.data.author || "Darwin Cedeño",
+    "url": siteUrl
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Darwin Cedeño",
+    "url": siteUrl
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": postUrl
+  },
+  "url": postUrl
+};
+
+// Breadcrumb Schema
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Inicio",
+      "item": siteUrl
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": `${siteUrl}/blog/`
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": post.data.title,
+      "item": postUrl
+    }
+  ]
+};
 ---
-<Layout title={post.data.title} description={post.data.description}>
+<Layout 
+  title={post.data.title} 
+  description={post.data.description}
+  image={postImage}
+  type="article"
+  publishedTime={post.data.pubDate.toISOString()}
+  modifiedTime={post.data.updatedDate ? new Date(post.data.updatedDate).toISOString() : post.data.pubDate.toISOString()}
+  author={post.data.author || "Darwin Cedeño"}
+  section="Tecnología"
+>
+    {/* Schema Article */}
+    <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+    
+    {/* Schema Breadcrumb */}
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    
     <main class="container blog-page-container">
-        <article>
-            {post.data.image && <img src={post.data.image.url} alt={post.data.image.alt} width="720" height="360" class="main-image"/>}
-            <h1>{post.data.title}</h1>
-            <p><em>Publicado el {post.data.pubDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</em></p>
-            <div class="content">
+        <nav aria-label="Breadcrumb" style="margin-bottom: 1rem;">
+            <ol style="display: flex; list-style: none; padding: 0; gap: 0.5rem; font-size: 0.9rem; opacity: 0.8;">
+                <li><a href="/" style="color: inherit; text-decoration: none;">Inicio</a></li>
+                <li>/</li>
+                <li><a href="/blog/" style="color: inherit; text-decoration: none;">Blog</a></li>
+                <li>/</li>
+                <li>{post.data.title}</li>
+            </ol>
+        </nav>
+        
+        <article itemscope itemtype="https://schema.org/Article">
+            {post.data.image && (
+                <img 
+                    src={post.data.image.url} 
+                    alt={post.data.image.alt} 
+                    width={720} 
+                    height={360} 
+                    class="main-image"
+                    loading="eager"
+                    decoding="sync"
+                    itemprop="image"
+                />
+            )}
+            <h1 itemprop="headline">{post.data.title}</h1>
+            <p><em>Publicado el <time datetime={post.data.pubDate.toISOString()} itemprop="datePublished">
+                {post.data.pubDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </time></em></p>
+            {post.data.updatedDate && (
+                <p><em>Actualizado el <time datetime={new Date(post.data.updatedDate).toISOString()} itemprop="dateModified">
+                    {new Date(post.data.updatedDate).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}
+                </time></em></p>
+            )}
+            <div class="content" itemprop="articleBody">
                 <Content />
             </div>
         </article>
