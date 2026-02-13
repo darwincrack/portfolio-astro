@@ -1,0 +1,43 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Responder con 404 para cualquier ruta no definida
+Astro.response.status = 404;
+Astro.response.statusText = 'Not Found';
+---
+
+<Layout 
+  title="Página no encontrada - Darwin Cedeño" 
+  description="La página que buscas no existe o ha sido movida."
+>
+  <main class="container py-5">
+    <section class="text-center py-5 my-5">
+      <h1 class="display-1 fw-bold mb-3" style="color: var(--gradient-1);">404</h1>
+      <h2 class="h4 mb-4">Página no encontrada</h2>
+      <p class="lead text-body-secondary mb-4">
+        La página que buscas no existe o ha sido movida.
+      </p>
+      <a href="/" class="btn btn-primary btn-lg">
+        Volver al inicio
+      </a>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  main {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+    border: none;
+    padding: 0.75rem 2rem;
+  }
+  .btn-primary:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+</style>
