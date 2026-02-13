@@ -14,7 +14,7 @@ Astro.response.statusText = 'Not Found';
     <section class="text-center py-5 my-5">
       <h1 class="display-1 fw-bold mb-3" style="color: var(--gradient-1);">404</h1>
       <h2 class="h4 mb-4">Página no encontrada</h2>
-      <p class="lead text-body-secondary mb-4">
+      <p class="lead page-not-found-message mb-4">
         La página que buscas no existe o ha sido movida.
       </p>
       <a href="/" class="btn btn-primary btn-lg">
@@ -25,6 +25,10 @@ Astro.response.statusText = 'Not Found';
 </Layout>
 
 <style>
+  .page-not-found-message {
+    color: var(--text) !important;
+    opacity: 0.95;
+  }
   main {
     min-height: 60vh;
     display: flex;
