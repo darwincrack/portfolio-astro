@@ -74,17 +74,17 @@ const RECAPTCHA_SITE_KEY = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY || '6Lf22Yk
                   accept="application/json">
               <div class="mb-3">
                 <label for="name" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="name" name="nombre" required>
+                <input type="text" class="form-control" id="name" name="nombre" autocomplete="name" required>
               </div>
               
               <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required>
+                <input type="email" class="form-control" id="email" name="email" autocomplete="email" required>
               </div>
               
               <div class="mb-3 flex-grow-1">
                 <label for="message" class="form-label">Mensaje</label>
-                <textarea class="form-control h-100" id="message" name="message" style="min-height: 150px;" required></textarea>
+                <textarea class="form-control h-100" id="message" name="message" autocomplete="off" style="min-height: 150px;" required></textarea>
               </div>
 
               <div class="g-recaptcha flex-grow-1 mb-3  mt-4" 

@@ -202,16 +202,16 @@ const services = [
     });
 
     // Observar las cards de servicios con delay escalonado
-    document.querySelectorAll('.service-card').forEach((card, index) => {
-      const cardElem = card as HTMLElement;
-      cardElem.style.opacity = '0';
+    const serviceCards = document.querySelectorAll('.service-card') as NodeListOf<HTMLElement>;
+    serviceCards.forEach((card, index) => {
+      card.style.opacity = '0';
       card.classList.add('animate-initial');
-      cardElem.style.transitionDelay = `${index * 0.1}s`;
+      card.style.transitionDelay = `${index * 0.1}s`;
       observer.observe(card);
     });
 
     // Observar el título
-    const title = document.querySelector('#services-section h2');
+    const title = document.querySelector('#services-section h2') as HTMLElement | null;
     if (title) {
       title.style.opacity = '0';
       title.classList.add('animate-initial');
@@ -219,7 +219,7 @@ const services = [
     }
 
     // Observar el botón de contacto
-    const contactButton = document.querySelector('.contact-button');
+    const contactButton = document.querySelector('.contact-button') as HTMLElement | null;
     if (contactButton) {
       contactButton.style.opacity = '0';
       contactButton.classList.add('animate-initial');
