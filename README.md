@@ -17,4 +17,7 @@ El proyecto incluye un flujo de **contenido evergreen** (artículos que no caduc
 2. En tu repositorio: **Settings → Secrets and variables → Actions**.
 3. Crea un secret llamado `GEMINI_API_KEY` con tu clave.
 
-Así el workflow podrá generar y hacer commit del post cada día.
+Si el workflow genera el post pero **falla al hacer push** con `Permission denied` (403):
+
+4. Crea un **Personal Access Token (PAT)** en GitHub: **Settings (tu cuenta) → Developer settings → Personal access tokens**. Dale permiso **repo** (classic) o **Contents: Read and write** (fine-grained) para este repositorio.
+5. Añade un secret llamado **`REPO_TOKEN`** con el valor del PAT. El workflow usará este token para hacer push y evitará el 403.

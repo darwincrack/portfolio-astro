@@ -11,11 +11,21 @@ on:
 jobs:
   generar-y-publicar:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write   # Necesario para que el bot pueda hacer push del commit
     steps:
+      - name: Comprobar REPO_TOKEN
+        run: |
+          if [ -z "${{ secrets.REPO_TOKEN }}" ]; then
+            echo "::error::Añade el secret REPO_TOKEN (Personal Access Token con permiso repo) en Settings → Secrets → Actions."
+            echo "Crea el PAT en: GitHub → Settings (tu cuenta) → Developer settings → Personal access tokens"
+            exit 1
+          fi
+
       - name: Checkout del repositorio
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.REPO_TOKEN }}
 
       - name: Configurar Node.js
         uses: actions/setup-node@v4
