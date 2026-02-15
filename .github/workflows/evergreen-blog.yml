@@ -1,0 +1,39 @@
+# Publica un post de blog evergreen cada día a las 9:00 (hora España = 8:00 UTC en invierno, 9:00 UTC en verano).
+# Ajusta el cron si quieres otra hora: https://crontab.guru/
+name: Publicar post evergreen
+
+on:
+  schedule:
+    # 9:00 UTC = 10:00 CET (invierno) / 11:00 CEST (verano). Para 9:00 España: 8:00 UTC invierno → 0 8 * * *
+    - cron: '0 8 * * *'
+  workflow_dispatch: # Permite ejecutar manualmente desde la pestaña Actions
+
+jobs:
+  generar-y-publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Generar post evergreen con Gemini
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run evergreen
+
+      - name: Subir cambios (commit y push)
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add src/content/blog/
+          git diff --staged --quiet || (git commit -m "chore(blog): post evergreen automático [skip ci]" && git push)
