@@ -30,7 +30,56 @@ Reglas:
 {"titulo": "string", "descripcion": "string corta para meta description, max 160 caracteres", "cuerpo": "string en markdown con el artículo completo"}
 - El "cuerpo" debe ser el markdown listo para el post (sin incluir el título en el cuerpo).`;
 
-const USER_PROMPT = `Genera un nuevo artículo evergreen sobre tecnología. Elige un tema que priorice inteligencia artificial; si ya has cubierto muchos de IA, elige uno de programación. Asegúrate de que el contenido sea atemporal y útil a largo plazo. Responde solo con el JSON.`;
+const USER_PROMPT = `Genera un nuevo artículo evergreen sobre tecnología. Elige un tema que priorice inteligencia artificial; si ya has cubierto muchos de IA, elige uno de programación. Asegúrate de que el contenido sea atemporal y útil a largo plazo.`;
+
+// Schema para forzar respuesta JSON válida (structured output de Gemini)
+const RESPONSE_SCHEMA = {
+  type: 'object',
+  properties: {
+    titulo: { type: 'string', description: 'Título del artículo' },
+    descripcion: { type: 'string', description: 'Meta description, máximo 160 caracteres' },
+    cuerpo: { type: 'string', description: 'Cuerpo del artículo en Markdown' },
+  },
+  required: ['titulo', 'descripcion', 'cuerpo'],
+};
+
+/**
+ * Parsea la respuesta de Gemini: puede ser JSON puro o envuelto en markdown.
+ * Intenta reparar JSON mal formado (llave suelta, fragmentos).
+ * @param {string} raw
+ * @returns {{ titulo: string, descripcion: string, cuerpo: string }}
+ */
+function parseJsonResponse(raw) {
+  let jsonStr = raw.trim();
+
+  // Quitar bloques ```json ... ```
+  const codeMatch = jsonStr.match(/```(?:json)?\s*([\s\S]*?)```/);
+  if (codeMatch) jsonStr = codeMatch[1].trim();
+
+  // Extraer solo el objeto: desde el primer { hasta el último }
+  const firstBrace = jsonStr.indexOf('{');
+  const lastBrace = jsonStr.lastIndexOf('}');
+  if (firstBrace !== -1 && lastBrace > firstBrace) {
+    jsonStr = jsonStr.slice(firstBrace, lastBrace + 1);
+  }
+
+  // Quitar posibles llaves sueltas al inicio (error típico de Gemini)
+  jsonStr = jsonStr.replace(/^\s*}\s*/, '').trim();
+  if (!jsonStr.startsWith('{')) {
+    jsonStr = '{' + jsonStr;
+  }
+
+  try {
+    const data = JSON.parse(jsonStr);
+    if (!data.titulo || !data.cuerpo) {
+      throw new Error('Faltan titulo o cuerpo en el JSON');
+    }
+    return data;
+  } catch (e) {
+    console.error('La respuesta no es JSON válido. Raw (primeros 400 chars):', raw.slice(0, 400));
+    process.exit(1);
+  }
+}
 
 /**
  * Genera la URL de imagen en Pollinations.ai a partir del título/tema del post.
@@ -63,17 +112,31 @@ async function main() {
   const ai = new GoogleGenAI({ apiKey });
 
   console.log('Generando artículo evergreen con Gemini...');
-  const fullPrompt = `${SYSTEM_PROMPT}\n\n${USER_PROMPT}`;
+  const fullPrompt = `${SYSTEM_PROMPT}\n\n${USER_PROMPT}. Responde solo con un JSON válido: {"titulo": "...", "descripcion": "...", "cuerpo": "..."}.`;
   let raw;
   try {
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: fullPrompt,
+      config: {
+        responseMimeType: 'application/json',
+        responseSchema: RESPONSE_SCHEMA,
+      },
     });
     raw = response?.text?.trim() || '';
   } catch (err) {
-    console.error('Error al llamar a Gemini:', err.message);
-    process.exit(1);
+    // Si el modelo no soporta responseSchema, intentar sin config y reparar el JSON
+    console.warn('Structured output no disponible, usando fallback:', err.message);
+    try {
+      const response = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: fullPrompt,
+      });
+      raw = response?.text?.trim() || '';
+    } catch (err2) {
+      console.error('Error al llamar a Gemini:', err2.message);
+      process.exit(1);
+    }
   }
 
   if (!raw) {
@@ -81,24 +144,9 @@ async function main() {
     process.exit(1);
   }
 
-  // Limpiar posible markdown alrededor del JSON
-  let jsonStr = raw;
-  const codeMatch = raw.match(/```(?:json)?\s*([\s\S]*?)```/);
-  if (codeMatch) jsonStr = codeMatch[1].trim();
-
-  let data;
-  try {
-    data = JSON.parse(jsonStr);
-  } catch (e) {
-    console.error('La respuesta no es JSON válido. Raw:', raw.slice(0, 300));
-    process.exit(1);
-  }
+  const data = parseJsonResponse(raw);
 
   const { titulo, descripcion, cuerpo } = data;
-  if (!titulo || !cuerpo) {
-    console.error('Faltan titulo o cuerpo en la respuesta.');
-    process.exit(1);
-  }
 
   const postSlug = slugify(titulo, { lower: true, strict: true });
   const imageUrl = getPollinationsImageUrl(titulo);
