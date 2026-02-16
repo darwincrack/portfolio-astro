@@ -24,6 +24,7 @@ Reglas:
 - NO escribas sobre noticias recientes, lanzamientos de productos con fecha, ni eventos pasados.
 - NO uses "en 2024", "este año", "últimamente" ni referencias temporales que envejezcan el texto.
 - Sí: conceptos explicados de forma atemporal, "cómo funciona X", "por qué Y", "guía de Z", mejores prácticas, fundamentos.
+- SEO: el contenido debe estar optimizado para buscadores. Usa encabezados descriptivos (H2, H3) que incluyan términos de búsqueda, palabras clave relevantes de forma natural, responde directamente a la intención de búsqueda del lector y evita el keyword stuffing.
 - El artículo debe ser en español, bien estructurado con Markdown (encabezados ##, ###, listas, **negritas**, código si aplica).
 - Longitud: entre 400 y 800 palabras, que aporte valor real.
 - Devuelve ÚNICAMENTE un JSON válido con esta estructura exacta (sin markdown alrededor, sin \`\`\`json):
