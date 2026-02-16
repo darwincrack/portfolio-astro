@@ -1,11 +1,12 @@
-# Publica un post de blog evergreen cada día a las 9:00 (hora España = 8:00 UTC en invierno, 9:00 UTC en verano).
+# Publica un post de blog evergreen dos veces al día (hora Venezuela, UTC-4).
+# 9:00 AM Venezuela = 13:00 UTC | 6:00 PM Venezuela = 22:00 UTC
 # Ajusta el cron si quieres otra hora: https://crontab.guru/
 name: Publicar post evergreen
 
 on:
   schedule:
-    # 9:00 UTC = 10:00 CET (invierno) / 11:00 CEST (verano). Para 9:00 España: 8:00 UTC invierno → 0 8 * * *
-    - cron: '0 8 * * *'
+    - cron: '0 13 * * *'   # 9:00 AM Venezuela
+    - cron: '0 22 * * *'   # 6:00 PM Venezuela
   workflow_dispatch: # Permite ejecutar manualmente desde la pestaña Actions
 
 jobs:
