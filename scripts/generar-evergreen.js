@@ -1,7 +1,7 @@
 /**
  * Script para generar un post de blog evergreen (contenido que no caduca)
  * usando la API de Gemini. Prioridad: IA, luego programación.
- * Las imágenes se obtienen de Pollinations.ai.
+ * Las imágenes se obtienen de Picsum Photos (por seed del título).
  * Uso: GEMINI_API_KEY=xxx node scripts/generar-evergreen.js
  */
 
@@ -82,14 +82,13 @@ function parseJsonResponse(raw) {
 }
 
 /**
- * Genera la URL de imagen en Pollinations.ai a partir del título/tema del post.
- * @param {string} titulo
+ * Genera la URL de imagen del post. Usa Picsum Photos (determinista por slug, sin API key y fiable).
+ * @param {string} titulo - Título del post (se usa para generar un seed único)
  * @returns {string}
  */
-function getPollinationsImageUrl(titulo) {
-  const prompt = `professional blog illustration, technology, ${titulo}, digital art, clean modern style, no text`;
-  const encoded = encodeURIComponent(prompt);
-  return `https://image.pollinations.ai/prompt/${encoded}?width=1200&height=630`;
+function getBlogImageUrl(titulo) {
+  const seed = slugify(titulo, { lower: true, strict: true }) || 'evergreen';
+  return `https://picsum.photos/seed/${seed}/1200/630`;
 }
 
 /**
@@ -149,7 +148,7 @@ async function main() {
   const { titulo, descripcion, cuerpo } = data;
 
   const postSlug = slugify(titulo, { lower: true, strict: true });
-  const imageUrl = getPollinationsImageUrl(titulo);
+  const imageUrl = getBlogImageUrl(titulo);
 
   let frontmatter = '---\n';
   frontmatter += `title: "${escapeYaml(titulo)}"\n`;
@@ -171,7 +170,7 @@ async function main() {
 
   console.log('Post evergreen creado:', filePath);
   console.log('Slug:', postSlug);
-  console.log('URL imagen:', imageUrl);
+  console.log('URL imagen (Picsum):', imageUrl);
 }
 
 main().catch((err) => {

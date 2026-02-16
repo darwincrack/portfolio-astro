@@ -3,7 +3,7 @@ title: "Principios Fundamentales del Aprendizaje Supervisado en Machine Learning
 pubDate: 2026-02-16T00:12:28.165Z
 description: "Explora los conceptos esenciales del aprendizaje supervisado en Machine Learning, cómo funciona, sus tipos principales (clasificación y regresión) y su importancia en IA."
 image:
-  url: "https://image.pollinations.ai/prompt/professional%20blog%20illustration%2C%20technology%2C%20Principios%20Fundamentales%20del%20Aprendizaje%20Supervisado%20en%20Machine%20Learning%2C%20digital%20art%2C%20clean%20modern%20style%2C%20no%20text?width=1200&height=630"
+  url: "https://picsum.photos/seed/principios-fundamentales-del-aprendizaje-supervisado-en-machine-learning/1200/630"
   alt: "Principios Fundamentales del Aprendizaje Supervisado en Machine Learning"
 tags:
   - evergreen
