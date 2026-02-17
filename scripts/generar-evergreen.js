@@ -14,6 +14,43 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const BLOG_DIR = path.join(__dirname, '..', 'src', 'content', 'blog');
 
+/** Días hacia atrás para considerar "temas recientes" y no repetir (evitar overfitting, redes neuronales, etc.). */
+const DIAS_EVITAR_REPETICION = 30;
+
+/**
+ * Lee los títulos de los posts del blog publicados en los últimos N días.
+ * @returns {Promise<string[]>}
+ */
+async function getTitulosRecientes() {
+  let entries;
+  try {
+    entries = await fs.readdir(BLOG_DIR, { withFileTypes: true });
+  } catch (e) {
+    return [];
+  }
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - DIAS_EVITAR_REPETICION);
+  const titulos = [];
+  for (const ent of entries) {
+    if (!ent.isFile() || !ent.name.endsWith('.md')) continue;
+    const filePath = path.join(BLOG_DIR, ent.name);
+    let content;
+    try {
+      content = await fs.readFile(filePath, 'utf8');
+    } catch {
+      continue;
+    }
+    const pubMatch = content.match(/pubDate:\s*(\S+)/);
+    const titleMatch = content.match(/title:\s*"((?:[^"\\]|\\.)*)"/);
+    if (!pubMatch || !titleMatch) continue;
+    const pubDate = new Date(pubMatch[1].trim());
+    if (pubDate >= cutoff) {
+      titulos.push(titleMatch[1].replace(/\\"/g, '"').trim());
+    }
+  }
+  return titulos;
+}
+
 const SYSTEM_PROMPT = `Eres un experto escritor de blogs de tecnología. Tu tarea es crear contenido EVERGREEN: artículos que no caducan con el tiempo, útiles durante años.
 
 Prioridad de temas (en este orden):
@@ -31,7 +68,7 @@ Reglas:
 {"titulo": "string", "descripcion": "string corta para meta description, max 160 caracteres", "cuerpo": "string en markdown con el artículo completo"}
 - El "cuerpo" debe ser el markdown listo para el post (sin incluir el título en el cuerpo).`;
 
-const USER_PROMPT = `Genera un nuevo artículo evergreen sobre tecnología. Elige un tema que priorice inteligencia artificial; si ya has cubierto muchos de IA, elige uno de programación. Asegúrate de que el contenido sea atemporal y útil a largo plazo.`;
+const USER_PROMPT_BASE = `Genera un nuevo artículo evergreen sobre tecnología. Elige un tema que priorice inteligencia artificial; si ya has cubierto muchos de IA, elige uno de programación. Asegúrate de que el contenido sea atemporal y útil a largo plazo.`;
 
 // Schema para forzar respuesta JSON válida (structured output de Gemini)
 const RESPONSE_SCHEMA = {
@@ -111,8 +148,18 @@ async function main() {
 
   const ai = new GoogleGenAI({ apiKey });
 
+  const titulosRecientes = await getTitulosRecientes();
+  let userPrompt = USER_PROMPT_BASE;
+  if (titulosRecientes.length > 0) {
+    userPrompt += `\n\nIMPORTANTE - NO repitas tema: Los siguientes artículos se publicaron en los últimos ${DIAS_EVITAR_REPETICION} días. Elige un tema CLARAMENTE DIFERENTE (no el mismo concepto con otras palabras). Evita sobre todo temas muy similares como "overfitting/underfitting", "redes neuronales", "aprendizaje supervisado", etc. si ya aparecen en la lista:\n- ${titulosRecientes.join('\n- ')}`;
+  }
+  userPrompt += '. Responde solo con un JSON válido: {"titulo": "...", "descripcion": "...", "cuerpo": "..."}.';
+
   console.log('Generando artículo evergreen con Gemini...');
-  const fullPrompt = `${SYSTEM_PROMPT}\n\n${USER_PROMPT}. Responde solo con un JSON válido: {"titulo": "...", "descripcion": "...", "cuerpo": "..."}.`;
+  if (titulosRecientes.length > 0) {
+    console.log(`Evitando repetir temas de ${titulosRecientes.length} post(s) recientes.`);
+  }
+  const fullPrompt = `${SYSTEM_PROMPT}\n\n${userPrompt}`;
   let raw;
   try {
     const response = await ai.models.generateContent({
