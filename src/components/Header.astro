@@ -2,7 +2,6 @@
 // Importar el componente Image de Astro
 import { Image } from 'astro:assets';
 
-import Navigation from './Navigation.astro';
 import ParticlesBackground from './ParticlesBackground.astro';
 import azureBadge from '../images/badges/microsoft-certified-azure-fundamentals.avif';
 import pmBadge from '../images/badges/certificado-de-gestion-de-proyectos-de-google.avif';
@@ -11,7 +10,6 @@ import aiBadge from '../images/badges/google-ai-essentials.avif';
 
 <header class="header">
   <ParticlesBackground/>
-  <Navigation />
 
   <!-- Hero Section -->
   <div class="hero-section">
@@ -790,54 +788,6 @@ import aiBadge from '../images/badges/google-ai-essentials.avif';
     // Ejecutar al hacer scroll
     window.addEventListener('scroll', updateNavbar);
   });
-</script>
-
-<script>
-  function initMobileMenu() {
-    const menuToggle = document.getElementById('menu-toggle');
-    const navLinks = document.getElementById('nav-links');
-    const navLinksItems = document.querySelectorAll('.nav-link');
-
-    // Toggle menu
-    menuToggle?.addEventListener('click', () => {
-      navLinks?.classList.toggle('active');
-      // Cambiar el ícono
-      const icon = menuToggle.querySelector('i');
-      if (icon) {
-        icon.classList.toggle('fa-bars');
-        icon.classList.toggle('fa-times');
-      }
-    });
-
-    // Cerrar menú al hacer click en un enlace
-    navLinksItems.forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks?.classList.remove('active');
-        const icon = menuToggle?.querySelector('i');
-        if (icon) {
-          icon.classList.add('fa-bars');
-          icon.classList.remove('fa-times');
-        }
-      });
-    });
-
-    // Cerrar menú al hacer scroll
-    window.addEventListener('scroll', () => {
-      if (navLinks?.classList.contains('active')) {
-        navLinks.classList.remove('active');
-        const icon = menuToggle?.querySelector('i');
-        if (icon) {
-          icon.classList.add('fa-bars');
-          icon.classList.remove('fa-times');
-        }
-      }
-    });
-  }
-
-  // Inicializar cuando el DOM esté listo
-  document.addEventListener('DOMContentLoaded', initMobileMenu);
-  // Reinicializar cuando Astro complete la navegación
-  document.addEventListener('astro:page-load', initMobileMenu);
 </script>
 
 <script>

@@ -240,69 +240,89 @@ const menuItems = [
 </style>
 
 <script>
-  function initMobileMenu() {
-    const menuToggle = document.getElementById('menu-toggle');
-    const navLinks = document.getElementById('nav-links');
-    
-    if (!menuToggle || !navLinks) {
-      console.log('Elementos del menú no encontrados');
-      return;
-    }
-
-    // Remover listeners anteriores para evitar duplicados
-    const newMenuToggle = menuToggle.cloneNode(true) as HTMLElement;
-    menuToggle.parentNode.replaceChild(newMenuToggle, menuToggle);
-
-    // Agregar nuevo listener
-    newMenuToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-      const icon = newMenuToggle.querySelector('i');
-      if (icon) {
-        icon.classList.toggle('fa-bars');
-        icon.classList.toggle('fa-times');
+  (function() {
+    function initMobileMenu() {
+      const menuToggle = document.getElementById('menu-toggle');
+      const navLinks = document.getElementById('nav-links');
+      
+      if (!menuToggle || !navLinks) {
+        return;
       }
-    });
 
-    // Cerrar menú al hacer click en enlaces
-    const navLinksItems = document.querySelectorAll('.nav-link');
-    navLinksItems.forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-        const icon = newMenuToggle.querySelector('i');
+      // Verificar si ya fue inicializado
+      if (menuToggle.dataset.initialized === 'true') {
+        return;
+      }
+      menuToggle.dataset.initialized = 'true';
+
+      // Toggle del menú
+      menuToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const isActive = navLinks.classList.contains('active');
+        
+        if (isActive) {
+          navLinks.classList.remove('active');
+        } else {
+          navLinks.classList.add('active');
+        }
+        
+        const icon = this.querySelector('i');
         if (icon) {
-          icon.classList.add('fa-bars');
-          icon.classList.remove('fa-times');
+          if (isActive) {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          } else {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+          }
         }
       });
-    });
 
-    // Cerrar menú al hacer scroll
-    window.addEventListener('scroll', () => {
-      if (navLinks.classList.contains('active')) {
-        navLinks.classList.remove('active');
-        const icon = newMenuToggle.querySelector('i');
-        if (icon) {
-          icon.classList.add('fa-bars');
-          icon.classList.remove('fa-times');
+      // Cerrar menú al hacer click en enlaces
+      const navLinksItems = navLinks.querySelectorAll('.nav-link');
+      navLinksItems.forEach(function(link) {
+        link.addEventListener('click', function() {
+          navLinks.classList.remove('active');
+          const icon = menuToggle.querySelector('i');
+          if (icon) {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          }
+        });
+      });
+
+      // Cerrar menú al hacer click fuera
+      document.addEventListener('click', function(e) {
+        const target = e.target;
+        if (!menuToggle.contains(target) && !navLinks.contains(target)) {
+          if (navLinks.classList.contains('active')) {
+            navLinks.classList.remove('active');
+            const icon = menuToggle.querySelector('i');
+            if (icon) {
+              icon.classList.remove('fa-times');
+              icon.classList.add('fa-bars');
+            }
+          }
         }
+      });
+    }
+
+    // Inicializar inmediatamente si el DOM ya está listo
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMobileMenu);
+    } else {
+      initMobileMenu();
+    }
+    
+    // También inicializar en navegación de Astro
+    document.addEventListener('astro:page-load', function() {
+      const menuToggle = document.getElementById('menu-toggle');
+      if (menuToggle) {
+        menuToggle.dataset.initialized = 'false';
       }
+      initMobileMenu();
     });
-  }
-
-  // Función para inicializar todo
-  function init() {
-    initMobileMenu();
-    console.log('Menu móvil inicializado');
-  }
-
-  // Inicializar cuando el DOM esté listo
-  document.addEventListener('DOMContentLoaded', init);
-  
-  // Reinicializar cuando Astro complete la navegación
-  document.addEventListener('astro:page-load', init);
-  
-  // Asegurarse de que se ejecute también en la carga inicial
-  if (document.readyState === 'complete') {
-    init();
-  }
+  })();
 </script> 
