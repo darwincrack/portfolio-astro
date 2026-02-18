@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /admin/generar-post
 
-# Sitemap
+# Sitemaps (índice general + blog con todos los posts, incluidos los automáticos)
 Sitemap: https://darwincd.com/sitemap-index.xml
+Sitemap: https://darwincd.com/sitemap-blog.xml
