@@ -13,6 +13,7 @@ const services = [
 ];
 
 const RECAPTCHA_SITE_KEY = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY || '6Lf22YkqAAAAAI3bpWLQB0_UYS3HWEHQ5THo1ZjC';
+const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || '';
 ---
 
 <section id="contact-section" class="py-5">
@@ -28,6 +29,18 @@ const RECAPTCHA_SITE_KEY = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY || '6Lf22Yk
             <p class="lead mb-4">
               Estoy aquí para ayudarte a hacer realidad tu visión digital. Contáctame por cualquiera de estos medios:
             </p>
+
+            {CALENDLY_URL && (
+              <a
+                href={CALENDLY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-calendly mb-4"
+              >
+                <i class="fas fa-calendar-check me-2"></i>
+                Agendar consulta gratuita de 15 min
+              </a>
+            )}
 
             <div class="contact-methods mb-4">
               <div class="contact-method mb-3">
@@ -249,6 +262,28 @@ const RECAPTCHA_SITE_KEY = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY || '6Lf22Yk
   .contact-form .btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+  }
+
+  /* Botón CTA Calendly */
+  .btn-calendly {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    color: #fff !important;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    width: 100%;
+  }
+
+  .btn-calendly:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.35);
+    color: #fff !important;
   }
 
   /* Estilos para el botón de WhatsApp */
