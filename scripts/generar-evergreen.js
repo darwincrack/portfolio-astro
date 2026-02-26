@@ -13,6 +13,7 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const BLOG_DIR = path.join(__dirname, '..', 'src', 'content', 'blog');
+const EJEMPLOS_TONO = path.join(__dirname, 'ejemplos-tono-blog.md');
 
 /** Días hacia atrás para considerar "temas recientes" y no repetir (evitar overfitting, redes neuronales, etc.). */
 const DIAS_EVITAR_REPETICION = 30;
@@ -60,6 +61,22 @@ async function getAllBlogPosts() {
     });
   }
   return posts.sort((a, b) => b.pubDate - a.pubDate);
+}
+
+/**
+ * Lee el documento de ejemplos de tono para inyectarlo en el prompt.
+ * @returns {Promise<string>}
+ */
+async function getEjemplosTono() {
+  try {
+    const content = await fs.readFile(EJEMPLOS_TONO, 'utf8');
+    // Extraer solo las secciones EVITAR y USAR (sin el encabezado del doc)
+    const evitar = content.match(/## ❌ EVITAR[\s\S]*?(?=## ✅ USAR|$)/)?.[0]?.trim() || '';
+    const usar = content.match(/## ✅ USAR[\s\S]*?(?=## Resumen|$)/)?.[0]?.trim() || '';
+    return [evitar, usar].filter(Boolean).join('\n\n');
+  } catch {
+    return '';
+  }
 }
 
 const SYSTEM_PROMPT = `Eres un desarrollador con años de experiencia que escribe artículos para su blog personal. No eres un asistente genérico: escribes con TU voz, desde TU experiencia, dando TU opinión. El contenido debe parecer escrito por un humano experto, no por IA.
@@ -212,7 +229,12 @@ async function main() {
   if (postsParaEnlazar.length > 0) {
     console.log(`${postsParaEnlazar.length} posts disponibles para enlaces internos.`);
   }
-  const fullPrompt = `${SYSTEM_PROMPT}\n\n${userPrompt}`;
+
+  const ejemplosTono = await getEjemplosTono();
+  const systemPrompt = ejemplosTono
+    ? `${SYSTEM_PROMPT}\n\nREFERENCIA DE TONO (ejemplos concretos de qué evitar y qué usar):\n\n${ejemplosTono}`
+    : SYSTEM_PROMPT;
+  const fullPrompt = `${systemPrompt}\n\n${userPrompt}`;
   let raw;
   try {
     const response = await ai.models.generateContent({
