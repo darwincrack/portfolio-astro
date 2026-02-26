@@ -22,17 +22,27 @@ const DIAS_EVITAR_REPETICION = 30;
  * @returns {Promise<string[]>}
  */
 async function getTitulosRecientes() {
+  const posts = await getAllBlogPosts();
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - DIAS_EVITAR_REPETICION);
+  return posts.filter((p) => p.pubDate >= cutoff).map((p) => p.title);
+}
+
+/**
+ * Lee todos los posts del blog con título, slug y fecha para enlaces internos.
+ * @returns {Promise<{ title: string, slug: string, pubDate: Date }[]>}
+ */
+async function getAllBlogPosts() {
   let entries;
   try {
     entries = await fs.readdir(BLOG_DIR, { withFileTypes: true });
   } catch (e) {
     return [];
   }
-  const cutoff = new Date();
-  cutoff.setDate(cutoff.getDate() - DIAS_EVITAR_REPETICION);
-  const titulos = [];
+  const posts = [];
   for (const ent of entries) {
     if (!ent.isFile() || !ent.name.endsWith('.md')) continue;
+    const slug = ent.name.replace(/\.md$/, '');
     const filePath = path.join(BLOG_DIR, ent.name);
     let content;
     try {
@@ -42,33 +52,53 @@ async function getTitulosRecientes() {
     }
     const pubMatch = content.match(/pubDate:\s*(\S+)/);
     const titleMatch = content.match(/title:\s*"((?:[^"\\]|\\.)*)"/);
-    if (!pubMatch || !titleMatch) continue;
-    const pubDate = new Date(pubMatch[1].trim());
-    if (pubDate >= cutoff) {
-      titulos.push(titleMatch[1].replace(/\\"/g, '"').trim());
-    }
+    if (!titleMatch) continue;
+    posts.push({
+      title: titleMatch[1].replace(/\\"/g, '"').trim(),
+      slug,
+      pubDate: pubMatch ? new Date(pubMatch[1].trim()) : new Date(0),
+    });
   }
-  return titulos;
+  return posts.sort((a, b) => b.pubDate - a.pubDate);
 }
 
-const SYSTEM_PROMPT = `Eres un experto escritor de blogs de tecnología. Tu tarea es crear contenido EVERGREEN: artículos que no caducan con el tiempo, útiles durante años.
+const SYSTEM_PROMPT = `Eres un desarrollador con años de experiencia que escribe artículos para su blog personal. No eres un asistente genérico: escribes con TU voz, desde TU experiencia, dando TU opinión. El contenido debe parecer escrito por un humano experto, no por IA.
 
-Prioridad de temas (en este orden):
-1. Inteligencia artificial: conceptos, buenas prácticas, tutoriales atemporales, fundamentos de ML/IA, ética en IA, herramientas de IA para desarrolladores, patrones que no pasan de moda.
-2. Programación: fundamentos, patrones de diseño, buenas prácticas, conceptos de lenguajes, arquitectura de software, testing, refactoring, código limpio.
+VOZ Y ESTILO:
+- Usa primera persona ("En mi experiencia...", "Me sorprendió...", "Yo evito...") cuando aporte valor.
+- Da opiniones claras: qué te funciona, qué no, qué recomiendas y por qué.
+- Varía la estructura: no siempre intro → secciones → conclusión. Algunos artículos pueden empezar con una anécdota, una pregunta incómoda, o ir directo al grano.
+- Longitud variable: entre 350 y 1000 palabras. Adapta la extensión al tema.
+- NUNCA uses frases típicas de contenido IA: evita "descubre", "explora", "en conclusión", "en el mundo de", "en el ámbito de", "sin duda", "en resumen" al inicio, "este artículo profundiza en", "mantente atento", "da los primeros pasos" de forma genérica.
+- Escribe como alguien que ha debuggeado esto a las 3am, tiene preferencias fuertes y no teme compartirlas.
 
-Reglas:
-- NO escribas sobre noticias recientes, lanzamientos de productos con fecha, ni eventos pasados.
-- NO uses "en 2024", "este año", "últimamente" ni referencias temporales que envejezcan el texto.
-- Sí: conceptos explicados de forma atemporal, "cómo funciona X", "por qué Y", "guía de Z", mejores prácticas, fundamentos.
-- SEO: el contenido debe estar optimizado para buscadores. Usa encabezados descriptivos (H2, H3) que incluyan términos de búsqueda, palabras clave relevantes de forma natural, responde directamente a la intención de búsqueda del lector y evita el keyword stuffing.
-- El artículo debe ser en español, bien estructurado con Markdown (encabezados ##, ###, listas, **negritas**, código si aplica).
-- Longitud: entre 400 y 800 palabras, que aporte valor real.
-- Devuelve ÚNICAMENTE un JSON válido con esta estructura exacta (sin markdown alrededor, sin \`\`\`json):
-{"titulo": "string", "descripcion": "string corta para meta description, max 160 caracteres", "cuerpo": "string en markdown con el artículo completo"}
-- El "cuerpo" debe ser el markdown listo para el post (sin incluir el título en el cuerpo).`;
+PRIORIDAD DE TEMAS (elige según qué falte en el blog):
+1. Inteligencia artificial y ML: fundamentos, conceptos atemporales, buenas prácticas, ética.
+2. Agentes de IA: qué son, cómo funcionan, cuándo usarlos, límites.
+3. Programación: fundamentos (variables, tipos, control de flujo), lenguajes (características, cuándo elegir cada uno), patrones, testing, código limpio.
+4. Arquitectura, DevOps, herramientas que no caducan.
 
-const USER_PROMPT_BASE = `Genera un nuevo artículo evergreen sobre tecnología. Elige un tema que priorice inteligencia artificial; si ya has cubierto muchos de IA, elige uno de programación. Asegúrate de que el contenido sea atemporal y útil a largo plazo.`;
+CONTENIDO EVERGREEN:
+- NO noticias, lanzamientos con fecha, ni eventos pasados.
+- NO "en 2024", "este año", "últimamente".
+- SÍ: conceptos que sigan siendo válidos dentro de 5 años.
+
+ENLACES INTERNOS:
+- Si te proporcionan una lista de artículos ya publicados, incluye 1-3 enlaces internos en el cuerpo donde tenga sentido referenciarlos.
+- Formato: [Texto del enlace](/blog/slug-del-articulo/)
+- Solo enlaza si la referencia es natural y aporta valor (ampliar un concepto, post relacionado).
+
+SEO:
+- Encabezados descriptivos (##, ###), palabras clave de forma natural, responde la intención de búsqueda.
+- Evita keyword stuffing.
+
+FORMATO:
+- Español, Markdown (encabezados, listas, **negritas**, código si aplica).
+- Devuelve ÚNICAMENTE un JSON válido (sin markdown alrededor, sin \`\`\`json):
+{"titulo": "string", "descripcion": "string corta para meta description, max 160 caracteres", "cuerpo": "string en markdown con el artículo completo", "tags": ["evergreen", "ia"] o ["evergreen", "programacion"] según el tema}
+- El "cuerpo" es el markdown listo para el post (sin incluir el título en el cuerpo).`;
+
+const USER_PROMPT_BASE = `Genera un nuevo artículo evergreen. Prioriza IA y agentes de IA; si ya hay muchos, elige fundamentos de programación, lenguajes o conceptos atemporales de desarrollo. Escribe con voz personal, da tu opinión, varía la estructura. Que sea útil dentro de 5 años.`;
 
 // Schema para forzar respuesta JSON válida (structured output de Gemini)
 const RESPONSE_SCHEMA = {
@@ -77,6 +107,11 @@ const RESPONSE_SCHEMA = {
     titulo: { type: 'string', description: 'Título del artículo' },
     descripcion: { type: 'string', description: 'Meta description, máximo 160 caracteres' },
     cuerpo: { type: 'string', description: 'Cuerpo del artículo en Markdown' },
+    tags: {
+      type: 'array',
+      items: { type: 'string' },
+      description: 'Tags como evergreen, ia, programacion, agentes',
+    },
   },
   required: ['titulo', 'descripcion', 'cuerpo'],
 };
@@ -148,16 +183,34 @@ async function main() {
 
   const ai = new GoogleGenAI({ apiKey });
 
-  const titulosRecientes = await getTitulosRecientes();
+  const [titulosRecientes, todosLosPosts] = await Promise.all([
+    getTitulosRecientes(),
+    getAllBlogPosts(),
+  ]);
+
   let userPrompt = USER_PROMPT_BASE;
+
   if (titulosRecientes.length > 0) {
-    userPrompt += `\n\nIMPORTANTE - NO repitas tema: Los siguientes artículos se publicaron en los últimos ${DIAS_EVITAR_REPETICION} días. Elige un tema CLARAMENTE DIFERENTE (no el mismo concepto con otras palabras). Evita sobre todo temas muy similares como "overfitting/underfitting", "redes neuronales", "aprendizaje supervisado", etc. si ya aparecen en la lista:\n- ${titulosRecientes.join('\n- ')}`;
+    userPrompt += `\n\nNO repitas tema: Estos artículos son recientes. Elige algo CLARAMENTE DIFERENTE:\n- ${titulosRecientes.join('\n- ')}`;
   }
-  userPrompt += '. Responde solo con un JSON válido: {"titulo": "...", "descripcion": "...", "cuerpo": "..."}.';
+
+  // Lista de posts para enlaces internos (últimos 40, más relevantes para enlazar)
+  const postsParaEnlazar = todosLosPosts.slice(0, 40);
+  if (postsParaEnlazar.length > 0) {
+    const listaEnlaces = postsParaEnlazar
+      .map((p) => `- "${p.title}" → slug: ${p.slug}`)
+      .join('\n');
+    userPrompt += `\n\nARTÍCULOS DEL BLOG (para enlaces internos): Incluye 1-3 enlaces en formato [texto](/blog/slug/) cuando sea natural y aporte valor. Usa estos slugs:\n${listaEnlaces}`;
+  }
+
+  userPrompt += '.\n\nResponde solo con JSON: {"titulo": "...", "descripcion": "...", "cuerpo": "..."}.';
 
   console.log('Generando artículo evergreen con Gemini...');
   if (titulosRecientes.length > 0) {
     console.log(`Evitando repetir temas de ${titulosRecientes.length} post(s) recientes.`);
+  }
+  if (postsParaEnlazar.length > 0) {
+    console.log(`${postsParaEnlazar.length} posts disponibles para enlaces internos.`);
   }
   const fullPrompt = `${SYSTEM_PROMPT}\n\n${userPrompt}`;
   let raw;
@@ -193,7 +246,8 @@ async function main() {
 
   const data = parseJsonResponse(raw);
 
-  const { titulo, descripcion, cuerpo } = data;
+  const { titulo, descripcion, cuerpo, tags } = data;
+  const tagsList = Array.isArray(tags) && tags.length > 0 ? tags : ['evergreen', 'ia'];
 
   const postSlug = slugify(titulo, { lower: true, strict: true });
   const imageUrl = getBlogImageUrl(titulo);
@@ -206,8 +260,9 @@ async function main() {
   frontmatter += `  url: "${imageUrl}"\n`;
   frontmatter += `  alt: "${escapeYaml(titulo)}"\n`;
   frontmatter += 'tags:\n';
-  frontmatter += '  - evergreen\n';
-  frontmatter += '  - ia\n';
+  for (const tag of tagsList) {
+    frontmatter += `  - ${tag}\n`;
+  }
   frontmatter += '---\n\n';
 
   const fileContent = frontmatter + (cuerpo || '').trim() + '\n';
