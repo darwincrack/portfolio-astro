@@ -134,13 +134,21 @@
     instances.forEach(instance => instance.destroy());
   };
 
+  // Inicializar partículas después de que la página esté lista (no bloquear LCP)
+  const scheduleParticles = () => {
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => initParticles(), { timeout: 2000 });
+    } else {
+      window.addEventListener('load', () => setTimeout(initParticles, 0));
+    }
+  };
+
   document.addEventListener('astro:before-swap', cleanupParticles);
-  document.addEventListener('astro:after-swap', initParticles);
+  document.addEventListener('astro:after-swap', scheduleParticles);
   
-  // Inicialización inicial
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initParticles);
+    document.addEventListener('DOMContentLoaded', scheduleParticles);
   } else {
-    initParticles();
+    scheduleParticles();
   }
 </script> 

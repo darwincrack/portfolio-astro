@@ -75,11 +75,12 @@ import Footer from '../components/Footer.astro';
 <html lang="es" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
     
-    {/* Preconnect para recursos externos */}
+    {/* Preconnect solo a orígenes críticos (analytics) */}
     <link rel="preconnect" href="https://www.googletagmanager.com" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
     
     {/* Favicon */}
@@ -93,7 +94,7 @@ import Footer from '../components/Footer.astro';
     <title>{optimizedTitle}</title>
     <meta name="description" content={description} />
     <meta name="author" content="Darwin Cedeño">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
     
     {/* Open Graph / Facebook */}
     <meta property="og:type" content={type}>
@@ -170,7 +171,65 @@ import Footer from '../components/Footer.astro';
       }
     })} />
 
+    {/* Schema.org - Organization (para SEO y rich results) */}
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Darwin Cedeño",
+      "url": "https://darwincd.com",
+      "logo": "https://darwincd.com/logodc.jpg",
+      "description": "Desarrollador web freelance en Venezuela. Experto en PHP, JavaScript, WordPress, Laravel, React y Node.js.",
+      "sameAs": [
+        "https://github.com/darwincrack/",
+        "https://www.linkedin.com/in/darwincrack/",
+        "https://www.instagram.com/darwinc.dev/"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "contacto@darwincd.com",
+        "contactType": "customer service",
+        "areaServed": "VE"
+      }
+    })} />
+
     <style is:global>
+      /* Skip link (accesibilidad) */
+      .skip-link {
+        position: absolute;
+        top: -100px;
+        left: 1rem;
+        z-index: 10000;
+        padding: 0.75rem 1.25rem;
+        background: var(--gradient-2);
+        color: #fff;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 0.5rem;
+        transition: top 0.2s ease;
+      }
+      .skip-link:focus {
+        top: 1rem;
+        outline: 2px solid #0ea5e9;
+        outline-offset: 2px;
+      }
+
+      /* Focus visible (accesibilidad teclado) */
+      :focus { outline: none; }
+      :focus-visible {
+        outline: 2px solid #0ea5e9;
+        outline-offset: 2px;
+      }
+
+      /* Respetar preferencia de movimiento reducido */
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+        html { scroll-behavior: auto; }
+      }
+
       :root[data-theme="light"] {
         --primary-bg: #f8fafc;
         --secondary-bg: #f1f5f9;
@@ -223,8 +282,13 @@ import Footer from '../components/Footer.astro';
 
   gtag('config', 'G-320P4MZGS0');
 </script>
+<script>
+  import { reportWebVitals } from '../scripts/web-vitals';
+  reportWebVitals();
+</script>
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
     <Navigation />
     <slot />
     <Footer />

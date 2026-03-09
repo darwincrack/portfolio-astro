@@ -10,22 +10,22 @@ const menuItems = [
 ];
 ---
 
-<nav class="navbar">
+<nav class="navbar" aria-label="Navegación principal">
   <div class="container">
     <div class="navbar-content">
-      <a href="/" class="logo">
+      <a href="/" class="logo" aria-label="Darwin Cedeño - Inicio">
         <span class="logo-text">DC</span>
       </a>
       <div class="nav-container">
-        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
-          <i class="fas fa-bars"></i>
+        <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="nav-links">
+          <i class="fas fa-bars" aria-hidden="true"></i>
         </button>
         <div class="nav-links" id="nav-links">
           {menuItems.map(item => (
             <a href={item.href} class="nav-link">{item.label}</a>
           ))}
-          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-            <i class="fa-regular fa-sun"></i>
+          <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Cambiar entre tema claro y oscuro">
+            <i class="fa-regular fa-sun" aria-hidden="true"></i>
           </button>
         </div>
       </div>
@@ -264,8 +264,10 @@ const menuItems = [
         
         if (isActive) {
           navLinks.classList.remove('active');
+          menuToggle.setAttribute('aria-expanded', 'false');
         } else {
           navLinks.classList.add('active');
+          menuToggle.setAttribute('aria-expanded', 'true');
         }
         
         const icon = this.querySelector('i');
@@ -285,6 +287,7 @@ const menuItems = [
       navLinksItems.forEach(function(link) {
         link.addEventListener('click', function() {
           navLinks.classList.remove('active');
+          menuToggle.setAttribute('aria-expanded', 'false');
           const icon = menuToggle.querySelector('i');
           if (icon) {
             icon.classList.remove('fa-times');
@@ -295,10 +298,11 @@ const menuItems = [
 
       // Cerrar menú al hacer click fuera
       document.addEventListener('click', function(e) {
-        const target = e.target;
-        if (!menuToggle.contains(target) && !navLinks.contains(target)) {
+        const target = e.target as Node | null;
+        if (target && !menuToggle.contains(target) && !navLinks.contains(target)) {
           if (navLinks.classList.contains('active')) {
             navLinks.classList.remove('active');
+            menuToggle.setAttribute('aria-expanded', 'false');
             const icon = menuToggle.querySelector('i');
             if (icon) {
               icon.classList.remove('fa-times');

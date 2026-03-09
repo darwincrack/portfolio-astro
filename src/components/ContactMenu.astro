@@ -8,14 +8,14 @@ const contactOptions = [
 
 <div class="contact-menu">
   <div class="contact-wrapper">
-    <button class="contact-toggle">
-      <i class="fas fa-comments"></i>
+    <button type="button" class="contact-toggle" aria-label="Abrir menú de contacto (WhatsApp, email, teléfono)" aria-expanded="false" aria-haspopup="true" id="contact-menu-toggle">
+      <i class="fas fa-comments" aria-hidden="true"></i>
     </button>
     
-    <div class="contact-options">
+    <div class="contact-options" id="contact-options" aria-label="Opciones de contacto">
       {contactOptions.map(option => (
-        <a href={option.url} class="contact-option" target="_blank" rel="noopener">
-          <i class={option.icon}></i>
+        <a href={option.url} class="contact-option" target="_blank" rel="noopener noreferrer">
+          <i class={option.icon} aria-hidden="true"></i>
           <span>{option.label}</span>
         </a>
       ))}
@@ -95,7 +95,8 @@ const contactOptions = [
     color: white;
   }
 
-  .contact-wrapper:hover .contact-options {
+  .contact-wrapper:hover .contact-options,
+  .contact-options.open {
     opacity: 1;
     transform: translateY(0);
     pointer-events: all;
@@ -124,26 +125,36 @@ const contactOptions = [
   function initContactMenu() {
     const contactMenu = document.querySelector('.contact-menu');
     const contactBtn = document.querySelector('.contact-btn');
-    
-    if (!contactMenu || !contactBtn) {
-      console.log('No se encontraron los elementos necesarios');
-      return;
+    const contactToggle = document.getElementById('contact-menu-toggle');
+    const contactOptions = document.getElementById('contact-options');
+
+    if (!contactMenu) return;
+
+    if (contactBtn) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) {
+            contactMenu.classList.add('visible');
+          } else {
+            contactMenu.classList.remove('visible');
+          }
+        });
+      }, { threshold: 0, rootMargin: '-50px 0px 0px 0px' });
+      observer.observe(contactBtn);
     }
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) {
-          contactMenu.classList.add('visible');
-        } else {
-          contactMenu.classList.remove('visible');
+    if (contactToggle && contactOptions) {
+      contactToggle.addEventListener('click', function() {
+        const open = contactOptions.classList.toggle('open');
+        contactToggle.setAttribute('aria-expanded', String(open));
+      });
+      contactToggle.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          contactToggle.click();
         }
       });
-    }, {
-      threshold: 0,
-      rootMargin: '-50px 0px 0px 0px'
-    });
-
-    observer.observe(contactBtn);
+    }
   }
 
   document.addEventListener('DOMContentLoaded', initContactMenu);
