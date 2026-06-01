@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "evergreen": "node scripts/generar-evergreen.js"
+    "evergreen": "node scripts/generar-evergreen.js",
+    "optimize-project-images": "node scripts/optimize-project-images.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.4.1",
