@@ -1,7 +1,4 @@
 ---
-// Importar el componente Image
-import { Image } from 'astro:assets';
-
 // Importar imágenes
 import project1 from '../images/project1.avif';
 import project2 from '../images/project2.avif';
@@ -264,6 +261,19 @@ const projects = [
 // Ordenar proyectos por prioridad
 const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
 
+// Datos serializables para el modal (URLs estáticas, sin /_image en runtime)
+const projectsForClient = sortedProjects.map((project) => ({
+  title: project.title,
+  description: project.description,
+  detailedDescription: project.detailedDescription,
+  tags: project.tags,
+  link: project.link,
+  github: project.github,
+  type: project.type,
+  image: project.image ? { src: project.image.src } : null,
+  additionalImages: project.additionalImages?.map((img) => ({ src: img.src })) ?? [],
+}));
+
 // Obtener tipos únicos de proyectos
 const projectTypes = [...new Set(projects.map(project => project.type || 'fullstack'))];
 
@@ -301,17 +311,15 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
         <div class="project-card" data-index={index} title={project.title} data-type={project.type || 'fullstack'}>
           <div class={`project-image ${!project.image ? 'no-image' : ''}`}>
             {project.image ? (
-              <Image 
-                src={project.image} 
+              <img
+                src={project.image.src}
                 alt={`Captura de pantalla del proyecto ${project.title} - ${project.description}`}
                 width={800}
                 height={450}
-                loading={index < 6 ? "eager" : "lazy"}
-                decoding={index < 6 ? "sync" : "async"}
+                loading="eager"
+                fetchpriority={index < 6 ? "high" : "low"}
+                decoding="async"
                 class="project-img"
-                format="avif"
-                quality={90}
-                densities={[1, 2]}
               />
             ) : (
               <div class="pattern-overlay"></div>
@@ -459,6 +467,12 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
     background-size: 200% 100%;
     animation: 1.5s shine linear infinite;
     z-index: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .project-image.is-loaded::before {
+    opacity: 0;
+    pointer-events: none;
   }
 
   .project-image img {
@@ -469,6 +483,7 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
+    z-index: 1;
   }
 
   @keyframes shine {
@@ -894,10 +909,10 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
 
 </style>
 
-<script define:vars={{ sortedProjects }}>
+<script define:vars={{ projectsForClient }}>
   let currentProject = null;
   let currentSlide = 0;
-  const projects = sortedProjects;
+  const projects = projectsForClient;
 
   function openProjectModal(index) {
     currentProject = projects[index];
@@ -921,7 +936,8 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
     const allImages = [currentProject.image, ...(currentProject.additionalImages || [])];
     allImages.forEach((image, i) => {
       const img = document.createElement('img');
-      img.src = image.src || image.default;
+      img.src = image?.src ?? '';
+      img.loading = 'eager';
       img.alt = i === 0 
         ? `Vista principal del proyecto ${currentProject.title}: ${currentProject.description}`
         : `Vista adicional ${i + 1} del proyecto ${currentProject.title}`;
@@ -1068,6 +1084,14 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
     }
   }
 
+  function markLoadedProjectImages() {
+    document.querySelectorAll('.project-image img').forEach((img) => {
+      const markLoaded = () => img.closest('.project-image')?.classList.add('is-loaded');
+      if (img.complete) markLoaded();
+      else img.addEventListener('load', markLoaded, { once: true });
+    });
+  }
+
   // Inicializar proyectos
   function initProjectsGrid() {
     const projectsGrid = document.querySelector('.projects-grid');
@@ -1075,6 +1099,8 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
     const projectCards = document.querySelectorAll('.project-card');
     let visibleCount = 6;
     const increment = 3;
+
+    markLoadedProjectImages();
 
     // Agregar event listeners a los botones de filtro
     document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -1126,8 +1152,8 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
         const newVisibleCount = visibleCount + increment;
         projectCards.forEach((card, index) => {
           if (index >= visibleCount && index < newVisibleCount) {
-            animateProject(card, (index - visibleCount) * 0.1);
             card.style.display = 'block';
+            card.classList.add('visible', 'animate-in');
           }
         });
         visibleCount = newVisibleCount;
