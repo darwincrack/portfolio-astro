@@ -1,0 +1,403 @@
+---
+export const prerender = false;
+
+import Layout from '../../layouts/Layout.astro';
+import { getAllProjects, getProjectBySlug, getProjectTypeLabel } from '../../lib/projects';
+
+const { slug } = Astro.params;
+const project = slug ? await getProjectBySlug(slug) : undefined;
+
+if (!project) {
+  Astro.response.status = 404;
+}
+
+const allProjects = project ? await getAllProjects() : [];
+const galleryImages = project?.additionalImages ?? [];
+
+const relatedProjects = project
+  ? allProjects
+      .filter((entry) => entry.slug !== project.slug && entry.type === project.type)
+      .slice(0, 3)
+  : [];
+
+const siteUrl = 'https://darwincd.com';
+const projectUrl = project ? `${siteUrl}/proyectos/${project.slug}/` : siteUrl;
+const ogImage = project?.image ? `${siteUrl}${project.image.src}` : `${siteUrl}/logodc.jpg`;
+
+const projectSchema = project
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'CreativeWork',
+      name: project.title,
+      description: project.description,
+      url: projectUrl,
+      image: ogImage,
+      author: {
+        '@type': 'Person',
+        name: 'Darwin Cedeño',
+        url: siteUrl,
+      },
+    }
+  : null;
+
+const breadcrumbSchema = project
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: siteUrl },
+        { '@type': 'ListItem', position: 2, name: 'Proyectos', item: `${siteUrl}/#projects-section` },
+        { '@type': 'ListItem', position: 3, name: project.title, item: projectUrl },
+      ],
+    }
+  : null;
+---
+
+{!project ? (
+  <Layout title="Proyecto no encontrado" description="El proyecto solicitado no existe." robots="noindex, nofollow">
+    <main class="project-page">
+      <div class="container" style="text-align: center; padding: 4rem 0;">
+        <h1>Proyecto no encontrado</h1>
+        <p><a href="/#projects-section">Volver a proyectos</a></p>
+      </div>
+    </main>
+  </Layout>
+) : (
+<Layout
+  title={`${project.title} - Proyecto | Darwin Cedeño`}
+  description={project.description}
+  image={ogImage}
+  type="article"
+>
+  {projectSchema && <script type="application/ld+json" set:html={JSON.stringify(projectSchema)} />}
+  {breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />}
+
+  <main class="project-page">
+    <div class="container">
+      <nav aria-label="Breadcrumb" class="breadcrumb">
+        <ol>
+          <li><a href="/">Inicio</a></li>
+          <li>/</li>
+          <li><a href="/#projects-section">Proyectos</a></li>
+          <li>/</li>
+          <li aria-current="page">{project.title}</li>
+        </ol>
+      </nav>
+
+      <header class="project-header">
+        <span class="project-type">{getProjectTypeLabel(project.type)}</span>
+        <h1>{project.title}</h1>
+        <p class="lead">{project.description}</p>
+        <div class="project-tags">
+          {project.tags.map((tag) => (
+            <span class="tag">{tag}</span>
+          ))}
+        </div>
+        <div class="project-actions">
+          {project.link && (
+            <a href={project.link} target="_blank" rel="noopener noreferrer" class="btn btn-light">
+              Ver sitio en vivo
+            </a>
+          )}
+          {project.github && (
+            <a href={project.github} target="_blank" rel="noopener noreferrer" class="btn btn-github">
+              <i class="fab fa-github"></i> GitHub
+            </a>
+          )}
+          <a href="/#projects-section" class="btn btn-outline">Todos los proyectos</a>
+        </div>
+      </header>
+
+      {galleryImages.length > 0 && (
+        <section class="project-gallery" aria-label="Galería del proyecto">
+          {galleryImages.map((image, index) => (
+            <figure class={`gallery-item ${index === 0 ? 'gallery-cover' : ''}`}>
+              <img
+                src={image.src}
+                alt={`${project.title} - captura ${index + 1}`}
+                width={800}
+                height={450}
+                loading={index === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+              />
+            </figure>
+          ))}
+        </section>
+      )}
+
+      {project.bodyHtml && (
+        <article class="project-content prose" set:html={project.bodyHtml} />
+      )}
+    </div>
+
+    {relatedProjects.length > 0 && (
+      <section class="related-projects" aria-label="Proyectos relacionados">
+        <div class="container">
+          <h2>Proyectos relacionados</h2>
+          <div class="related-grid">
+            {relatedProjects.map((related) => (
+              <a href={`/proyectos/${related.slug}/`} class="related-card">
+                {related.image && (
+                  <img
+                    src={related.image.src}
+                    alt={related.title}
+                    width={400}
+                    height={225}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+                <div class="related-card-body">
+                  <h3>{related.title}</h3>
+                  <p>{related.description}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+  </main>
+</Layout>
+)}
+
+<style>
+  .project-page {
+    padding-top: 90px;
+    padding-bottom: 4rem;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-bottom: 2rem;
+  }
+
+  .breadcrumb a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .breadcrumb a:hover {
+    color: var(--gradient-1);
+  }
+
+  .project-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .project-type {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: var(--gradient-1);
+    color: white;
+    margin-bottom: 1rem;
+  }
+
+  .project-header h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .lead {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    margin-bottom: 1.25rem;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tag {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    background: var(--secondary-bg);
+    color: var(--text);
+  }
+
+  .project-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .btn-light,
+  .btn-github,
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .btn-light {
+    background: white;
+    color: #333;
+  }
+
+  .btn-github {
+    background: #333;
+    color: white;
+  }
+
+  .btn-outline {
+    border: 2px solid var(--gradient-1);
+    color: var(--text);
+  }
+
+  .btn-light:hover,
+  .btn-github:hover,
+  .btn-outline:hover {
+    transform: translateY(-2px);
+  }
+
+  .project-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .gallery-cover {
+    grid-column: 1 / -1;
+  }
+
+  .gallery-item {
+    margin: 0;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: var(--secondary-bg);
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  .gallery-cover img {
+    max-height: 480px;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .project-content {
+    line-height: 1.75;
+    color: var(--text);
+  }
+
+  .project-content :global(h2) {
+    font-size: 1.5rem;
+    margin: 2rem 0 1rem;
+    color: var(--text);
+  }
+
+  .project-content :global(h3) {
+    font-size: 1.2rem;
+    margin: 1.5rem 0 0.75rem;
+  }
+
+  .project-content :global(p),
+  .project-content :global(li) {
+    opacity: 0.92;
+  }
+
+  .project-content :global(ul) {
+    padding-left: 1.25rem;
+  }
+
+  .project-content :global(a) {
+    color: var(--gradient-1);
+  }
+
+  .related-projects {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .related-projects h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .related-card {
+    text-decoration: none;
+    color: inherit;
+    background: var(--secondary-bg);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: transform 0.2s ease;
+  }
+
+  .related-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .related-card img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+  }
+
+  .related-card-body {
+    padding: 1rem;
+  }
+
+  .related-card-body h3 {
+    font-size: 1rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .related-card-body p {
+    font-size: 0.85rem;
+    opacity: 0.85;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  @media (max-width: 768px) {
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

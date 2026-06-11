@@ -47,7 +47,8 @@ const {
   publishedTime,
   modifiedTime,
   author = 'Darwin Cedeño',
-  section
+  section,
+  robots = 'index, follow, max-snippet:-1, max-image-preview:large',
 } = Astro.props;
 
 // Construir URL canónica
@@ -96,7 +97,7 @@ import Footer from '../components/Footer.astro';
     <title>{optimizedTitle}</title>
     <meta name="description" content={description} />
     <meta name="author" content="Darwin Cedeño">
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <meta name="robots" content={robots}>
     
     {/* Open Graph / Facebook */}
     <meta property="og:type" content={type}>

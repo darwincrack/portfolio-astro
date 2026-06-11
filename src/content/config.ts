@@ -1,5 +1,22 @@
 import { defineCollection, z } from 'astro:content';
 
+const projectTypeEnum = z.enum(['fullstack', 'plugins', 'tools', 'support', 'mobile']);
+
+const projectsCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    priority: z.number(),
+    type: projectTypeEnum.default('fullstack'),
+    link: z.string().default(''),
+    github: z.string().default(''),
+    tags: z.array(z.string()),
+    coverImage: z.string(),
+    gallery: z.array(z.string()).optional().default([]),
+  }),
+});
+
 const blogCollection = defineCollection({
   type: 'content',
   schema: z.object({
@@ -18,5 +35,6 @@ const blogCollection = defineCollection({
 });
 
 export const collections = {
-  'blog': blogCollection,
+  blog: blogCollection,
+  projects: projectsCollection,
 }; 

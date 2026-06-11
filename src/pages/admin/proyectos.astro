@@ -1,0 +1,471 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { projectImageKeys } from '../../lib/projectImages';
+
+const projectTypes = ['fullstack', 'plugins', 'tools', 'support', 'mobile'];
+---
+
+<Layout
+  title="Admin — Proyectos"
+  description="Panel de administración de proyectos"
+  robots="noindex, nofollow"
+>
+
+  <main class="admin-page">
+    <div id="auth-gate" class="auth-gate">
+      <h1>Admin de proyectos</h1>
+      <p>Introduce la clave de administración configurada en <code>ADMIN_SECRET</code>.</p>
+      <form id="login-form">
+        <input type="password" id="admin-password" placeholder="Clave de admin" required />
+        <button type="submit" class="btn btn-primary">Entrar</button>
+      </form>
+      <p id="login-error" class="error" hidden>Clave incorrecta o Supabase no configurado.</p>
+    </div>
+
+    <div id="admin-app" hidden>
+      <header class="admin-header">
+        <div>
+          <h1>Proyectos del portfolio</h1>
+          <p class="hint">Los cambios se guardan en Supabase y se ven al instante en la web.</p>
+        </div>
+        <button type="button" id="new-project-btn" class="btn btn-primary">+ Nuevo proyecto</button>
+      </header>
+
+      <div id="status" class="status" role="status"></div>
+
+      <section class="list-section">
+        <table id="projects-table">
+          <thead>
+            <tr>
+              <th>Prioridad</th>
+              <th>Título</th>
+              <th>Slug</th>
+              <th>Tipo</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="projects-tbody"></tbody>
+        </table>
+      </section>
+
+      <section id="editor-section" class="editor-section" hidden>
+        <h2 id="editor-title">Editar proyecto</h2>
+        <form id="project-form" class="project-form">
+          <input type="hidden" id="original-slug" />
+
+          <div class="form-grid">
+            <label>
+              Título
+              <input type="text" id="title" required />
+            </label>
+            <label>
+              Slug (URL)
+              <input type="text" id="slug" placeholder="auto desde título" />
+            </label>
+            <label>
+              Prioridad (menor = más arriba)
+              <input type="number" id="priority" value="10" min="0" />
+            </label>
+            <label>
+              Tipo
+              <select id="type">
+                {projectTypes.map((type) => (
+                  <option value={type}>{type}</option>
+                ))}
+              </select>
+            </label>
+            <label class="full">
+              Descripción corta
+              <textarea id="description" rows="2" required></textarea>
+            </label>
+            <label>
+              Enlace del proyecto
+              <input type="url" id="link" placeholder="https://" />
+            </label>
+            <label>
+              GitHub
+              <input type="url" id="github" placeholder="https://github.com/..." />
+            </label>
+            <label>
+              Imagen principal
+              <select id="cover_image" required>
+                {projectImageKeys.map((key) => (
+                  <option value={key}>{key}</option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Galería (claves separadas por coma)
+              <input type="text" id="gallery" placeholder="project17, project17_1" />
+            </label>
+            <label class="full">
+              Tags (separados por coma)
+              <input type="text" id="tags" placeholder="WordPress, PHP, SEO" />
+            </label>
+            <label class="full">
+              Contenido (Markdown)
+              <textarea id="body" rows="14" placeholder="## Contexto&#10;&#10;Describe el proyecto..."></textarea>
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" id="cancel-edit" class="btn btn-outline">Cancelar</button>
+            <button type="button" id="delete-project" class="btn btn-danger" hidden>Eliminar</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .admin-page {
+    padding: 6rem 1.5rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .auth-gate {
+    max-width: 420px;
+    margin: 4rem auto;
+    text-align: center;
+  }
+
+  .auth-gate form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .hint {
+    opacity: 0.75;
+    margin: 0.25rem 0 0;
+    font-size: 0.9rem;
+  }
+
+  .status {
+    min-height: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--gradient-1);
+  }
+
+  .error {
+    color: #f87171;
+    margin-top: 0.75rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--secondary-bg);
+    border-radius: 0.75rem;
+    overflow: hidden;
+  }
+
+  th,
+  td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  th {
+    font-size: 0.85rem;
+    opacity: 0.8;
+  }
+
+  .editor-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .project-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-size: 0.9rem;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .form-grid .full {
+    grid-column: 1 / -1;
+  }
+
+  input,
+  select,
+  textarea {
+    padding: 0.6rem 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: var(--primary-bg);
+    color: var(--text);
+    font: inherit;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .btn-primary {
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    color: white;
+  }
+
+  .btn-outline {
+    background: transparent;
+    border: 2px solid var(--gradient-1);
+    color: var(--text);
+  }
+
+  .btn-danger {
+    background: #b91c1c;
+    color: white;
+    margin-left: auto;
+  }
+
+  .btn-link {
+    background: transparent;
+    color: var(--gradient-1);
+    padding: 0.25rem 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const STORAGE_KEY = 'portfolio_admin_secret';
+
+  const authGate = document.getElementById('auth-gate')!;
+  const adminApp = document.getElementById('admin-app')!;
+  const loginForm = document.getElementById('login-form') as HTMLFormElement;
+  const loginError = document.getElementById('login-error')!;
+  const statusEl = document.getElementById('status')!;
+  const tbody = document.getElementById('projects-tbody')!;
+  const editorSection = document.getElementById('editor-section')!;
+  const editorTitle = document.getElementById('editor-title')!;
+  const projectForm = document.getElementById('project-form') as HTMLFormElement;
+
+  let adminSecret = sessionStorage.getItem(STORAGE_KEY) || '';
+
+  function authHeaders(): HeadersInit {
+    return {
+      Authorization: `Bearer ${adminSecret}`,
+      'Content-Type': 'application/json',
+    };
+  }
+
+  function setStatus(message: string) {
+    statusEl.textContent = message;
+  }
+
+  async function api(path: string, options: RequestInit = {}) {
+    const response = await fetch(path, {
+      ...options,
+      headers: { ...authHeaders(), ...options.headers },
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || 'Error en la solicitud');
+    return data;
+  }
+
+  function parseTags(value: string): string[] {
+    return value
+      .split(',')
+      .map((tag) => tag.trim())
+      .filter(Boolean);
+  }
+
+  function parseGallery(value: string, cover: string): string[] {
+    const items = value
+      .split(',')
+      .map((item) => item.trim())
+      .filter(Boolean);
+    return items.length ? items : [cover];
+  }
+
+  function fillForm(project: Record<string, unknown> | null) {
+    const isEdit = Boolean(project);
+    (document.getElementById('original-slug') as HTMLInputElement).value = isEdit
+      ? String(project!.slug)
+      : '';
+    (document.getElementById('title') as HTMLInputElement).value = isEdit ? String(project!.title) : '';
+    (document.getElementById('slug') as HTMLInputElement).value = isEdit ? String(project!.slug) : '';
+    (document.getElementById('priority') as HTMLInputElement).value = isEdit
+      ? String(project!.priority)
+      : '10';
+    (document.getElementById('type') as HTMLSelectElement).value = isEdit
+      ? String(project!.type)
+      : 'fullstack';
+    (document.getElementById('description') as HTMLTextAreaElement).value = isEdit
+      ? String(project!.description)
+      : '';
+    (document.getElementById('link') as HTMLInputElement).value = isEdit ? String(project!.link || '') : '';
+    (document.getElementById('github') as HTMLInputElement).value = isEdit
+      ? String(project!.github || '')
+      : '';
+    (document.getElementById('cover_image') as HTMLSelectElement).value = isEdit
+      ? String(project!.cover_image)
+      : 'project1';
+    (document.getElementById('gallery') as HTMLInputElement).value = isEdit
+      ? (project!.gallery as string[]).join(', ')
+      : '';
+    (document.getElementById('tags') as HTMLInputElement).value = isEdit
+      ? (project!.tags as string[]).join(', ')
+      : '';
+    (document.getElementById('body') as HTMLTextAreaElement).value = isEdit
+      ? String(project!.body || '')
+      : '';
+
+    editorTitle.textContent = isEdit ? 'Editar proyecto' : 'Nuevo proyecto';
+    (document.getElementById('delete-project') as HTMLButtonElement).hidden = !isEdit;
+    editorSection.hidden = false;
+    editorSection.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  async function loadProjects() {
+    const projects = await api('/api/admin/projects/');
+    tbody.innerHTML = '';
+
+    projects.forEach((project: Record<string, unknown>) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${project.priority}</td>
+        <td>${project.title}</td>
+        <td><code>${project.slug}</code></td>
+        <td>${project.type}</td>
+        <td>
+          <button type="button" class="btn btn-link" data-slug="${project.slug}">Editar</button>
+          <a class="btn btn-link" href="/proyectos/${project.slug}/" target="_blank" rel="noopener">Ver</a>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    tbody.querySelectorAll('button[data-slug]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const slug = button.getAttribute('data-slug')!;
+        const project = await api(`/api/admin/projects/${slug}/`);
+        fillForm(project);
+      });
+    });
+  }
+
+  async function bootAdmin() {
+    authGate.hidden = true;
+    adminApp.hidden = false;
+    await loadProjects();
+  }
+
+  loginForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    adminSecret = (document.getElementById('admin-password') as HTMLInputElement).value;
+    try {
+      await api('/api/admin/projects/');
+      sessionStorage.setItem(STORAGE_KEY, adminSecret);
+      loginError.hidden = true;
+      await bootAdmin();
+    } catch {
+      loginError.hidden = false;
+      sessionStorage.removeItem(STORAGE_KEY);
+    }
+  });
+
+  document.getElementById('new-project-btn')!.addEventListener('click', () => fillForm(null));
+
+  document.getElementById('cancel-edit')!.addEventListener('click', () => {
+    editorSection.hidden = true;
+    projectForm.reset();
+  });
+
+  projectForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const cover = (document.getElementById('cover_image') as HTMLSelectElement).value;
+    const payload = {
+      title: (document.getElementById('title') as HTMLInputElement).value,
+      slug: (document.getElementById('slug') as HTMLInputElement).value,
+      description: (document.getElementById('description') as HTMLTextAreaElement).value,
+      priority: Number((document.getElementById('priority') as HTMLInputElement).value),
+      type: (document.getElementById('type') as HTMLSelectElement).value,
+      link: (document.getElementById('link') as HTMLInputElement).value,
+      github: (document.getElementById('github') as HTMLInputElement).value,
+      cover_image: cover,
+      gallery: parseGallery((document.getElementById('gallery') as HTMLInputElement).value, cover),
+      tags: parseTags((document.getElementById('tags') as HTMLInputElement).value),
+      body: (document.getElementById('body') as HTMLTextAreaElement).value,
+    };
+
+    const originalSlug = (document.getElementById('original-slug') as HTMLInputElement).value;
+
+    try {
+      if (originalSlug) {
+        await api(`/api/admin/projects/${originalSlug}/`, {
+          method: 'PUT',
+          body: JSON.stringify(payload),
+        });
+        setStatus('Proyecto actualizado.');
+      } else {
+        await api('/api/admin/projects/', {
+          method: 'POST',
+          body: JSON.stringify(payload),
+        });
+        setStatus('Proyecto creado.');
+      }
+      editorSection.hidden = true;
+      await loadProjects();
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : 'No se pudo guardar');
+    }
+  });
+
+  document.getElementById('delete-project')!.addEventListener('click', async () => {
+    const slug = (document.getElementById('original-slug') as HTMLInputElement).value;
+    if (!slug || !confirm(`¿Eliminar el proyecto "${slug}"?`)) return;
+
+    try {
+      await api(`/api/admin/projects/${slug}/`, { method: 'DELETE' });
+      setStatus('Proyecto eliminado.');
+      editorSection.hidden = true;
+      await loadProjects();
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : 'No se pudo eliminar');
+    }
+  });
+
+  if (adminSecret) {
+    api('/api/admin/projects/')
+      .then(() => bootAdmin())
+      .catch(() => sessionStorage.removeItem(STORAGE_KEY));
+  }
+</script>
