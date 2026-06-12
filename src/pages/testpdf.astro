@@ -1,0 +1,1367 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Importar PDF de Carrera - Demo | Darwin Cedeño"
+  description="Demo de extracción automática de programas hípicos con Gemini AI"
+>
+  <main class="testpdf-page">
+    <div class="container py-4">
+      <header class="page-header mb-4">
+        <h1 style="color: #0f172a;">Importar programa de carrera</h1>
+        <p class="lead mb-0" style="color: #0f172a;">
+          Sube un PDF del INH (una o varias carreras por reunión). Gemini extrae cada página como
+          una carrera y las agrupa por reunión en el formulario <strong>Editar Llamados</strong>.
+        </p>
+      </header>
+
+      <!-- Importación -->
+      <section class="import-panel mb-4">
+        <div class="row g-3 align-items-center">
+          <div class="col-lg-8">
+            <div id="drop-zone" class="drop-zone" tabindex="0" role="button" aria-label="Zona para arrastrar PDF o imagen">
+              <i class="fas fa-file-pdf drop-icon" aria-hidden="true"></i>
+              <span class="drop-text">Arrastra tu PDF aquí o <strong>selecciona archivo</strong></span>
+              <input type="file" id="file-input" accept=".pdf,image/jpeg,image/png,image/webp" hidden />
+            </div>
+            <div id="file-info" class="file-info mt-2" hidden>
+              <i class="fas fa-check-circle text-success me-1"></i>
+              <span id="file-name"></span>
+              <button type="button" id="clear-btn" class="btn btn-link btn-sm text-danger p-0 ms-2">Quitar</button>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <button type="button" id="process-btn" class="btn btn-primary w-100 mb-2" disabled>
+              <i class="fas fa-magic me-2"></i> Procesar con Gemini
+            </button>
+            <div id="loading" class="loading-state" hidden>
+              <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+              <span id="loading-text">Procesando con Gemini…</span>
+            </div>
+            <div id="error-msg" class="alert alert-danger py-2 px-3 mt-2 mb-0 small" role="alert" hidden></div>
+            <div id="success-msg" class="alert alert-success py-2 px-3 mt-2 mb-0 small" role="status" hidden></div>
+            <div id="warning-msg" class="alert alert-warning py-2 px-3 mt-2 mb-0 small" role="status" hidden></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Formulario Editar Llamados (demo) -->
+      <section id="form-preview" class="llamados-form" hidden>
+        <div class="form-topbar">
+          <h2 class="form-title">Editar Llamados</h2>
+          <div class="form-context">
+            <span id="form-context-line">—</span>
+            <small id="form-created-at" class="d-block text-muted"></small>
+          </div>
+        </div>
+
+        <!-- Selector de carrera (PDF multipágina) -->
+        <div id="carrera-nav" class="carrera-nav" hidden>
+          <div class="carrera-nav-label">
+            <i class="fas fa-layer-group me-1"></i>
+            <span id="reunion-summary">Reunión</span>
+          </div>
+          <div id="carrera-tabs" class="carrera-tabs" role="tablist"></div>
+        </div>
+
+        <!-- Información General -->
+        <div class="form-section">
+          <div class="section-header">
+            <span>Información General</span>
+            <i class="fas fa-chevron-up"></i>
+          </div>
+          <div class="section-body">
+            <div class="field-grid">
+              <div class="field-item">
+                <label for="field-llamado">Llamado</label>
+                <input type="text" id="field-llamado" class="form-control form-control-sm" readonly />
+              </div>
+              <div class="field-item">
+                <label for="field-reunion">Reunión</label>
+                <input type="text" id="field-reunion" class="form-control form-control-sm" readonly />
+              </div>
+              <div class="field-item">
+                <label for="field-carrera-nro">Nro Carrera</label>
+                <input type="text" id="field-carrera-nro" class="form-control form-control-sm" readonly />
+              </div>
+              <div class="field-item">
+                <label for="field-carrera-anual">Carrera Anual Nro.</label>
+                <input type="text" id="field-carrera-anual" class="form-control form-control-sm" readonly />
+              </div>
+              <div class="field-item">
+                <label for="field-dia">Día</label>
+                <input type="text" id="field-dia" class="form-control form-control-sm" readonly />
+              </div>
+              <div class="field-item">
+                <label for="field-fecha">Fecha</label>
+                <input type="text" id="field-fecha" class="form-control form-control-sm" readonly />
+              </div>
+              <div class="field-item">
+                <label for="field-hora">Hora</label>
+                <input type="text" id="field-hora" class="form-control form-control-sm" readonly />
+              </div>
+              <div class="field-item">
+                <label for="field-distancia">Distancia (mts)</label>
+                <input type="text" id="field-distancia" class="form-control form-control-sm" readonly />
+              </div>
+              <div class="field-item">
+                <label for="field-hipodromo">Hipódromo</label>
+                <input type="text" id="field-hipodromo" class="form-control form-control-sm" readonly />
+              </div>
+              <div class="field-item">
+                <label for="field-formato">Formato detectado</label>
+                <input type="text" id="field-formato" class="form-control form-control-sm" readonly />
+              </div>
+              <div class="field-item">
+                <label for="field-pagina">Página PDF</label>
+                <input type="text" id="field-pagina" class="form-control form-control-sm" readonly />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Condiciones -->
+        <div class="form-section">
+          <div class="section-header">
+            <span>Condiciones</span>
+            <i class="fas fa-chevron-up"></i>
+          </div>
+          <div class="section-body">
+            <div class="field-item full-width">
+              <label for="field-condicion">Condición</label>
+              <textarea id="field-condicion" class="form-control form-control-sm" rows="2" readonly></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Observaciones -->
+        <div class="form-section">
+          <div class="section-header">
+            <span>Observaciones</span>
+            <i class="fas fa-chevron-up"></i>
+          </div>
+          <div class="section-body">
+            <div class="field-item full-width">
+              <label for="field-observaciones">Observación</label>
+              <textarea id="field-observaciones" class="form-control form-control-sm" rows="2" readonly></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Premio Principal -->
+        <div class="form-section">
+          <div class="section-header">
+            <span>Premio Principal</span>
+            <i class="fas fa-chevron-up"></i>
+          </div>
+          <div class="section-body">
+            <div class="field-grid premios-grid">
+              <div class="field-item">
+                <label for="field-premio-bs">Total Bs.</label>
+                <input type="text" id="field-premio-bs" class="form-control form-control-sm" readonly />
+              </div>
+              <div class="field-item">
+                <label for="field-pct-1">1er Lugar %</label>
+                <input type="text" id="field-pct-1" class="form-control form-control-sm" readonly />
+              </div>
+              <div class="field-item">
+                <label for="field-pct-2">2do Lugar %</label>
+                <input type="text" id="field-pct-2" class="form-control form-control-sm" readonly />
+              </div>
+              <div class="field-item">
+                <label for="field-pct-3">3er Lugar %</label>
+                <input type="text" id="field-pct-3" class="form-control form-control-sm" readonly />
+              </div>
+              <div class="field-item">
+                <label for="field-pct-4">4to Lugar %</label>
+                <input type="text" id="field-pct-4" class="form-control form-control-sm" readonly />
+              </div>
+              <div class="field-item">
+                <label for="field-pct-5">5to Lugar %</label>
+                <input type="text" id="field-pct-5" class="form-control form-control-sm" readonly />
+              </div>
+              <div class="field-item">
+                <label for="field-prima-criador">Prima Criador %</label>
+                <input type="text" id="field-prima-criador" class="form-control form-control-sm" readonly />
+              </div>
+            </div>
+            <p class="montos-label small text-muted mt-2 mb-1">Montos calculados (Total Bs. × %)</p>
+            <div class="field-grid premios-grid">
+              <div class="field-item">
+                <label for="field-monto-1">1er Lugar Bs.</label>
+                <input type="text" id="field-monto-1" class="form-control form-control-sm monto-calc" readonly />
+              </div>
+              <div class="field-item">
+                <label for="field-monto-2">2do Lugar Bs.</label>
+                <input type="text" id="field-monto-2" class="form-control form-control-sm monto-calc" readonly />
+              </div>
+              <div class="field-item">
+                <label for="field-monto-3">3er Lugar Bs.</label>
+                <input type="text" id="field-monto-3" class="form-control form-control-sm monto-calc" readonly />
+              </div>
+              <div class="field-item">
+                <label for="field-monto-4">4to Lugar Bs.</label>
+                <input type="text" id="field-monto-4" class="form-control form-control-sm monto-calc" readonly />
+              </div>
+              <div class="field-item">
+                <label for="field-monto-5">5to Lugar Bs.</label>
+                <input type="text" id="field-monto-5" class="form-control form-control-sm monto-calc" readonly />
+              </div>
+              <div class="field-item">
+                <label for="field-monto-prima">Prima Criador Bs.</label>
+                <input type="text" id="field-monto-prima" class="form-control form-control-sm monto-calc" readonly />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Premio Adicional -->
+        <div class="form-section">
+          <div class="section-header">
+            <span>Premio Adicional</span>
+            <i class="fas fa-chevron-up"></i>
+          </div>
+          <div class="section-body">
+            <div class="field-grid">
+              <div class="field-item">
+                <label for="field-bono-usd">Bono / Adicional USD</label>
+                <input type="text" id="field-bono-usd" class="form-control form-control-sm" readonly />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Jugadas -->
+        <div class="form-section">
+          <div class="section-header">
+            <span>Jugadas</span>
+            <i class="fas fa-chevron-up"></i>
+          </div>
+          <div class="section-body">
+            <div id="juegos-chips" class="juegos-chips"></div>
+          </div>
+        </div>
+
+        <!-- Ejemplares -->
+        <div class="form-section">
+          <div class="section-header">
+            <span>Ejemplares</span>
+            <i class="fas fa-chevron-up"></i>
+          </div>
+          <div class="section-body p-0">
+            <div class="table-responsive">
+              <table class="ejemplares-table">
+                <thead>
+                  <tr>
+                    <th>Nro</th>
+                    <th>Nombre</th>
+                    <th>Medicamentos</th>
+                    <th>Kg</th>
+                    <th>Jinete</th>
+                    <th>Implementos</th>
+                    <th>Entrenador</th>
+                    <th>P.P</th>
+                    <th id="col-stud" class="col-stud">Stud</th>
+                    <th id="col-procedencia" class="col-proc">Proc.</th>
+                  </tr>
+                </thead>
+                <tbody id="ejemplares-body">
+                  <tr class="empty-row">
+                    <td colspan="10" class="text-center text-muted py-4">Sin ejemplares</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- JSON extraído (colapsable) -->
+        <div class="form-section collapsible-section">
+          <button
+            type="button"
+            class="section-header section-toggle"
+            id="json-toggle"
+            aria-expanded="false"
+            aria-controls="json-panel"
+          >
+            <span><i class="fas fa-code me-2"></i>JSON extraído</span>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </button>
+          <div id="json-panel" class="section-body json-panel" hidden>
+            <div class="json-toolbar">
+              <span id="json-meta" class="json-meta"></span>
+              <button type="button" id="copy-btn" class="btn btn-outline-secondary btn-sm">
+                <i class="fas fa-copy me-1"></i> Copiar JSON
+              </button>
+            </div>
+            <pre id="json-output" class="json-output"><code></code></pre>
+          </div>
+        </div>
+
+        <!-- Acciones demo 
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline-secondary btn-sm" disabled>SALIR</button>
+          <button type="button" class="btn btn-primary btn-sm" disabled>GUARDAR</button>
+          <button type="button" class="btn btn-success btn-sm" disabled>PROCESAR</button>
+        </div>-->
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  type CarreraData = {
+    pagina?: number;
+    formato_detectado?: string;
+    informacion_general?: Record<string, unknown>;
+    condiciones?: Record<string, unknown>;
+    ejemplares?: Record<string, unknown>[];
+    juegos_disponibles?: string[];
+  };
+
+  type ExtractPayload = {
+    multipagina?: boolean;
+    formato_detectado?: string;
+    reunion_info?: Record<string, unknown>;
+    total_paginas?: number;
+    carreras?: CarreraData[];
+    advertencias?: string[];
+  };
+
+  const dropZone = document.getElementById('drop-zone')!;
+  const fileInput = document.getElementById('file-input') as HTMLInputElement;
+  const processBtn = document.getElementById('process-btn') as HTMLButtonElement;
+  const clearBtn = document.getElementById('clear-btn')!;
+  const fileInfo = document.getElementById('file-info')!;
+  const fileName = document.getElementById('file-name')!;
+  const loading = document.getElementById('loading')!;
+  const loadingText = document.getElementById('loading-text')!;
+  const errorMsg = document.getElementById('error-msg')!;
+  const successMsg = document.getElementById('success-msg')!;
+  const warningMsg = document.getElementById('warning-msg')!;
+  const formPreview = document.getElementById('form-preview')!;
+  const jsonToggle = document.getElementById('json-toggle')!;
+  const jsonPanel = document.getElementById('json-panel')!;
+  const jsonOutput = document.getElementById('json-output')!;
+  const jsonMeta = document.getElementById('json-meta')!;
+  const copyBtn = document.getElementById('copy-btn')!;
+  const ejemplaresBody = document.getElementById('ejemplares-body')!;
+  const juegosChips = document.getElementById('juegos-chips')!;
+  const carreraNav = document.getElementById('carrera-nav')!;
+  const carreraTabs = document.getElementById('carrera-tabs')!;
+  const reunionSummary = document.getElementById('reunion-summary')!;
+
+  let selectedFile: File | null = null;
+  let lastJson = '';
+  let extractPayload: ExtractPayload | null = null;
+  let currentCarreraIndex = 0;
+  let loadingTimer: ReturnType<typeof setInterval> | null = null;
+  let loadingCustomMessage: string | null = null;
+
+  function setLoadingProgress(message: string) {
+    loadingCustomMessage = message;
+    loadingText.textContent = message;
+  }
+
+  function startLoadingTimer() {
+    loadingCustomMessage = null;
+    const startedAt = Date.now();
+    loadingText.textContent = 'Procesando con Gemini… 0 s';
+    loadingTimer = setInterval(() => {
+      if (loadingCustomMessage) {
+        loadingText.textContent = loadingCustomMessage;
+        return;
+      }
+      const seconds = Math.floor((Date.now() - startedAt) / 1000);
+      loadingText.textContent = `Procesando con Gemini… ${seconds} s`;
+    }, 500);
+  }
+
+  function stopLoadingTimer(finalMessage?: string) {
+    if (loadingTimer) {
+      clearInterval(loadingTimer);
+      loadingTimer = null;
+    }
+    if (finalMessage) loadingText.textContent = finalMessage;
+  }
+
+  function setVal(id: string, value: unknown) {
+    const el = document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement | null;
+    if (!el) return;
+    el.value = value == null || value === '' ? '' : String(value);
+  }
+
+  function formatMoney(value: unknown) {
+    if (value == null || value === '') return '';
+    const num = Number(value);
+    if (Number.isNaN(num)) return String(value);
+    return num.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function formatPct(value: unknown) {
+    if (value == null || value === '') return '';
+    const num = Number(value);
+    if (Number.isNaN(num)) return String(value);
+    return `${num.toLocaleString('es-VE', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}%`;
+  }
+
+  function calcMonto(total: unknown, pct: unknown) {
+    const t = Number(total);
+    const p = Number(pct);
+    if (Number.isNaN(t) || Number.isNaN(p)) return '';
+    return formatMoney((t * p) / 100);
+  }
+
+  function formatKg(kilos: unknown, descargo: unknown) {
+    if (kilos == null) return '';
+    const base = Number(kilos);
+    const desc = Number(descargo ?? 0);
+    if (desc !== 0 && !Number.isNaN(desc)) {
+      return `${base}${desc}`;
+    }
+    return String(base);
+  }
+
+  function formatNombre(ej: Record<string, unknown>) {
+    const nombre = String(ej.nombre ?? '');
+    const proc = ej.procedencia;
+    if (proc && proc !== 'NACIONAL' && !nombre.includes('(')) {
+      return `${nombre} (${proc})`;
+    }
+    return nombre;
+  }
+
+  function pickEjemplarField(ej: Record<string, unknown>, keys: string[], fallbackKeys: string[] = []) {
+    for (const key of keys) {
+      const val = ej[key];
+      if (val != null && String(val).trim() !== '') return String(val).trim();
+    }
+    for (const key of fallbackKeys) {
+      const val = ej[key];
+      if (val != null && String(val).trim() !== '') return String(val).trim();
+    }
+    return '';
+  }
+
+  function getEntrenador(ej: Record<string, unknown>) {
+    return pickEjemplarField(
+      ej,
+      ['entrenador', 'Entrenador', 'ENTRENADOR', 'entrenador_nombre', 'trainer'],
+      ['criador'],
+    );
+  }
+
+  function getPp(ej: Record<string, unknown>) {
+    return pickEjemplarField(ej, ['p_p', 'pp', 'P_P', 'p.p', 'pi', 'P.I.']);
+  }
+
+  function getMedicamentos(ej: Record<string, unknown>) {
+    return pickEjemplarField(ej, ['medicamentos', 'Medicamentos', 'medic', 'Medic.', 'medicamento', 'Medicamento']);
+  }
+
+  function getJinete(ej: Record<string, unknown>) {
+    return pickEjemplarField(ej, ['jinete', 'Jinete', 'JINETE']);
+  }
+
+  function getImplementos(ej: Record<string, unknown>) {
+    return pickEjemplarField(ej, ['implementos', 'Implementos', 'IMPLEMENTOS', 'impl']);
+  }
+
+  function createCellInput(value: unknown, extraClass = '', tdClass = '') {
+    const td = document.createElement('td');
+    if (tdClass) td.className = tdClass;
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = ['cell-input', extraClass].filter(Boolean).join(' ');
+    input.readOnly = true;
+    input.value = value == null || value === '' ? '' : String(value);
+    td.appendChild(input);
+    return td;
+  }
+
+  function renderEjemplares(ejemplares: Record<string, unknown>[], formato: string) {
+    const showStud = formato === 'valencia' || ejemplares.some((e) => e.stud);
+    const showProc = formato === 'rinconada' || ejemplares.some((e) => e.procedencia && e.procedencia !== 'NACIONAL');
+
+    const table = document.querySelector('.ejemplares-table') as HTMLTableElement;
+    table.classList.toggle('show-stud', showStud);
+    table.classList.toggle('show-proc', showProc);
+
+    ejemplaresBody.replaceChildren();
+
+    if (!ejemplares.length) {
+      const tr = document.createElement('tr');
+      tr.className = 'empty-row';
+      const td = document.createElement('td');
+      td.colSpan = 10;
+      td.className = 'text-center text-muted py-4';
+      td.textContent = 'Sin ejemplares';
+      tr.appendChild(td);
+      ejemplaresBody.appendChild(tr);
+      return;
+    }
+
+    for (const ej of ejemplares) {
+      const tr = document.createElement('tr');
+      tr.appendChild(createCellInput(ej.no, 'cell-nro'));
+      tr.appendChild(createCellInput(formatNombre(ej)));
+      tr.appendChild(createCellInput(getMedicamentos(ej)));
+      tr.appendChild(createCellInput(formatKg(ej.kilos, ej.descargo), 'cell-kg'));
+      tr.appendChild(createCellInput(getJinete(ej)));
+      tr.appendChild(createCellInput(getImplementos(ej)));
+      tr.appendChild(createCellInput(getEntrenador(ej)));
+      tr.appendChild(createCellInput(getPp(ej) || ej.p_p, 'cell-pp'));
+      tr.appendChild(createCellInput(ej.stud, '', 'col-stud'));
+      tr.appendChild(createCellInput(ej.procedencia, '', 'col-proc'));
+      ejemplaresBody.appendChild(tr);
+    }
+  }
+
+  function renderJuegos(juegos: string[] | undefined) {
+    if (!juegos?.length) {
+      juegosChips.innerHTML = '<span class="text-muted small">—</span>';
+      return;
+    }
+    juegosChips.innerHTML = juegos
+      .map((j) => `<span class="juego-chip">${escapeHtml(j)}</span>`)
+      .join('');
+  }
+
+  function mapDataToForm(data: CarreraData) {
+    const info = data.informacion_general ?? {};
+    const cond = data.condiciones ?? {};
+    const premios = (cond.premios as Record<string, unknown>) ?? {};
+    const dist = (premios.distribucion as Record<string, unknown>) ?? {};
+    const carreraNro = info.carrera_nro ?? info.carrera_del_dia_nro;
+
+    const contextParts = [
+      info.hipodromo,
+      info.reunion != null ? `R.${info.reunion}` : null,
+      carreraNro,
+      info.dia,
+      info.fecha,
+    ].filter(Boolean);
+
+    setVal('form-context-line', contextParts.join(' - ') || '—');
+    const createdEl = document.getElementById('form-created-at');
+    if (createdEl) {
+      createdEl.textContent = `Importado: ${new Date().toLocaleString('es-VE')}`;
+    }
+
+    setVal('field-llamado', info.llamado);
+    setVal('field-reunion', info.reunion);
+    setVal('field-carrera-nro', carreraNro);
+    setVal('field-carrera-anual', info.carrera_anual_nro);
+    setVal('field-dia', info.dia);
+    setVal('field-fecha', info.fecha);
+    setVal('field-hora', info.hora);
+    setVal('field-distancia', info.distancia_mts);
+    setVal('field-hipodromo', info.hipodromo);
+    setVal('field-formato', data.formato_detectado);
+    setVal('field-pagina', data.pagina);
+
+    setVal('field-condicion', cond.descripcion);
+    setVal('field-observaciones', cond.observacion ?? cond.observaciones);
+
+    setVal('field-premio-bs', formatMoney(premios.total_bs));
+    setVal('field-pct-1', formatPct(dist['1er_lugar_porcentaje']));
+    setVal('field-pct-2', formatPct(dist['2do_lugar_porcentaje']));
+    setVal('field-pct-3', formatPct(dist['3er_lugar_porcentaje']));
+    setVal('field-pct-4', formatPct(dist['4to_lugar_porcentaje']));
+    setVal('field-pct-5', formatPct(dist['5to_lugar_porcentaje']));
+    setVal('field-prima-criador', formatPct(dist.prima_criador_porcentaje));
+    setVal('field-bono-usd', formatMoney(premios.bono_usd ?? premios.adicional_usd));
+
+    setVal('field-monto-1', calcMonto(premios.total_bs, dist['1er_lugar_porcentaje']));
+    setVal('field-monto-2', calcMonto(premios.total_bs, dist['2do_lugar_porcentaje']));
+    setVal('field-monto-3', calcMonto(premios.total_bs, dist['3er_lugar_porcentaje']));
+    setVal('field-monto-4', calcMonto(premios.total_bs, dist['4to_lugar_porcentaje']));
+    setVal('field-monto-5', calcMonto(premios.total_bs, dist['5to_lugar_porcentaje']));
+    setVal('field-monto-prima', calcMonto(premios.total_bs, dist.prima_criador_porcentaje));
+
+    renderJuegos(data.juegos_disponibles);
+    renderEjemplares(data.ejemplares ?? [], data.formato_detectado ?? 'rinconada');
+
+    formPreview.hidden = false;
+  }
+
+  function getCarreraLabel(carrera: CarreraData, index: number) {
+    const info = carrera.informacion_general ?? {};
+    if (info.llamado != null && info.llamado !== '') {
+      return `Llamado ${info.llamado}`;
+    }
+    const nro = info.carrera_nro ?? info.carrera_del_dia_nro ?? index + 1;
+    return `Carrera ${nro}`;
+  }
+
+  function renderCarreraTabs() {
+    const carreras = extractPayload?.carreras ?? [];
+
+    if (carreras.length <= 1) {
+      carreraNav.hidden = true;
+      return;
+    }
+
+    const reunion = extractPayload?.reunion_info ?? {};
+    const reunionParts = [
+      reunion.hipodromo,
+      reunion.reunion != null ? `R.${reunion.reunion}` : null,
+      reunion.fecha,
+      `${carreras.length} carreras`,
+    ].filter(Boolean);
+
+    reunionSummary.textContent = reunionParts.join(' · ') || 'Reunión multipágina';
+    carreraNav.hidden = false;
+
+    carreraTabs.innerHTML = carreras
+      .map((c, i) => {
+        const active = i === currentCarreraIndex ? ' active' : '';
+        return `<button type="button" class="carrera-tab${active}" data-index="${i}" role="tab" aria-selected="${i === currentCarreraIndex}">${escapeHtml(getCarreraLabel(c, i))}</button>`;
+      })
+      .join('');
+
+    carreraTabs.querySelectorAll('.carrera-tab').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        currentCarreraIndex = Number((btn as HTMLElement).dataset.index);
+        renderCarreraTabs();
+        showCarrera(currentCarreraIndex);
+      });
+    });
+  }
+
+  function showCarrera(index: number) {
+    if (!extractPayload?.carreras?.[index]) return;
+
+    const carrera = extractPayload.carreras[index];
+    const merged: CarreraData = {
+      ...carrera,
+      formato_detectado: extractPayload.formato_detectado,
+      informacion_general: {
+        ...extractPayload.reunion_info,
+        ...carrera.informacion_general,
+      },
+    };
+
+    mapDataToForm(merged);
+  }
+
+  function normalizeCarreraClient(carrera: CarreraData): CarreraData {
+    if (!carrera.ejemplares?.length) return carrera;
+    return {
+      ...carrera,
+      ejemplares: carrera.ejemplares.map((ej) => {
+        const entrenador = getEntrenador(ej);
+        const medicamentos = getMedicamentos(ej);
+        const jinete = getJinete(ej);
+        const implementos = getImplementos(ej);
+        const p_p = getPp(ej) || ej.p_p;
+        return {
+          ...ej,
+          ...(entrenador ? { entrenador } : {}),
+          ...(medicamentos ? { medicamentos } : {}),
+          ...(jinete ? { jinete } : {}),
+          ...(implementos ? { implementos } : {}),
+          ...(p_p ? { p_p } : {}),
+        };
+      }),
+    };
+  }
+
+  function handleExtractResult(datos: ExtractPayload) {
+    extractPayload = {
+      ...datos,
+      carreras: datos.carreras?.map((c) => normalizeCarreraClient(c)),
+    };
+    currentCarreraIndex = 0;
+    renderCarreraTabs();
+    showCarrera(0);
+  }
+
+  function resetJsonPanel() {
+    jsonPanel.hidden = true;
+    jsonToggle.setAttribute('aria-expanded', 'false');
+    jsonToggle.classList.remove('open');
+    jsonOutput.innerHTML = '<code></code>';
+    jsonMeta.textContent = '';
+    lastJson = '';
+  }
+
+  function setFile(file: File | null) {
+    selectedFile = file;
+    if (file) {
+      fileName.textContent = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+      fileInfo.hidden = false;
+      processBtn.disabled = false;
+      dropZone.classList.add('has-file');
+    } else {
+      fileInfo.hidden = true;
+      processBtn.disabled = true;
+      dropZone.classList.remove('has-file');
+      fileInput.value = '';
+      formPreview.hidden = true;
+      resetJsonPanel();
+      extractPayload = null;
+      currentCarreraIndex = 0;
+      carreraNav.hidden = true;
+    }
+    errorMsg.hidden = true;
+    successMsg.hidden = true;
+    warningMsg.hidden = true;
+  }
+
+  function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  function isRetryableFetchStatus(status: number) {
+    return status === 408 || status === 429 || status === 502 || status === 503 || status === 504;
+  }
+
+  function friendlyFetchError(status: number, raw: string) {
+    if (status === 503 || status === 502 || status === 504) {
+      return 'Servicio de Gemini temporalmente saturado.';
+    }
+    if (status === 429) {
+      return 'Límite de solicitudes alcanzado momentáneamente.';
+    }
+    if (status === 408 || status === 504) {
+      return 'Tiempo de espera agotado en el servidor.';
+    }
+    if (raw.startsWith('{') && raw.includes('"error"')) {
+      return 'Error temporal al procesar con Gemini.';
+    }
+    return raw || 'Error al procesar el archivo.';
+  }
+
+  async function fetchExtraer(formData: FormData, attempt = 1, maxAttempts = 5) {
+    const response = await fetch('/api/extraer-pdf-carrera', {
+      method: 'POST',
+      body: formData,
+    });
+
+    let result: Record<string, unknown>;
+    try {
+      result = await response.json();
+    } catch {
+      if (isRetryableFetchStatus(response.status) && attempt < maxAttempts) {
+        await sleep(Math.min(15000, 1500 * 2 ** (attempt - 1)));
+        return fetchExtraer(formData, attempt + 1, maxAttempts);
+      }
+      throw new Error('Respuesta inválida del servidor.');
+    }
+
+    if (!response.ok) {
+      const raw = String(result.error ?? 'Error al procesar el archivo.');
+      if (isRetryableFetchStatus(response.status) && attempt < maxAttempts) {
+        await sleep(Math.min(15000, 1500 * 2 ** (attempt - 1)));
+        return fetchExtraer(formData, attempt + 1, maxAttempts);
+      }
+      throw new Error(friendlyFetchError(response.status, raw));
+    }
+
+    return result;
+  }
+
+  async function fetchPaginaConReintentos(
+    file: File,
+    pagina: number,
+    totalPaginas: number,
+    onProgress: (message: string) => void,
+  ) {
+    const maxRounds = 4;
+    let lastError: Error | null = null;
+
+    for (let round = 1; round <= maxRounds; round++) {
+      if (round > 1) {
+        onProgress(`Reintentando página ${pagina} de ${totalPaginas} (${round}/${maxRounds})…`);
+        await sleep(Math.min(12000, 2000 * 2 ** (round - 2)));
+      }
+
+      try {
+        const pageForm = new FormData();
+        pageForm.append('file', file);
+        pageForm.append('pagina', String(pagina));
+        return await fetchExtraer(pageForm, 1, 4);
+      } catch (err) {
+        lastError = err instanceof Error ? err : new Error('Error desconocido');
+      }
+    }
+
+    throw lastError ?? new Error(`No se pudo procesar la página ${pagina}.`);
+  }
+
+  function reunionInfoFromCarrera(carrera: CarreraData) {
+    const info = carrera.informacion_general ?? {};
+    return {
+      institucion: info.institucion,
+      hipodromo: info.hipodromo,
+      direccion: info.direccion,
+      reunion: info.reunion,
+      dia: info.dia,
+      fecha: info.fecha,
+    };
+  }
+
+  async function processFile() {
+    if (!selectedFile) return;
+
+    processBtn.disabled = true;
+    loading.hidden = false;
+    errorMsg.hidden = true;
+    successMsg.hidden = true;
+    warningMsg.hidden = true;
+    startLoadingTimer();
+
+    const totalStartedAt = Date.now();
+    const advertencias: string[] = [];
+
+    try {
+      const probeForm = new FormData();
+      probeForm.append('file', selectedFile);
+      const probe = await fetchExtraer(probeForm);
+
+      let payload: ExtractPayload;
+      let elapsedMs = Number(probe.elapsedMs ?? 0);
+
+      if (probe.needsPagination) {
+        const totalPaginas = Number(probe.totalPaginas ?? 0);
+        const carreras: CarreraData[] = [];
+        let formatoDetectado = 'rinconada';
+
+        setLoadingProgress(`PDF de ${totalPaginas} páginas — procesando una por una…`);
+
+        const paginasPendientes = Array.from({ length: totalPaginas }, (_, i) => i + 1);
+
+        async function procesarPaginas(paginas: number[], silent = false) {
+          const fallidas: number[] = [];
+
+          for (const p of paginas) {
+            setLoadingProgress(`Procesando página ${p} de ${totalPaginas}…`);
+
+            if (p > 1) {
+              await sleep(400);
+            }
+
+            try {
+              const pageResult = await fetchPaginaConReintentos(
+                selectedFile!,
+                p,
+                totalPaginas,
+                setLoadingProgress,
+              );
+              const carrera = pageResult.carrera as CarreraData;
+              const idx = carreras.findIndex((c) => c.pagina === p);
+              const merged = { ...carrera, pagina: p };
+              if (idx >= 0) carreras[idx] = merged;
+              else carreras.push(merged);
+
+              if (p === 1) {
+                formatoDetectado = String(
+                  pageResult.formato_detectado ?? carrera.formato_detectado ?? 'rinconada',
+                );
+              }
+
+              elapsedMs += Number(pageResult.elapsedMs ?? 0);
+            } catch (pageErr) {
+              fallidas.push(p);
+              if (!silent) {
+                advertencias.push(
+                  `Página ${p}: ${pageErr instanceof Error ? pageErr.message : 'no se pudo extraer tras varios intentos'}`,
+                );
+              }
+            }
+          }
+
+          return fallidas;
+        }
+
+        let fallidas = await procesarPaginas(paginasPendientes, true);
+
+        if (fallidas.length > 0) {
+          setLoadingProgress(`Completando ${fallidas.length} página(s) pendiente(s)…`);
+          await sleep(3000);
+          fallidas = await procesarPaginas(fallidas, false);
+        }
+
+        carreras.sort((a, b) => (a.pagina ?? 0) - (b.pagina ?? 0));
+
+        const paginasFallidas = totalPaginas - carreras.length;
+        if (paginasFallidas > 0 && carreras.length > 0) {
+          advertencias.push(
+            `Se extrajeron ${carreras.length} de ${totalPaginas} carreras. Vuelve a procesar el PDF para las faltantes.`,
+          );
+        }
+
+        if (carreras.length === 0) {
+          throw new Error('No se pudo extraer ninguna carrera del PDF.');
+        }
+
+        payload = {
+          formato_detectado: formatoDetectado,
+          multipagina: true,
+          total_paginas: totalPaginas,
+          reunion_info: reunionInfoFromCarrera(carreras[0]),
+          carreras,
+          advertencias: advertencias.length ? advertencias : undefined,
+        };
+      } else {
+        payload = probe.datos as ExtractPayload;
+        if (probe.advertencias && Array.isArray(probe.advertencias)) {
+          advertencias.push(...(probe.advertencias as string[]));
+        }
+      }
+
+      const totalElapsed = Date.now() - totalStartedAt;
+      handleExtractResult(payload);
+      lastJson = JSON.stringify(extractPayload, null, 2);
+      jsonOutput.innerHTML = `<code>${escapeHtml(lastJson)}</code>`;
+      const totalCarreras = extractPayload?.carreras?.length ?? 0;
+      jsonMeta.textContent = `${lastJson.length.toLocaleString('es-VE')} caracteres · ${totalCarreras}/${extractPayload?.total_paginas ?? totalCarreras} carrera(s) · ${(totalElapsed / 1000).toFixed(1)} s`;
+      handleExtractResult(payload);
+
+      successMsg.textContent = `Datos extraídos en ${(totalElapsed / 1000).toFixed(1)} s · ${totalCarreras} carrera(s) de ${extractPayload?.total_paginas ?? totalCarreras} página(s).`;
+      successMsg.hidden = false;
+
+      const allWarnings = payload.advertencias ?? advertencias;
+      if (allWarnings.length) {
+        warningMsg.textContent = allWarnings.join(' ');
+        warningMsg.hidden = false;
+      }
+
+      formPreview.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch (err) {
+      if (err instanceof TypeError && err.message === 'Failed to fetch') {
+        errorMsg.textContent =
+          'No hubo respuesta del servidor (posible timeout). Cada página se procesa por separado; reintenta.';
+      } else {
+        errorMsg.textContent = err instanceof Error ? err.message : 'Error desconocido';
+      }
+      errorMsg.hidden = false;
+    } finally {
+      stopLoadingTimer();
+      loading.hidden = true;
+      processBtn.disabled = !selectedFile;
+    }
+  }
+
+  function escapeHtml(text: string) {
+    return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function escapeAttr(value: unknown) {
+    if (value == null) return '';
+    return escapeHtml(String(value)).replace(/"/g, '&quot;');
+  }
+
+  dropZone.addEventListener('click', () => fileInput.click());
+
+  dropZone.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      fileInput.click();
+    }
+  });
+
+  fileInput.addEventListener('change', () => {
+    const file = fileInput.files?.[0];
+    if (file) setFile(file);
+  });
+
+  clearBtn.addEventListener('click', () => setFile(null));
+  processBtn.addEventListener('click', processFile);
+
+  copyBtn.addEventListener('click', async () => {
+    if (!lastJson) return;
+    await navigator.clipboard.writeText(lastJson);
+    copyBtn.innerHTML = '<i class="fas fa-check me-1"></i> Copiado';
+    setTimeout(() => {
+      copyBtn.innerHTML = '<i class="fas fa-copy me-1"></i> Copiar JSON';
+    }, 2000);
+  });
+
+  jsonToggle.addEventListener('click', () => {
+    if (!lastJson) return;
+    const expanded = jsonPanel.hidden;
+    jsonPanel.hidden = !expanded;
+    jsonToggle.setAttribute('aria-expanded', String(expanded));
+    jsonToggle.classList.toggle('open', expanded);
+  });
+
+  ['dragenter', 'dragover'].forEach((event) => {
+    dropZone.addEventListener(event, (e) => {
+      e.preventDefault();
+      dropZone.classList.add('drag-over');
+    });
+  });
+
+  ['dragleave', 'drop'].forEach((event) => {
+    dropZone.addEventListener(event, (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('drag-over');
+    });
+  });
+
+  dropZone.addEventListener('drop', (e) => {
+    const file = e.dataTransfer?.files?.[0];
+    if (file) setFile(file);
+  });
+</script>
+
+<style>
+  .testpdf-page {
+    padding-top: 90px;
+    min-height: 100vh;
+    background: #eef2f7;
+  }
+
+  .page-header h1 {
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .page-header .lead {
+    color: var(--text);
+    opacity: 0.85;
+  }
+
+  .badge-demo {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    margin-bottom: 0.75rem;
+  }
+
+  .import-panel {
+    background: #fff;
+    border-radius: 10px;
+    padding: 1.25rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  }
+
+  .drop-zone {
+    border: 2px dashed #90caf9;
+    border-radius: 8px;
+    padding: 1.25rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    color: #546e7a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  .drop-zone:hover,
+  .drop-zone:focus-visible,
+  .drop-zone.drag-over {
+    border-color: #1976d2;
+    background: #e3f2fd;
+    outline: none;
+  }
+
+  .drop-zone.has-file {
+    border-color: #43a047;
+    background: #e8f5e9;
+  }
+
+  .drop-icon {
+    font-size: 1.5rem;
+    color: #1976d2;
+  }
+
+  .file-info {
+    font-size: 0.85rem;
+    color: #37474f;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #1976d2, #1565c0);
+    border: none;
+  }
+
+  .loading-state {
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #546e7a;
+  }
+
+  /* ── Formulario Editar Llamados ── */
+  .llamados-form {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    color: #263238;
+  }
+
+  .form-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #e0e0e0;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .form-title {
+    color: #1565c0;
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .form-context {
+    text-align: right;
+    font-size: 0.85rem;
+    color: #37474f;
+  }
+
+  .carrera-nav {
+    padding: 0.75rem 1.25rem;
+    background: #e3f2fd;
+    border-bottom: 1px solid #bbdefb;
+  }
+
+  .carrera-nav-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #1565c0;
+    margin-bottom: 0.5rem;
+  }
+
+  .carrera-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .carrera-tabs :global(.carrera-tab) {
+    border: 1px solid #90caf9;
+    background: #fff;
+    color: #1565c0;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.35rem 0.65rem;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .carrera-tabs :global(.carrera-tab.active) {
+    background: #1976d2;
+    color: #fff;
+    border-color: #1976d2;
+  }
+
+  .carrera-tabs :global(.carrera-tab:hover:not(.active)) {
+    background: #f5fbff;
+  }
+
+  .form-section {
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1976d2;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .section-body {
+    padding: 1rem 1.25rem;
+  }
+
+  .field-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.75rem 1rem;
+  }
+
+  .field-item label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #546e7a;
+    margin-bottom: 0.25rem;
+  }
+
+  .field-item.full-width {
+    grid-column: 1 / -1;
+  }
+
+  .field-item .form-control {
+    background: #fafafa;
+    border-color: #cfd8dc;
+    color: #263238;
+    font-size: 0.85rem;
+  }
+
+  .field-item .form-control:focus {
+    background: #fff;
+    border-color: #1976d2;
+    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.15);
+  }
+
+  .monto-calc {
+    background: #eceff1 !important;
+    color: #455a64;
+  }
+
+  .montos-label {
+    font-size: 0.72rem;
+  }
+
+  .juegos-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    color: #1565c0;
+  }
+
+  .juegos-chips :global(.juego-chip) {
+    background: #e3f2fd;
+    color: #1565c0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.3rem 0.75rem;
+    border-radius: 4px;
+    border: 1px solid #90caf9;
+  }
+
+  /* Tabla ejemplares */
+  .ejemplares-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+  }
+
+  .ejemplares-table thead th {
+    background: #2e7d32;
+    color: #fff;
+    font-weight: 600;
+    padding: 0.5rem 0.4rem;
+    text-align: center;
+    white-space: nowrap;
+    border: 1px solid #1b5e20;
+  }
+
+  .ejemplares-table tbody td {
+    padding: 0.25rem 0.2rem;
+    border: 1px solid #e0e0e0;
+    vertical-align: middle;
+  }
+
+  .ejemplares-table tbody tr:nth-child(even) {
+    background: #f5f5f5;
+  }
+
+  .ejemplares-table .col-stud,
+  .ejemplares-table .col-proc {
+    display: none;
+  }
+
+  .ejemplares-table.show-stud .col-stud {
+    display: table-cell;
+  }
+
+  .ejemplares-table.show-proc .col-proc {
+    display: table-cell;
+  }
+
+  .cell-input {
+    width: 100%;
+    border: 1px solid #cfd8dc;
+    border-radius: 3px;
+    padding: 0.3rem 0.4rem;
+    font-size: 0.78rem;
+    background: #fff;
+    color: #263238;
+    min-width: 0;
+  }
+
+  .cell-nro,
+  .cell-kg,
+  .cell-pp {
+    text-align: center;
+    max-width: 55px;
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 1rem 1.25rem;
+    background: #fafafa;
+  }
+
+  /* JSON colapsable (dentro del formulario) */
+  .section-toggle {
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .section-toggle .toggle-icon {
+    transition: transform 0.2s;
+  }
+
+  .section-toggle.open .toggle-icon {
+    transform: rotate(180deg);
+  }
+
+  .json-panel {
+    background: #fafafa;
+  }
+
+  .json-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .json-meta {
+    font-size: 0.78rem;
+    color: #78909c;
+  }
+
+  .json-output {
+    background: #0f172a;
+    color: #e2e8f0;
+    border-radius: 8px;
+    padding: 1rem;
+    font-size: 0.78rem;
+    max-height: 420px;
+    overflow: auto;
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    border: 1px solid #263238;
+  }
+
+  @media (max-width: 768px) {
+    .form-context {
+      text-align: left;
+      width: 100%;
+    }
+
+    .ejemplares-table {
+      font-size: 0.72rem;
+    }
+  }
+</style>

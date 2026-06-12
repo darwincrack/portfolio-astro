@@ -11,6 +11,10 @@ export default defineConfig({
     optimizeDeps: {
       include: ['tsparticles', 'tsparticles-engine'],
     },
+    // Agrega esta sección aquí:
+    server: {
+      allowedHosts: ['.trycloudflare.com'],
+    },
   },
 
   experimental: {
@@ -19,5 +23,8 @@ export default defineConfig({
   site: 'https://darwincd.com',
   integrations: [sitemap()],
   output: 'server',
-  adapter: vercel(),
+  adapter: vercel({
+    // Gemini + PDF puede superar los 10 s por defecto de Vercel
+    maxDuration: 60,
+  }),
 });
