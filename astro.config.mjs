@@ -23,8 +23,5 @@ export default defineConfig({
   site: 'https://darwincd.com',
   integrations: [sitemap()],
   output: 'server',
-  adapter: vercel({
-    // Gemini + PDF puede superar los 10 s por defecto de Vercel
-    maxDuration: 60,
-  }),
+  adapter: vercel(),
 });
