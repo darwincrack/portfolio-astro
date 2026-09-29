@@ -1,0 +1,147 @@
+---
+export const prerender = true;
+
+const title = 'Privacidad de Estrellitas';
+const description =
+  'Política de privacidad de Estrellitas, juego para niños pequeños. Sin cuentas, sin anuncios y sin internet: los datos se quedan en el aparato.';
+const canonical = 'https://darwincd.com/estrellitas/privacidad/';
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+  </head>
+  <body>
+    <main>
+      <h1>Privacidad de Estrellitas</h1>
+      <p class="meta">
+        Última actualización: 29 de septiembre de 2026. Aplicación
+        <code>com.estrellitas.firetv</code>.
+      </p>
+      <p>
+        Estrellitas es un juego para niños pequeños. Esta página explica qué datos toca y qué hace
+        con ellos.
+      </p>
+
+      <h2>Qué no hace</h2>
+      <p>
+        La aplicación no tiene cuenta, no tiene anuncios y no incluye permiso de internet. No envía
+        fotos, voces, palabras ni el uso del juego a ningún servidor. No vende datos y no los
+        comparte con nadie.
+      </p>
+
+      <h2>Qué se guarda en el aparato</h2>
+      <ul>
+        <li>Las fotos que un adulto elige en los ajustes.</li>
+        <li>Las palabras que un adulto escribe.</li>
+        <li>
+          Las voces que un adulto graba con el micrófono, o la voz de mamá y papá que ya viene con
+          el juego.
+        </li>
+        <li>
+          Las opciones del juego: idioma, sonido, modo automático y qué grupos de figuras están
+          encendidos.
+        </li>
+      </ul>
+      <p>
+        Eso queda en el almacenamiento privado de la aplicación, en ese teléfono o televisor. Si se
+        borran los datos de la aplicación o se desinstala, se borra también.
+      </p>
+
+      <h2>Micrófono</h2>
+      <p>
+        El micrófono solo se usa cuando un adulto pulsa grabar en los ajustes. La grabación no sale
+        del aparato. El juego se puede usar sin grabar nada: el micrófono no es obligatorio para
+        abrirlo.
+      </p>
+
+      <h2>Niños</h2>
+      <p>
+        El juego está pensado para niños pequeños. Las fotos, las palabras y las grabaciones las
+        pone un adulto. Los ajustes están detrás de una pulsación larga para que el niño no entre
+        solo. La aplicación no pide al niño su nombre, su correo ni su ubicación.
+      </p>
+
+      <h2>Voces y figuras del juego</h2>
+      <p>
+        Los números, los animales y el resto de figuras que hablan vienen dentro de la aplicación.
+        No se graban del niño ni se descargan al jugar.
+      </p>
+
+      <h2>Contacto</h2>
+      <p><a href="mailto:contacto@darwincd.com">contacto@darwincd.com</a></p>
+
+      <h2>Privacy</h2>
+      <p>
+        Estrellitas is a game for young children. It has no account, no ads, and no internet
+        permission. Photos, words, voice recordings, and settings stay on the device. The microphone
+        is used only when an adult taps record in settings. Uninstalling the app or clearing its
+        data deletes that information. Nothing is sold or shared. Contact:
+        <a href="mailto:contacto@darwincd.com">contacto@darwincd.com</a>.
+      </p>
+
+      <h2>Privacidade</h2>
+      <p>
+        Estrellitas é um jogo para crianças pequenas. Não tem conta, não tem anúncios e não pede
+        internet. Fotos, palavras, gravações de voz e ajustes ficam no aparelho. O microfone só é
+        usado quando um adulto toca em gravar nos ajustes. Desinstalar o aplicativo ou apagar os
+        dados dele apaga essas informações. Nada é vendido nem compartilhado. Contato:
+        <a href="mailto:contacto@darwincd.com">contacto@darwincd.com</a>.
+      </p>
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  body {
+    margin: 0;
+    background: #f7f1e6;
+    color: #2a241c;
+    font-family: Georgia, 'Noto Serif', serif;
+    line-height: 1.5;
+  }
+
+  main {
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 3rem;
+  }
+
+  h1,
+  h2 {
+    line-height: 1.2;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    margin-top: 2rem;
+  }
+
+  p,
+  li {
+    font-size: 1.05rem;
+  }
+
+  .meta {
+    color: #5c5348;
+  }
+
+  a {
+    color: #163044;
+  }
+</style>
