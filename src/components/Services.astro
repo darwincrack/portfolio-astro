@@ -40,6 +40,22 @@ const servicesSchema = {
     },
     {
       "@type": "Service",
+      "name": "Aplicaciones móviles",
+      "description": "Apps para iOS y Android, y actualizaciones de aplicaciones que se quedaron atrás",
+      "provider": {
+        "@type": "Person",
+        "name": "Darwin Cedeño",
+        "url": siteUrl
+      },
+      "serviceType": "Desarrollo móvil",
+      "areaServed": [
+        { "@type": "Country", "name": "Venezuela" },
+        { "@type": "Country", "name": "España" },
+        { "@type": "Place", "name": "Latinoamérica" }
+      ]
+    },
+    {
+      "@type": "Service",
       "name": "Tiendas online",
       "description": "Tiendas con cobros, inventario y envíos. WooCommerce, pasarelas y Pago Móvil para Venezuela",
       "provider": {
@@ -129,6 +145,17 @@ const services = [
     ]
   },
   {
+    title: "Aplicaciones móviles",
+    description: "Apps para iOS y Android, y las que hay que poner al día",
+    icon: "fa-solid fa-mobile-screen",
+    capabilities: [
+      "Apps con React Native",
+      "iOS y Android",
+      "Actualización de apps ya publicadas",
+      "Conexión con la web y los sistemas del negocio"
+    ]
+  },
+  {
     title: "Tiendas online",
     description: "Cobros, inventario y envíos, en WooCommerce o a medida",
     icon: "fa-solid fa-shopping-cart",
@@ -182,7 +209,7 @@ const services = [
   <div class="container">
     <h2 class="text-center mb-3">Servicios</h2>
     <p class="services-intro text-center mb-5">
-      Webs, sistemas a medida, rendimiento y mantenimiento para negocios en Venezuela, Latinoamérica y España.
+      Webs, sistemas y aplicaciones móviles a medida, más rendimiento y mantenimiento.
     </p>
 
     <div class="row g-4">
