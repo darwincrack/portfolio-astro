@@ -16,8 +16,8 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
   <!-- Hero Section -->
   <div class="hero-section">
     <div class="container text-center">
-      <h1 class="main-title glow-effect" style="visibility: visible">Darwin Cedeño</h1>
-      <h2 class="hero-lead">Hago webs, sistemas y aplicaciones móviles a medida.</h2>
+      <p class="hero-name">Darwin Cedeño</p>
+      <h1 class="hero-lead">Hago webs, sistemas y aplicaciones móviles a medida.</h1>
       <p class="hero-places">Venezuela, Latinoamérica y España.</p>
       <p class="hero-proof">Top Rated en Workana · +300 proyectos · 5 estrellas</p>
 
@@ -29,7 +29,13 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
           Contáctame
         </a>
       </div>
-      <p class="technologies">PHP · JavaScript · WordPress · Laravel · React · Node.js · MySQL · IA</p>
+      <div class="hero-stack">
+        <p class="technologies">PHP · JavaScript · WordPress · Laravel · React · Node.js · MySQL · IA</p>
+        <a href="https://github.com/darwincrack/" class="github-link" title="GitHub" aria-label="Perfil de Darwin Cedeño en GitHub" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-github" aria-hidden="true"></i>
+          GitHub
+        </a>
+      </div>
 
       <!-- Certificaciones con imágenes -->
       <div class="certifications-badges">
@@ -70,18 +76,6 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
             />
           </a>
         ))}
-      </div>
-
-      <div class="social-links">
-        <a href="https://github.com/darwincrack/" class="social-link" title="GitHub" aria-label="Perfil de Darwin Cedeño en GitHub" target="_blank" rel="noopener noreferrer">
-          <i class="fa-brands fa-github" aria-hidden="true"></i>
-        </a>
-        <a href="https://www.linkedin.com/in/darwincrack/" class="social-link" title="LinkedIn" aria-label="Perfil de Darwin Cedeño en LinkedIn" target="_blank" rel="noopener noreferrer">
-          <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
-        </a>
-        <a href="https://www.instagram.com/darwinc.dev/" class="social-link" title="Instagram" aria-label="Perfil de Darwin Cedeño en Instagram" target="_blank" rel="noopener noreferrer">
-          <i class="fa-brands fa-instagram" aria-hidden="true"></i>
-        </a>
       </div>
     </div>
   </div>
@@ -259,6 +253,7 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
   }
 
   .main-title,
+  .hero-name,
   .subtitle,
   .technologies,
   .hero-lead,
@@ -275,6 +270,7 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
   html[data-theme="light"] .hero-section .hero-places,
   html[data-theme="light"] .hero-section .hero-proof,
   html[data-theme="light"] .hero-section .cta-note,
+  html[data-theme="light"] .hero-section .hero-name,
   html[data-theme="light"] .hero-section .main-title {
     color: #f8fafc !important;
   }
@@ -286,12 +282,44 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
     margin-bottom: 0.75rem;
   }
 
-  .hero-lead {
-    max-width: 40rem;
-    margin: 0.25rem auto 0.35rem;
-    font-size: 1.35rem;
-    line-height: 1.35;
+  .hero-name {
+    margin: 0 0 0.85rem;
+    font-size: 1.15rem;
     font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+
+  .hero-lead {
+    max-width: 46rem;
+    margin: 0 auto 0.75rem;
+    font-size: clamp(1.85rem, 4.5vw, 2.75rem);
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .hero-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.55rem;
+    margin-top: 1.35rem;
+  }
+
+  .github-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #f8fafc !important;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    opacity: 0.9;
+  }
+
+  .github-link:hover {
+    color: var(--gradient-1) !important;
   }
 
   .hero-places {
@@ -315,7 +343,7 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
     font-size: 0.95rem;
     font-weight: 500;
     opacity: 0.75;
-    margin: 1.25rem 0 0.5rem;
+    margin: 0;
   }
 
   .social-link {
@@ -446,7 +474,7 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
     }
 
     .hero-lead {
-      font-size: 1.05rem;
+      font-size: clamp(1.65rem, 7vw, 2.1rem);
     }
 
     .nav-links {
@@ -637,7 +665,7 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
     font-size: 0.95rem;
     font-weight: 500;
     opacity: 0.75;
-    margin-bottom: 0.5rem;
+    margin: 0;
   }
 
   /* Forzar color claro en modo light */
@@ -661,8 +689,8 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
   }
 
   .certifications-badges a {
-    width: 90px;
-    height: 90px;
+    width: 72px;
+    height: 72px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -694,8 +722,8 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
     }
     
     .certifications-badges a {
-      width: 70px;
-      height: 70px;
+      width: 60px;
+      height: 60px;
     }
   }
 
