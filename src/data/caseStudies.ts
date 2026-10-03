@@ -9,6 +9,8 @@ export type CaseStudy = {
   tags: string[];
   link: string;
   github: string;
+  serviceHref: string;
+  serviceLabel: string;
 };
 
 export const caseStudies: CaseStudy[] = [
@@ -22,7 +24,9 @@ export const caseStudies: CaseStudy[] = [
     details: "Web de noticias deportivas. Desarrollo y mantenimiento durante varios años como parte de la dirección técnica de los medios de Bloque de Armas. El sitio ya fue actualizado por terceros.",
     tags: ["PHP", "JavaScript", "MySQL", "CMS"],
     link: "https://meridiano.net",
-    github: ""
+    github: "",
+    serviceHref: "/servicios/webs-y-sistemas",
+    serviceLabel: "Ver webs y sistemas a medida"
   },
   {
     slug: "croplife",
@@ -34,7 +38,9 @@ export const caseStudies: CaseStudy[] = [
     details: "Actualización integral de la aplicación móvil educativa CropLife, de React Native 0.67 a 0.79.6, con refactor del código y de las dependencias para iOS y Android.",
     tags: ["React Native", "iOS", "Android"],
     link: "",
-    github: ""
+    github: "",
+    serviceHref: "/servicios/aplicaciones-moviles",
+    serviceLabel: "Ver aplicaciones móviles"
   },
   {
     slug: "misca-studio",
@@ -46,7 +52,9 @@ export const caseStudies: CaseStudy[] = [
     details: "Trabajo integral en miscastudio.com, estudio de interiorismo en Girona: nuevo hero en Elementor sin Revolution Slider, vídeo de fondo reducido de unos 24 MB a unos 3,6 MB e imagen estática en móvil; LiteSpeed Cache y QUIC.cloud (WebP, minificación, CDN); limpieza de código demo y plantillas; SEO técnico; botones de contacto (WhatsApp, email, llamada) y selector de idiomas; actualización de plugins, PHP 8.3 y eliminación de temas inactivos.",
     tags: ["WordPress", "Elementor", "LiteSpeed", "SEO", "UX"],
     link: "https://miscastudio.com/",
-    github: ""
+    github: "",
+    serviceHref: "/servicios/webs-y-sistemas",
+    serviceLabel: "Ver webs y sistemas a medida"
   },
   {
     slug: "pago-movil-woocommerce",
@@ -58,7 +66,9 @@ export const caseStudies: CaseStudy[] = [
     details: "Plugin para WordPress/WooCommerce que implementa Pago Móvil en Venezuela. El comercio recibe el pago por transferencia bancaria móvil, integrado con los principales bancos del país.",
     tags: ["WordPress", "Plugins", "WooCommerce"],
     link: "https://iqsalud.app/tienda/",
-    github: "https://github.com/darwincrack/wp-payment-pago-movil"
+    github: "https://github.com/darwincrack/wp-payment-pago-movil",
+    serviceHref: "/servicios/webs-y-sistemas",
+    serviceLabel: "Ver webs y sistemas a medida"
   }
 ];
 

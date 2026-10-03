@@ -62,6 +62,9 @@ const caseSchema = {
 
       <h1>{study.title}</h1>
       <p class="summary">{study.summary}</p>
+      <p class="service-link">
+        <a href={study.serviceHref}>{study.serviceLabel}</a>
+      </p>
 
       {image && (
         <Image
@@ -146,7 +149,21 @@ const caseSchema = {
   .summary {
     font-size: 1.15rem;
     line-height: 1.5;
+    margin-bottom: 0.75rem;
+  }
+
+  .service-link {
     margin-bottom: 1.5rem;
+  }
+
+  .service-link a {
+    color: var(--gradient-1);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .service-link a:hover {
+    text-decoration: underline;
   }
 
   .case-image {
