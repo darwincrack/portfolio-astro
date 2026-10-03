@@ -30,16 +30,12 @@ import project19 from '../images/project19.avif';
 
 
 import projectsupport1 from '../images/projectsupport1.avif';
+import { caseStudyByTitle } from '../data/caseStudies';
 
 const projects = [
   {
     title: "Misca Studio — Optimización y conversión",
     description: "La portada pesaba demasiado y el contacto quedaba escondido.",
-    caseStudy: {
-      problem: "La portada dependía de Revolution Slider y un vídeo de fondo de unos 24 MB, pesado sobre todo en el móvil.",
-      solution: "Hero nuevo en Elementor, vídeo reducido a unos 3,6 MB, imagen estática en móvil, LiteSpeed Cache, PHP 8.3, SEO técnico y botones de contacto.",
-      result: "El vídeo de fondo pasó de unos 24 MB a unos 3,6 MB, con caché, CDN y la base técnica actualizada."
-    },
     detailedDescription: "Trabajo integral en miscastudio.com (estudio de interiorismo en Girona): nuevo hero en Elementor sin Revolution Slider, vídeo de fondo reducido de ~24 MB a ~3,6 MB e imagen estática en móvil; LiteSpeed Cache + QUIC.cloud (WebP, minificación, CDN); limpieza de código demo y plantillas; SEO técnico (lang es, datos estructurados, Polylang preparado para multidioma); CTAs flotantes (WhatsApp, email, llamada) y selector de idiomas; actualización de plugins, PHP 8.3 y eliminación de temas inactivos.",
     tags: ["WordPress", "Elementor", "LiteSpeed", "SEO", "UX"],
     link: "https://miscastudio.com/",
@@ -64,11 +60,6 @@ const projects = [
   {
     title: "Pago Móvil para WooCommerce",
     description: "Cobrar con Pago Móvil en una tienda WooCommerce.",
-    caseStudy: {
-      problem: "Una tienda en Venezuela necesitaba cobrar con Pago Móvil, un método que WooCommerce no trae de serie.",
-      solution: "Plugin a medida para WordPress/WooCommerce, integrado con los principales bancos venezolanos.",
-      result: "El comercio puede recibir el pago por transferencia bancaria móvil desde la propia tienda."
-    },
     detailedDescription: "Desarrollo de un plugin personalizado para WordPress/WooCommerce que implementa el método de pago 'Pago Móvil' específico para Venezuela. El plugin permite a los comerciantes recibir pagos a través de transferencias bancarias móviles, integrando con los principales bancos venezolanos.",
     tags: ["WordPress", "Plugins", "WooCommerce"],
     link: "https://iqsalud.app/tienda/",
@@ -95,11 +86,6 @@ const projects = [
   {
     title: "CropLife — actualización de la app",
     description: "La app educativa estaba varias versiones atrás de React Native.",
-    caseStudy: {
-      problem: "La app educativa CropLife seguía en React Native 0.67, lejos de las versiones actuales del framework y de sus dependencias.",
-      solution: "Migración a React Native 0.79.6, con refactor del código para que siguiera funcionando en iOS y Android.",
-      result: "App actualizada y compatible con la versión vigente del framework y con sus librerías."
-    },
     detailedDescription: "Se realizó una actualización integral de la aplicación móvil educativa CropLife, migrando el proyecto de React Native 0.67 a la versión 0.79.6. Este proceso implicó una refactorización completa del código fuente para garantizar la compatibilidad con la nueva versión del framework, así como con las últimas versiones de dependencias clave y librerías de terceros.",
     tags: ["React Native", "iOS", "Android"],
     link: "",
@@ -198,11 +184,6 @@ const projects = [
   {
     title: "meridiano.net",
     description: "Portal deportivo de alto tráfico, desarrollado y mantenido durante años.",
-    caseStudy: {
-      problem: "Los medios de Bloque de Armas necesitaban portales capaces de sostener mucho tráfico y crecer en búsqueda.",
-      solution: "Dirección técnica y desarrollo de meridiano.net, el portal deportivo, junto con 2001online.com y Revista Ronda, durante varios años.",
-      result: "Esas plataformas superaban el millón de visitas mensuales. El SEO y el rendimiento acompañaron un aumento del 200% en tráfico orgánico."
-    },
     detailedDescription: "Web de noticias deportivas. Desarrollo y mantenimiento durante varios años como parte de la dirección técnica de los medios de Bloque de Armas. El sitio ya fue actualizado por terceros.",
     tags: ["PHP", "JavaScript", "MySQL", "CMS"],
     link: "https://meridiano.net",
@@ -310,38 +291,12 @@ const projectsForClient = sortedProjects.map((project) => ({
   additionalImages: project.additionalImages?.map((img) => ({ src: img.src })) ?? [],
 }));
 
-// Obtener tipos únicos de proyectos
-const projectTypes = [...new Set(projects.map(project => project.type || 'fullstack'))];
-
-// Definir el orden deseado de los tipos
-const filterOrder = ['fullstack', 'plugins', 'tools', 'support', 'Movil'];
-const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(type));
 ---
 
 <section id="projects-section" class="py-5">
   <div class="container">
     <h2 class="text-center mb-5">Proyectos Destacados</h2>
-    
-    <!-- Filtros de proyectos -->
-    <div class="project-filters mb-4">
-      <button class="filter-btn active" data-filter="all">Todos</button>
-      {orderedProjectTypes.map(type => (
-        <button class="filter-btn" data-filter={type}>
-          {type === 'fullstack'
-            ? 'Web y App Web'
-            : type === 'plugins'
-              ? 'Plugins'
-              : type === 'support'
-                ? 'Soporte'
-                : type === 'mobile'
-                  ? 'Movil'
-                : type === 'tools'
-                  ? 'Herramientas'
-                  : type}
-        </button>
-      ))}
-    </div>
-    
+
     <div class="projects-grid">
       {sortedProjects.map((project, index) => (
         <div class="project-card" data-index={index} title={project.title} data-type={project.type || 'fullstack'}>
@@ -371,7 +326,11 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
                   <i class="fab fa-github"></i> GitHub
                 </a>
               )}
-              {(project.detailedDescription || project.caseStudy) && (
+              {caseStudyByTitle.get(project.title) ? (
+                <a href={`/proyectos/${caseStudyByTitle.get(project.title)?.slug}`} class="btn btn-info">
+                  Ver caso
+                </a>
+              ) : project.detailedDescription && (
                 <button class="btn btn-info details-btn" data-index={index}>
                   <i class="fas fa-info-circle"></i> Detalles
                 </button>
@@ -379,35 +338,10 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
             </div>
           </div>
           <div class="project-content">
-            <div class="project-type-badge">
-              {project.type === 'support'
-                ? 'Soporte'
-                : project.type === 'tools'
-                  ? 'Herramienta'
-                  : project.type === 'mobile'
-                    ? 'Móvil'
-                  : project.type === 'plugins'
-                    ? 'Plugin'
-                  : 'Web/App Web'}
-            </div>
             <h4 class="h5">{project.title}</h4>
-            {project.caseStudy ? (
-              <dl class="case-study">
-                <div>
-                  <dt>Problema</dt>
-                  <dd>{project.caseStudy.problem}</dd>
-                </div>
-                <div>
-                  <dt>Solución</dt>
-                  <dd>{project.caseStudy.solution}</dd>
-                </div>
-                <div>
-                  <dt>Resultado</dt>
-                  <dd>{project.caseStudy.result}</dd>
-                </div>
-              </dl>
-            ) : (
-              <p class="text-sm" title={project.description}>{project.description}</p>
+            <p class="text-sm" title={project.description}>{project.description}</p>
+            {caseStudyByTitle.get(project.title) && (
+              <a class="case-link" href={`/proyectos/${caseStudyByTitle.get(project.title)?.slug}`}>Ver el caso</a>
             )}
             <div class="project-tags">
               {project.tags.map(tag => (
@@ -590,39 +524,31 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
     transition: opacity 0.3s ease;
     gap: 10px;
     flex-wrap: wrap;
+    padding: 1rem;
+    z-index: 2;
+    pointer-events: none;
   }
 
-  .project-card:hover .project-overlay {
+  .project-card:hover .project-overlay,
+  .project-image:focus-within .project-overlay {
     opacity: 1 !important;
+    pointer-events: auto;
   }
 
   .project-content {
     padding: 1.5rem;
   }
 
-  .case-study {
-    margin: 0;
-    display: grid;
-    gap: 0.65rem;
-  }
-
-  .case-study div {
-    margin: 0;
-  }
-
-  .case-study dt {
-    margin-bottom: 0.15rem;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+  .case-link {
+    display: inline-block;
+    margin-top: 0.75rem;
     color: var(--gradient-1);
+    font-weight: 600;
+    text-decoration: none;
   }
 
-  .case-study dd {
-    margin: 0;
-    font-size: 0.9rem;
-    line-height: 1.45;
+  .case-link:hover {
+    text-decoration: underline;
   }
 
   .project-tags {
@@ -924,48 +850,6 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
     }
   }
 
-  /* Estilos para los filtros */
-  .project-filters {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
-  }
-
-  .filter-btn {
-    padding: 0.5rem 1.5rem;
-    border: 2px solid var(--gradient-1);
-    border-radius: 2rem;
-    background: transparent;
-    color: var(--text);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 500;
-  }
-
-  .filter-btn:hover,
-  .filter-btn.active {
-    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
-    color: white;
-    border-color: transparent;
-  }
-
-  /* Estilo para el badge de tipo de proyecto */
-  .project-type-badge {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    padding: 0.25rem 0.75rem;
-    border-radius: 1rem;
-    font-size: 0.8rem;
-    font-weight: 500;
-    background: var(--gradient-1);
-    color: white;
-    z-index: 1;
-  }
-
-  /* Ajustes para la visualización de proyectos filtrados */
   .project-card {
     display: none;
   }
@@ -973,11 +857,6 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
   .project-card.visible {
     display: block;
   }
-
-  .project-card[data-type="support"] .project-type-badge {
-    background: var(--gradient-2);
-  }
-
 
   .project-card[data-type="support"] span.tag{
     font-size: 0.8rem;
@@ -1170,49 +1049,6 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
     }
   });
 
-  // Función para filtrar proyectos
-  function filterProjects(type) {
-    const projectCards = document.querySelectorAll('.project-card');
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const loadMoreBtn = document.querySelector('#load-more-projects');
-
-    // Actualizar botones de filtro
-    filterBtns.forEach(btn => {
-      btn.classList.toggle('active', btn.getAttribute('data-filter') === type);
-    });
-
-    if (type === 'all') {
-      let visibleCount = 6;
-      const increment = 3;
-      projectCards.forEach((card, index) => {
-        if (index < visibleCount) {
-          card.style.display = 'block';
-          card.classList.add('visible', 'animate-initial', 'animate-in');
-        } else {
-          card.style.display = 'none';
-          card.classList.remove('visible', 'animate-initial', 'animate-in');
-        }
-      });
-      if (loadMoreBtn) {
-        loadMoreBtn.style.display = projectCards.length > visibleCount ? 'block' : 'none';
-      }
-    } else {
-      // Mostrar todos los proyectos de la categoría seleccionada
-      projectCards.forEach(card => {
-        if (card.getAttribute('data-type') === type) {
-          card.style.display = 'block';
-          card.classList.add('visible', 'animate-initial', 'animate-in');
-        } else {
-          card.style.display = 'none';
-          card.classList.remove('visible', 'animate-initial', 'animate-in');
-        }
-      });
-      if (loadMoreBtn) {
-        loadMoreBtn.style.display = 'none';
-      }
-    }
-  }
-
   function markLoadedProjectImages() {
     document.querySelectorAll('.project-image img').forEach((img) => {
       const markLoaded = () => img.closest('.project-image')?.classList.add('is-loaded');
@@ -1230,14 +1066,6 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
     const increment = 3;
 
     markLoadedProjectImages();
-
-    // Agregar event listeners a los botones de filtro
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const filterType = btn.getAttribute('data-filter');
-        filterProjects(filterType);
-      });
-    });
 
     // Agregar event listeners a los botones de detalles
     document.querySelectorAll('.details-btn').forEach(btn => {

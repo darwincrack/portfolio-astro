@@ -1,0 +1,225 @@
+---
+export const prerender = true;
+
+import { Image } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import { caseStudies } from '../../data/caseStudies';
+import meridianoImage from '../../images/project5.avif';
+import croplifeImage from '../../images/project16_1.avif';
+import miscaImage from '../../images/project19.avif';
+import pagoMovilImage from '../../images/project11.avif';
+
+const images: Record<string, ImageMetadata> = {
+  'meridiano-net': meridianoImage,
+  croplife: croplifeImage,
+  'misca-studio': miscaImage,
+  'pago-movil-woocommerce': pagoMovilImage
+};
+
+export function getStaticPaths() {
+  return caseStudies.map((study) => ({
+    params: { slug: study.slug }
+  }));
+}
+
+const study = caseStudies.find((item) => item.slug === Astro.params.slug);
+if (!study) {
+  throw new Error('Caso no encontrado');
+}
+
+const image = images[study.slug];
+const siteUrl = 'https://darwincd.com';
+const pageUrl = `${siteUrl}/proyectos/${study.slug}/`;
+
+const caseSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: study.title,
+  description: study.summary,
+  url: pageUrl,
+  author: {
+    '@type': 'Person',
+    name: 'Darwin Cedeño',
+    url: siteUrl
+  },
+  mainEntityOfPage: pageUrl
+};
+---
+
+<Layout title={`${study.title} | Darwin Cedeño`} description={study.summary}>
+  <script type="application/ld+json" set:html={JSON.stringify(caseSchema)} />
+  <main class="case-page">
+    <div class="container">
+      <nav aria-label="Miga de pan">
+        <ol>
+          <li><a href="/">Inicio</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a href="/#projects-section">Proyectos</a></li>
+          <li aria-hidden="true">/</li>
+          <li>{study.title}</li>
+        </ol>
+      </nav>
+
+      <h1>{study.title}</h1>
+      <p class="summary">{study.summary}</p>
+
+      {image && (
+        <Image
+          src={image}
+          alt={`Captura del proyecto ${study.title}`}
+          width={960}
+          height={540}
+          format="avif"
+          quality={80}
+          class="case-image"
+        />
+      )}
+
+      <dl class="case-study">
+        <div>
+          <dt>Problema</dt>
+          <dd>{study.problem}</dd>
+        </div>
+        <div>
+          <dt>Solución</dt>
+          <dd>{study.solution}</dd>
+        </div>
+        <div>
+          <dt>Resultado</dt>
+          <dd>{study.result}</dd>
+        </div>
+      </dl>
+
+      <p class="details">{study.details}</p>
+
+      <ul class="tags">
+        {study.tags.map((tag) => <li>{tag}</li>)}
+      </ul>
+
+      <div class="actions">
+        {study.link && (
+          <a href={study.link} class="btn-primary" target="_blank" rel="noopener noreferrer">Ver el sitio</a>
+        )}
+        {study.github && (
+          <a href={study.github} class="btn-secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
+        )}
+        <a href="/#contact-section" class="btn-secondary">Hablemos del tuyo</a>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .case-page {
+    padding: 7rem 0 4rem;
+  }
+
+  .container {
+    max-width: 46rem;
+  }
+
+  nav ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    list-style: none;
+    font-size: 0.95rem;
+  }
+
+  nav a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  nav a:hover {
+    color: var(--gradient-1);
+  }
+
+  h1 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .summary {
+    font-size: 1.15rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+  }
+
+  .case-image {
+    width: 100%;
+    height: auto;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .case-study {
+    display: grid;
+    gap: 1.25rem;
+    margin: 0 0 1.5rem;
+  }
+
+  .case-study dt {
+    margin-bottom: 0.25rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--gradient-1);
+  }
+
+  .case-study dd {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.55;
+  }
+
+  .details {
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0 0 2rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .tags li {
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    background: var(--secondary-bg);
+    font-size: 0.85rem;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    display: inline-block;
+    padding: 0.75rem 1.25rem;
+    border-radius: 2rem;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .btn-primary {
+    background: linear-gradient(90deg, var(--gradient-3), var(--gradient-2), var(--gradient-1));
+    color: #f8fafc;
+  }
+
+  .btn-secondary {
+    border: 1px solid var(--gradient-1);
+    color: inherit;
+  }
+</style>
