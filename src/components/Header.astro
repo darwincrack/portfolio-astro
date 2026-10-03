@@ -18,9 +18,8 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
     <div class="container text-center">
       <h1 class="main-title glow-effect" style="visibility: visible">Darwin Cedeño</h1>
       <h2 class="subtitle">Desarrollador web</h2>
-      <p class="hero-lead">
-        Ayudo a negocios en Venezuela, Latinoamérica y España a tener una web o un sistema que cargue, se mantenga y resuelva el trabajo del día a día.
-      </p>
+      <p class="hero-lead">Hago webs y sistemas a medida.</p>
+      <p class="hero-places">Venezuela, Latinoamérica y España.</p>
       <p class="hero-proof">Top Rated en Workana · +300 proyectos · 5 estrellas · Venezuela</p>
 
       <div class="cta-container">
@@ -268,6 +267,7 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
   .subtitle,
   .technologies,
   .hero-lead,
+  .hero-places,
   .hero-proof,
   .cta-note {
     color: #f8fafc !important; /* Forzar color claro siempre */
@@ -277,6 +277,7 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
   html[data-theme="light"] .hero-section .subtitle,
   html[data-theme="light"] .hero-section .technologies,
   html[data-theme="light"] .hero-section .hero-lead,
+  html[data-theme="light"] .hero-section .hero-places,
   html[data-theme="light"] .hero-section .hero-proof,
   html[data-theme="light"] .hero-section .cta-note,
   html[data-theme="light"] .hero-section .main-title {
@@ -292,10 +293,16 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
 
   .hero-lead {
     max-width: 42rem;
+    margin: 0 auto 0.35rem;
+    font-size: 1.35rem;
+    line-height: 1.4;
+    font-weight: 500;
+  }
+
+  .hero-places {
     margin: 0 auto 0.75rem;
-    font-size: 1.15rem;
-    line-height: 1.55;
-    font-weight: 400;
+    font-size: 1rem;
+    opacity: 0.9;
   }
 
   .hero-proof,
