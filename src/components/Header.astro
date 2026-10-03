@@ -29,13 +29,7 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
           Contáctame
         </a>
       </div>
-      <div class="hero-stack">
-        <p class="technologies">PHP · JavaScript · WordPress · Laravel · React · Node.js · MySQL · IA</p>
-        <a href="https://github.com/darwincrack/" class="github-link" title="GitHub" aria-label="Perfil de Darwin Cedeño en GitHub" target="_blank" rel="noopener noreferrer">
-          <i class="fa-brands fa-github" aria-hidden="true"></i>
-          GitHub
-        </a>
-      </div>
+      <p class="technologies">PHP · JavaScript · WordPress · Laravel · React · Node.js · MySQL · IA</p>
 
       <!-- Certificaciones con imágenes -->
       <div class="certifications-badges">
@@ -299,29 +293,6 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
     font-weight: 700;
   }
 
-  .hero-stack {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.55rem;
-    margin-top: 1.35rem;
-  }
-
-  .github-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    color: #f8fafc !important;
-    font-size: 1rem;
-    font-weight: 600;
-    text-decoration: none;
-    opacity: 0.9;
-  }
-
-  .github-link:hover {
-    color: var(--gradient-1) !important;
-  }
-
   .hero-places {
     margin: 0 auto 0.75rem;
     font-size: 1rem;
@@ -343,7 +314,7 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
     font-size: 0.95rem;
     font-weight: 500;
     opacity: 0.75;
-    margin: 0;
+    margin: 1.35rem 0 0;
   }
 
   .social-link {
@@ -665,7 +636,7 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
     font-size: 0.95rem;
     font-weight: 500;
     opacity: 0.75;
-    margin: 0;
+    margin: 1.35rem 0 0;
   }
 
   /* Forzar color claro en modo light */

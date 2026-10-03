@@ -57,11 +57,25 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
                 </a>
               </div>
 
-              <div class="contact-method">
-                
+              <div class="contact-method mb-3">
                 <i class="fab fa-whatsapp gradient-text me-2"></i>
                 <a href="https://wa.link/p82cmn" class="gradient-text text-decoration-none">
                   WhatsApp
+                </a>
+              </div>
+
+              <div class="contact-social">
+                <a href="https://github.com/darwincrack/" target="_blank" rel="noopener noreferrer">
+                  <i class="fab fa-github" aria-hidden="true"></i>
+                  GitHub
+                </a>
+                <a href="https://www.linkedin.com/in/darwincrack/" target="_blank" rel="noopener noreferrer">
+                  <i class="fab fa-linkedin" aria-hidden="true"></i>
+                  LinkedIn
+                </a>
+                <a href="https://www.instagram.com/darwinc.dev/" target="_blank" rel="noopener noreferrer">
+                  <i class="fab fa-instagram" aria-hidden="true"></i>
+                  Instagram
                 </a>
               </div>
             </div>
@@ -243,6 +257,26 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+  }
+
+  .contact-social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+    margin-top: 0.25rem;
+  }
+
+  .contact-social a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .contact-social a:hover {
+    color: var(--gradient-1);
   }
 
   .contact-form .form-label {
