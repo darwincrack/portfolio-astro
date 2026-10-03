@@ -6,6 +6,8 @@ import ParticlesBackground from './ParticlesBackground.astro';
 import azureBadge from '../images/badges/microsoft-certified-azure-fundamentals.avif';
 import pmBadge from '../images/badges/certificado-de-gestion-de-proyectos-de-google.avif';
 import aiBadge from '../images/badges/google-ai-essentials.avif';
+
+const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.com/darwinc-dev/consulta-15-min';
 ---
 
 <header class="header">
@@ -15,9 +17,24 @@ import aiBadge from '../images/badges/google-ai-essentials.avif';
   <div class="hero-section">
     <div class="container text-center">
       <h1 class="main-title glow-effect" style="visibility: visible">Darwin Cedeño</h1>
-      <h2 class="subtitle">Desarrollador Web</h2>
+      <h2 class="subtitle">Desarrollador web</h2>
+      <p class="hero-lead">
+        Ayudo a negocios en Venezuela y Latinoamérica a tener una web o un sistema que cargue, se mantenga y resuelva el trabajo del día a día.
+      </p>
+      <p class="hero-proof">Top Rated en Workana · +300 proyectos · 5 estrellas · Venezuela</p>
+
+      <div class="cta-container">
+        <a href={CALENDLY_URL} class="contact-btn" target="_blank" rel="noopener noreferrer">
+          Agendar consulta de 15 min
+        </a>
+        <a href="#contact-section" class="contact-btn contact-btn-secondary">
+          Contáctame
+        </a>
+      </div>
+      <p class="cta-note">Sin compromiso. Respuesta en menos de 24 h.</p>
+
       <p class="technologies">
-        PHP • JavaScript • WordPress • Laravel • React • Node.js  • MySQL • IA
+        PHP • JavaScript • WordPress • Laravel • React • Node.js • MySQL • IA
       </p>
       
       <!-- Certificaciones con imágenes -->
@@ -71,9 +88,6 @@ import aiBadge from '../images/badges/google-ai-essentials.avif';
         <a href="https://www.instagram.com/darwinc.dev/" class="social-link" title="Instagram" aria-label="Perfil de Darwin Cedeño en Instagram" target="_blank" rel="noopener noreferrer">
           <i class="fa-brands fa-instagram" aria-hidden="true"></i>
         </a>
-      </div>
-      <div class="cta-container">
-        <a href="#contact-section" class="contact-btn">Contáctame</a>
       </div>
     </div>
   </div>
@@ -252,13 +266,19 @@ import aiBadge from '../images/badges/google-ai-essentials.avif';
 
   .main-title,
   .subtitle,
-  .technologies {
+  .technologies,
+  .hero-lead,
+  .hero-proof,
+  .cta-note {
     color: #f8fafc !important; /* Forzar color claro siempre */
   }
 
   /* Remover cualquier estilo específico del modo claro para estos elementos */
   html[data-theme="light"] .hero-section .subtitle,
   html[data-theme="light"] .hero-section .technologies,
+  html[data-theme="light"] .hero-section .hero-lead,
+  html[data-theme="light"] .hero-section .hero-proof,
+  html[data-theme="light"] .hero-section .cta-note,
   html[data-theme="light"] .hero-section .main-title {
     color: #f8fafc !important;
   }
@@ -267,14 +287,33 @@ import aiBadge from '../images/badges/google-ai-essentials.avif';
   .subtitle {
     font-size: 1.5rem;
     font-weight: 600;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-lead {
+    max-width: 42rem;
+    margin: 0 auto 0.75rem;
+    font-size: 1.15rem;
+    line-height: 1.55;
+    font-weight: 400;
+  }
+
+  .hero-proof,
+  .cta-note {
+    margin: 0 auto;
+    font-size: 0.95rem;
+    opacity: 0.9;
+  }
+
+  .cta-note {
+    margin-top: 0.75rem;
   }
 
   .technologies {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 500;
     opacity: 0.9;
-    margin-bottom: 2rem;
+    margin: 1.5rem 0 1.25rem;
   }
 
   .social-link {
@@ -307,6 +346,16 @@ import aiBadge from '../images/badges/google-ai-essentials.avif';
   .contact-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+  }
+
+  .contact-btn-secondary {
+    background: transparent !important;
+    color: #f8fafc !important;
+    border: 1px solid rgba(248, 250, 252, 0.55);
+  }
+
+  .contact-btn-secondary:hover {
+    background: rgba(248, 250, 252, 0.08) !important;
   }
 
   .main-title {
@@ -347,7 +396,11 @@ import aiBadge from '../images/badges/google-ai-essentials.avif';
   }
 
   .cta-container {
-    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
   }
 
   .social-links {
@@ -386,8 +439,12 @@ import aiBadge from '../images/badges/google-ai-essentials.avif';
     }
 
     .contact-btn {
-      padding: 0.75rem 2rem;
+      padding: 0.75rem 1.5rem;
       font-size: 1rem;
+    }
+
+    .hero-lead {
+      font-size: 1.05rem;
     }
 
     .nav-links {

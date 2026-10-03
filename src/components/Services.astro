@@ -8,127 +8,145 @@ const servicesSchema = {
   "itemListElement": [
     {
       "@type": "Service",
-      "name": "Desarrollo Web Frontend",
-      "description": "Creación de interfaces modernas y responsivas con React, Vue, Angular, PWA y diseño mobile-first",
+      "name": "Interfaces y aplicaciones web",
+      "description": "Sitios y aplicaciones claras, usables en el celular y en el escritorio, con React, Vue, Angular y PWA",
       "provider": {
         "@type": "Person",
         "name": "Darwin Cedeño",
         "url": siteUrl
       },
       "serviceType": "Desarrollo Web",
-      "areaServed": "VE"
+      "areaServed": [
+        { "@type": "Country", "name": "Venezuela" },
+        { "@type": "Place", "name": "Latinoamérica" }
+      ]
     },
     {
       "@type": "Service",
-      "name": "Desarrollo Backend",
-      "description": "Implementación de lógica de servidor, APIs RESTful, bases de datos SQL y NoSQL, autenticación y autorización",
+      "name": "Sistemas y APIs a medida",
+      "description": "La lógica del negocio cuando una plantilla no alcanza: APIs, bases de datos, acceso de usuarios e integraciones",
       "provider": {
         "@type": "Person",
         "name": "Darwin Cedeño",
         "url": siteUrl
       },
       "serviceType": "Desarrollo Web",
-      "areaServed": "VE"
+      "areaServed": [
+        { "@type": "Country", "name": "Venezuela" },
+        { "@type": "Place", "name": "Latinoamérica" }
+      ]
     },
     {
       "@type": "Service",
-      "name": "E-commerce",
-      "description": "Soluciones completas de comercio electrónico con WooCommerce, pasarelas de pago, gestión de inventario y sistemas de envío",
+      "name": "Tiendas online",
+      "description": "Tiendas con cobros, inventario y envíos. WooCommerce, pasarelas y Pago Móvil para Venezuela",
       "provider": {
         "@type": "Person",
         "name": "Darwin Cedeño",
         "url": siteUrl
       },
       "serviceType": "E-commerce",
-      "areaServed": "VE"
+      "areaServed": [
+        { "@type": "Country", "name": "Venezuela" },
+        { "@type": "Place", "name": "Latinoamérica" }
+      ]
     },
     {
       "@type": "Service",
-      "name": "WordPress",
-      "description": "Desarrollo y personalización de sitios WordPress con temas personalizados, plugins a medida, optimización y seguridad",
+      "name": "WordPress y módulos a medida",
+      "description": "Sitios, temas y plugins de WordPress cuando hace falta una función que no existe hecha",
       "provider": {
         "@type": "Person",
         "name": "Darwin Cedeño",
         "url": siteUrl
       },
       "serviceType": "Desarrollo Web",
-      "areaServed": "VE"
+      "areaServed": [
+        { "@type": "Country", "name": "Venezuela" },
+        { "@type": "Place", "name": "Latinoamérica" }
+      ]
     },
     {
       "@type": "Service",
-      "name": "Optimización y Rendimiento",
-      "description": "Mejora de velocidad y experiencia de usuario con optimización de carga, SEO técnico, Core Web Vitals, caché y CDN",
+      "name": "Rendimiento web",
+      "description": "Menos peso, mejor caché y una web que vuelve a responder: carga, SEO técnico, Core Web Vitals y CDN",
       "provider": {
         "@type": "Person",
         "name": "Darwin Cedeño",
         "url": siteUrl
       },
       "serviceType": "Optimización Web",
-      "areaServed": "VE"
+      "areaServed": [
+        { "@type": "Country", "name": "Venezuela" },
+        { "@type": "Place", "name": "Latinoamérica" }
+      ]
     },
     {
       "@type": "Service",
-      "name": "Mantenimiento y Soporte",
-      "description": "Servicios continuos de mantenimiento web con actualizaciones de seguridad, copias de seguridad, resolución de problemas y monitoreo 24/7",
+      "name": "Mantenimiento",
+      "description": "Actualizaciones de seguridad, copias de seguridad y corrección de fallos, con seguimiento en horario laboral",
       "provider": {
         "@type": "Person",
         "name": "Darwin Cedeño",
         "url": siteUrl
       },
       "serviceType": "Mantenimiento Web",
-      "areaServed": "VE"
+      "areaServed": [
+        { "@type": "Country", "name": "Venezuela" },
+        { "@type": "Place", "name": "Latinoamérica" }
+      ]
     }
   ]
 };
 
 const services = [
   {
-    title: "Desarrollo Web Frontend",
-    description: "Creación de interfaces modernas y responsivas",
+    title: "Interfaces y aplicaciones web",
+    description: "Pantallas claras, usables en el celular y en el escritorio",
     icon: "fa-solid fa-code",
     capabilities: [
-      "Sitios web con React, Vue, Angular",
+      "Sitios y aplicaciones con React, Vue o Angular",
       "Aplicaciones web progresivas (PWA)",
-      "Optimización de rendimiento",
-      "Diseño responsivo y mobile-first"
+      "Interfaces que cargan rápido",
+      "Diseño adaptable, pensado primero para el móvil"
     ]
   },
   {
-    title: "Desarrollo Backend",
-    description: "Implementación de lógica de servidor y APIs",
+    title: "Sistemas y APIs a medida",
+    description: "La lógica del negocio, cuando una plantilla no alcanza",
     icon: "fa-solid fa-server",
     capabilities: [
-      "APIs RESTful",
+      "APIs para conectar la web con el resto del negocio",
       "Bases de datos SQL y NoSQL",
-      "Autenticación y autorización",
+      "Acceso de usuarios, autenticación y permisos",
       "Integración con servicios externos"
     ]
   },
   {
-    title: "E-commerce",
-    description: "Soluciones completas de comercio electrónico",
+    title: "Tiendas online",
+    description: "Cobros, inventario y envíos, en WooCommerce o a medida",
     icon: "fa-solid fa-shopping-cart",
     capabilities: [
-      "Tiendas online con WooCommerce",
-      "Pasarelas de pago",
+      "Tiendas con WooCommerce",
+      "Pasarelas de pago, incluido Pago Móvil en Venezuela",
       "Gestión de inventario",
       "Sistemas de envío"
     ]
   },
   {
-    title: "WordPress",
-    description: "Desarrollo y personalización de sitios WordPress",
+    title: "WordPress y módulos a medida",
+    description: "Sitios, temas y plugins cuando hace falta algo que no existe hecho",
     icon: "fa-brands fa-wordpress",
     capabilities: [
-      "Temas personalizados",
-      "Plugins a medida",
+      "Temas a medida",
+      "Plugins y módulos para un proceso concreto",
       "Optimización y seguridad",
       "Migración y mantenimiento"
     ]
   },
   {
-    title: "Optimización y Rendimiento",
-    description: "Mejora de velocidad y experiencia de usuario",
+    title: "Rendimiento web",
+    description: "Menos peso, mejor caché y una web que vuelve a responder",
     icon: "fa-solid fa-gauge-high",
     capabilities: [
       "Optimización de carga",
@@ -138,14 +156,14 @@ const services = [
     ]
   },
   {
-    title: "Mantenimiento y Soporte",
-    description: "Servicios continuos de mantenimiento web",
+    title: "Mantenimiento",
+    description: "Actualizaciones, copias de seguridad y corrección de fallos",
     icon: "fa-solid fa-wrench",
     capabilities: [
       "Actualizaciones de seguridad",
       "Copias de seguridad",
       "Resolución de problemas",
-      "Monitoreo 24/7"
+      "Seguimiento en horario laboral"
     ]
   }
 ];
@@ -156,7 +174,10 @@ const services = [
 
 <section id="services-section" class="py-5">
   <div class="container">
-    <h2 class="text-center mb-5">Servicios</h2>
+    <h2 class="text-center mb-3">Servicios</h2>
+    <p class="services-intro text-center mb-5">
+      Webs, sistemas a medida, WordPress, rendimiento y mantenimiento para negocios en Venezuela y Latinoamérica.
+    </p>
 
     <div class="row g-4">
       {services.map(service => (
@@ -233,6 +254,14 @@ const services = [
 </script>
 
 <style>
+  .services-intro {
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
+
   h2.text-center {
     font-size: 3rem;
     font-weight: 700;

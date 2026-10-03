@@ -37,7 +37,12 @@ const lightThemeColors = {
 };
 
 const defaultTitle = 'Darwin Cedeño - Desarrollador Web Freelance en Venezuela';
-const defaultDescription = 'Desarrollador web freelance en Venezuela. Experto en PHP, Javascript, WordPress, Laravel, React y más, dedicado a impulsar tu negocio online. Conoce mis proyectos y servicios.';
+const defaultDescription = 'Desarrollador web freelance en Venezuela. Webs, sistemas a medida, WordPress y rendimiento para negocios en Venezuela y Latinoamérica.';
+
+const areaServed = [
+  { "@type": "Country", "name": "Venezuela" },
+  { "@type": "Place", "name": "Latinoamérica" }
+];
 
 const { 
   title = defaultTitle, 
@@ -106,7 +111,7 @@ import Footer from '../components/Footer.astro';
     <meta property="og:image" content={image}>
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:locale" content="es_ES" />
+    <meta property="og:locale" content="es_VE" />
     <meta property="og:site_name" content="Darwin Cedeño" />
     
     {/* Twitter Card */}
@@ -132,7 +137,7 @@ import Footer from '../components/Footer.astro';
       "@type": "WebSite",
       "name": "Darwin Cedeño",
       "url": "https://darwincd.com",
-      "description": "Desarrollador web freelance en Venezuela. Experto en PHP, Javascript, WordPress, Laravel, React y más, dedicado a impulsar tu negocio online. Conoce mis proyectos y servicios.",
+      "description": "Desarrollador web freelance en Venezuela. Webs, sistemas a medida, WordPress y rendimiento para negocios en Venezuela y Latinoamérica.",
       "potentialAction": {
         "@type": "SearchAction",
         "target": {
@@ -150,7 +155,7 @@ import Footer from '../components/Footer.astro';
       "name": "Darwin Cedeño",
       "url": "https://darwincd.com",
       "jobTitle": "Desarrollador Web Full Stack",
-      "description": "Desarrollador web freelance especializado en PHP, JavaScript, WordPress, Laravel, React y Node.js",
+      "description": "Desarrollador web freelance en Venezuela. Webs, sistemas a medida, WordPress y rendimiento para negocios en Venezuela y Latinoamérica.",
       "sameAs": [
         "https://github.com/darwincrack/",
         "https://www.linkedin.com/in/darwincrack/",
@@ -180,7 +185,7 @@ import Footer from '../components/Footer.astro';
       "name": "Darwin Cedeño",
       "url": "https://darwincd.com",
       "logo": "https://darwincd.com/logodc.jpg",
-      "description": "Desarrollador web freelance en Venezuela. Experto en PHP, JavaScript, WordPress, Laravel, React y Node.js.",
+      "description": "Desarrollador web freelance en Venezuela. Webs, sistemas a medida, WordPress y rendimiento para negocios en Venezuela y Latinoamérica.",
       "sameAs": [
         "https://github.com/darwincrack/",
         "https://www.linkedin.com/in/darwincrack/",
@@ -190,7 +195,7 @@ import Footer from '../components/Footer.astro';
         "@type": "ContactPoint",
         "email": "contacto@darwincd.com",
         "contactType": "customer service",
-        "areaServed": "VE"
+        "areaServed": areaServed
       }
     })} />
 

@@ -34,7 +34,12 @@ import projectsupport1 from '../images/projectsupport1.avif';
 const projects = [
   {
     title: "Misca Studio — Optimización y conversión",
-    description: "Plan integral de rendimiento, SEO técnico, UX y seguridad para miscastudio.com: hero ligero, caché LiteSpeed, PHP 8.3 y CTAs de contacto.",
+    description: "La portada pesaba demasiado y el contacto quedaba escondido.",
+    caseStudy: {
+      problem: "La portada dependía de Revolution Slider y un vídeo de fondo de unos 24 MB, pesado sobre todo en el móvil.",
+      solution: "Hero nuevo en Elementor, vídeo reducido a unos 3,6 MB, imagen estática en móvil, LiteSpeed Cache, PHP 8.3, SEO técnico y botones de contacto.",
+      result: "El vídeo de fondo pasó de unos 24 MB a unos 3,6 MB, con caché, CDN y la base técnica actualizada."
+    },
     detailedDescription: "Trabajo integral en miscastudio.com (estudio de interiorismo en Girona): nuevo hero en Elementor sin Revolution Slider, vídeo de fondo reducido de ~24 MB a ~3,6 MB e imagen estática en móvil; LiteSpeed Cache + QUIC.cloud (WebP, minificación, CDN); limpieza de código demo y plantillas; SEO técnico (lang es, datos estructurados, Polylang preparado para multidioma); CTAs flotantes (WhatsApp, email, llamada) y selector de idiomas; actualización de plugins, PHP 8.3 y eliminación de temas inactivos.",
     tags: ["WordPress", "Elementor", "LiteSpeed", "SEO", "UX"],
     link: "https://miscastudio.com/",
@@ -57,8 +62,13 @@ const projects = [
     type: "fullstack"
   },
   {
-    title: "Plugins de WordPress/ Woocommerce",
-    description: "Para crear un nuevo metodo de pago venezolano 'pago Movil'",
+    title: "Pago Móvil para WooCommerce",
+    description: "Cobrar con Pago Móvil en una tienda WooCommerce.",
+    caseStudy: {
+      problem: "Una tienda en Venezuela necesitaba cobrar con Pago Móvil, un método que WooCommerce no trae de serie.",
+      solution: "Plugin a medida para WordPress/WooCommerce, integrado con los principales bancos venezolanos.",
+      result: "El comercio puede recibir el pago por transferencia bancaria móvil desde la propia tienda."
+    },
     detailedDescription: "Desarrollo de un plugin personalizado para WordPress/WooCommerce que implementa el método de pago 'Pago Móvil' específico para Venezuela. El plugin permite a los comerciantes recibir pagos a través de transferencias bancarias móviles, integrando con los principales bancos venezolanos.",
     tags: ["WordPress", "Plugins", "WooCommerce"],
     link: "https://iqsalud.app/tienda/",
@@ -83,8 +93,13 @@ const projects = [
   },
 
   {
-    title: "Actualización de react native desde la version 0.67 a la 0.79.6",
-    description: "Mejora y actualización de la App Educativa CropLife",
+    title: "CropLife — actualización de la app",
+    description: "La app educativa estaba varias versiones atrás de React Native.",
+    caseStudy: {
+      problem: "La app educativa CropLife seguía en React Native 0.67, lejos de las versiones actuales del framework y de sus dependencias.",
+      solution: "Migración a React Native 0.79.6, con refactor del código para que siguiera funcionando en iOS y Android.",
+      result: "App actualizada y compatible con la versión vigente del framework y con sus librerías."
+    },
     detailedDescription: "Se realizó una actualización integral de la aplicación móvil educativa CropLife, migrando el proyecto de React Native 0.67 a la versión 0.79.6. Este proceso implicó una refactorización completa del código fuente para garantizar la compatibilidad con la nueva versión del framework, así como con las últimas versiones de dependencias clave y librerías de terceros.",
     tags: ["React Native", "iOS", "Android"],
     link: "",
@@ -182,7 +197,13 @@ const projects = [
 
   {
     title: "meridiano.net",
-    description: "Web de noticias deportivas. Desarrollo y mantenimiento durante varios años (proyecto ya actualizado por terceros).",
+    description: "Portal deportivo de alto tráfico, desarrollado y mantenido durante años.",
+    caseStudy: {
+      problem: "Los medios de Bloque de Armas necesitaban portales capaces de sostener mucho tráfico y crecer en búsqueda.",
+      solution: "Dirección técnica y desarrollo de meridiano.net, el portal deportivo, junto con 2001online.com y Revista Ronda, durante varios años.",
+      result: "Esas plataformas superaban el millón de visitas mensuales. El SEO y el rendimiento acompañaron un aumento del 200% en tráfico orgánico."
+    },
+    detailedDescription: "Web de noticias deportivas. Desarrollo y mantenimiento durante varios años como parte de la dirección técnica de los medios de Bloque de Armas. El sitio ya fue actualizado por terceros.",
     tags: ["PHP", "JavaScript", "MySQL", "CMS"],
     link: "https://meridiano.net",
     image: project5,
@@ -258,14 +279,29 @@ const projects = [
   
 ];
 
-// Ordenar proyectos por prioridad
-const sortedProjects = [...projects].sort((a, b) => a.priority - b.priority);
+// Casos con problema, solución y resultado van primero. El resto sigue por prioridad.
+const featuredTitles = [
+  "meridiano.net",
+  "CropLife — actualización de la app",
+  "Misca Studio — Optimización y conversión",
+  "Pago Móvil para WooCommerce",
+];
+
+const sortedProjects = [...projects].sort((a, b) => {
+  const aFeatured = featuredTitles.indexOf(a.title);
+  const bFeatured = featuredTitles.indexOf(b.title);
+  const aRank = aFeatured === -1 ? featuredTitles.length : aFeatured;
+  const bRank = bFeatured === -1 ? featuredTitles.length : bFeatured;
+  if (aRank !== bRank) return aRank - bRank;
+  return a.priority - b.priority;
+});
 
 // Datos serializables para el modal (URLs estáticas, sin /_image en runtime)
 const projectsForClient = sortedProjects.map((project) => ({
   title: project.title,
   description: project.description,
   detailedDescription: project.detailedDescription,
+  caseStudy: project.caseStudy ?? null,
   tags: project.tags,
   link: project.link,
   github: project.github,
@@ -335,7 +371,7 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
                   <i class="fab fa-github"></i> GitHub
                 </a>
               )}
-              {project.detailedDescription && (
+              {(project.detailedDescription || project.caseStudy) && (
                 <button class="btn btn-info details-btn" data-index={index}>
                   <i class="fas fa-info-circle"></i> Detalles
                 </button>
@@ -349,11 +385,30 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
                 : project.type === 'tools'
                   ? 'Herramienta'
                   : project.type === 'mobile'
-                    ? 'Movil'
+                    ? 'Móvil'
+                  : project.type === 'plugins'
+                    ? 'Plugin'
                   : 'Web/App Web'}
             </div>
             <h4 class="h5">{project.title}</h4>
-            <p class="text-sm" title={project.description}>{project.description}</p>
+            {project.caseStudy ? (
+              <dl class="case-study">
+                <div>
+                  <dt>Problema</dt>
+                  <dd>{project.caseStudy.problem}</dd>
+                </div>
+                <div>
+                  <dt>Solución</dt>
+                  <dd>{project.caseStudy.solution}</dd>
+                </div>
+                <div>
+                  <dt>Resultado</dt>
+                  <dd>{project.caseStudy.result}</dd>
+                </div>
+              </dl>
+            ) : (
+              <p class="text-sm" title={project.description}>{project.description}</p>
+            )}
             <div class="project-tags">
               {project.tags.map(tag => (
                 <span class="tag">{tag}</span>
@@ -391,6 +446,7 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
       </div>
       <div class="project-details">
         <h3 class="project-title"></h3>
+        <div class="project-case"></div>
         <p class="project-description"></p>
         <div class="project-tags"></div>
         <div class="project-links"></div>
@@ -542,6 +598,31 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
 
   .project-content {
     padding: 1.5rem;
+  }
+
+  .case-study {
+    margin: 0;
+    display: grid;
+    gap: 0.65rem;
+  }
+
+  .case-study div {
+    margin: 0;
+  }
+
+  .case-study dt {
+    margin-bottom: 0.15rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--gradient-1);
+  }
+
+  .case-study dd {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.45;
   }
 
   .project-tags {
@@ -775,6 +856,28 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
     color: var(--text);
   }
 
+  :global(.project-case .case-study) {
+    margin: 0 0 1.25rem;
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  :global(.project-case .case-study dt) {
+    margin-bottom: 0.15rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--gradient-1);
+  }
+
+  :global(.project-case .case-study dd) {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
   .project-links {
     display: flex;
     gap: 1rem;
@@ -922,6 +1025,7 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
     const sliderImages = modal.querySelector('.slider-images');
     const sliderDots = modal.querySelector('.slider-dots');
     const projectTitle = modal.querySelector('.project-title');
+    const projectCase = modal.querySelector('.project-case');
     const projectDescription = modal.querySelector('.project-description');
     const projectTags = modal.querySelector('.project-tags');
     const projectLinks = modal.querySelector('.project-links');
@@ -951,7 +1055,32 @@ const orderedProjectTypes = filterOrder.filter(type => projectTypes.includes(typ
     
     // Configurar detalles
     projectTitle.textContent = currentProject.title;
-    projectDescription.textContent = currentProject.detailedDescription || currentProject.description;
+    projectCase.replaceChildren();
+
+    if (currentProject.caseStudy) {
+      const list = document.createElement('dl');
+      list.className = 'case-study';
+      [
+        ['Problema', currentProject.caseStudy.problem],
+        ['Solución', currentProject.caseStudy.solution],
+        ['Resultado', currentProject.caseStudy.result],
+      ].forEach(([label, text]) => {
+        const item = document.createElement('div');
+        const term = document.createElement('dt');
+        const detail = document.createElement('dd');
+        term.textContent = label;
+        detail.textContent = text;
+        item.append(term, detail);
+        list.append(item);
+      });
+      projectCase.append(list);
+    }
+
+    const detailText = currentProject.caseStudy
+      ? currentProject.detailedDescription || ''
+      : currentProject.detailedDescription || currentProject.description;
+    projectDescription.hidden = detailText === '';
+    projectDescription.textContent = detailText;
     
     // Configurar tags
     currentProject.tags.forEach(tag => {
