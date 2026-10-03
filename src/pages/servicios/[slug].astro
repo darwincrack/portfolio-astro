@@ -1,0 +1,233 @@
+---
+export const prerender = true;
+
+import Layout from '../../layouts/Layout.astro';
+import { servicePages } from '../../data/servicePages';
+import { caseStudies } from '../../data/caseStudies';
+
+export function getStaticPaths() {
+  return servicePages.map((page) => ({
+    params: { slug: page.slug }
+  }));
+}
+
+const page = servicePages.find((item) => item.slug === Astro.params.slug);
+if (!page) {
+  throw new Error('Servicio no encontrado');
+}
+
+const cases = page.caseSlugs
+  .map((slug) => caseStudies.find((item) => item.slug === slug))
+  .filter((item) => item !== undefined);
+
+const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.com/darwinc-dev/consulta-15-min';
+const siteUrl = 'https://darwincd.com';
+const pageUrl = `${siteUrl}/servicios/${page.slug}/`;
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: page.title,
+  description: page.description,
+  url: pageUrl,
+  provider: {
+    '@type': 'Person',
+    name: 'Darwin Cedeño',
+    url: siteUrl
+  },
+  areaServed: [
+    { '@type': 'Country', name: 'Venezuela' },
+    { '@type': 'Country', name: 'España' },
+    { '@type': 'Place', name: 'Latinoamérica' }
+  ]
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: siteUrl },
+    { '@type': 'ListItem', position: 2, name: 'Servicios', item: `${siteUrl}/#services-section` },
+    { '@type': 'ListItem', position: 3, name: page.title, item: pageUrl }
+  ]
+};
+---
+
+<Layout title={page.seoTitle} description={page.description}>
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <main class="service-page">
+    <div class="container">
+      <nav aria-label="Miga de pan">
+        <ol>
+          <li><a href="/">Inicio</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a href="/#services-section">Servicios</a></li>
+          <li aria-hidden="true">/</li>
+          <li>{page.title}</li>
+        </ol>
+      </nav>
+
+      <h1>{page.headline}</h1>
+      <p class="lead">{page.lead}</p>
+
+      <h2>El problema</h2>
+      <p>{page.problem}</p>
+
+      <h2>Qué hago</h2>
+      <ul>
+        {page.work.map((item) => <li>{item}</li>)}
+      </ul>
+      <p class="note">{page.note}</p>
+
+      <h2>Casos</h2>
+      <ul class="cases">
+        {cases.map((item) => (
+          <li>
+            <a href={`/proyectos/${item.slug}`}>{item.title}</a>
+            <p>{item.summary}</p>
+          </li>
+        ))}
+      </ul>
+
+      <p class="proof">Top Rated en Workana · +300 proyectos · 5 estrellas</p>
+
+      <div class="actions">
+        <a href={CALENDLY_URL} class="btn-primary" target="_blank" rel="noopener noreferrer">
+          Agendar consulta de 15 min
+        </a>
+        <a href="/#contact-section" class="btn-secondary">Contáctame</a>
+      </div>
+
+      <p class="also">
+        <a href={page.also.href}>{page.also.label}</a>
+      </p>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .service-page {
+    padding: 7rem 0 4rem;
+  }
+
+  .container {
+    max-width: 46rem;
+  }
+
+  nav ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    list-style: none;
+    font-size: 0.95rem;
+  }
+
+  nav a,
+  .cases a,
+  .also a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  nav a:hover,
+  .cases a:hover,
+  .also a:hover {
+    color: var(--gradient-1);
+  }
+
+  h1 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+
+  .lead {
+    font-size: 1.15rem;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+  }
+
+  h2 {
+    margin: 0 0 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--gradient-1);
+  }
+
+  p,
+  li {
+    font-size: 1.05rem;
+    line-height: 1.55;
+  }
+
+  ul {
+    margin: 0 0 1rem;
+    padding-left: 1.2rem;
+  }
+
+  ul li + li {
+    margin-top: 0.35rem;
+  }
+
+  .note {
+    margin-bottom: 2rem;
+  }
+
+  .cases {
+    list-style: none;
+    margin: 0 0 2rem;
+    padding: 0;
+  }
+
+  .cases li + li {
+    margin-top: 1rem;
+  }
+
+  .cases a {
+    font-weight: 600;
+  }
+
+  .cases p {
+    margin: 0.2rem 0 0;
+  }
+
+  .proof {
+    margin-bottom: 1.25rem;
+    opacity: 0.9;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    display: inline-block;
+    padding: 0.75rem 1.25rem;
+    border-radius: 2rem;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .btn-primary {
+    background: linear-gradient(90deg, var(--gradient-3), var(--gradient-2), var(--gradient-1));
+    color: #f8fafc;
+  }
+
+  .btn-secondary {
+    border: 1px solid var(--gradient-1);
+    color: inherit;
+  }
+
+  .also {
+    margin-top: 2rem;
+  }
+</style>

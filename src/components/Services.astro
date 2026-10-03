@@ -9,6 +9,7 @@ const servicesSchema = {
     {
       "@type": "Service",
       "name": "Interfaces y aplicaciones web",
+      "url": `${siteUrl}/servicios/webs-y-sistemas/`,
       "description": "Sitios y aplicaciones claras, usables en el celular y en el escritorio, con React, Vue, Angular y PWA",
       "provider": {
         "@type": "Person",
@@ -25,6 +26,7 @@ const servicesSchema = {
     {
       "@type": "Service",
       "name": "Sistemas y APIs a medida",
+      "url": `${siteUrl}/servicios/webs-y-sistemas/`,
       "description": "La lógica del negocio cuando una plantilla no alcanza: APIs, bases de datos, acceso de usuarios e integraciones",
       "provider": {
         "@type": "Person",
@@ -41,6 +43,7 @@ const servicesSchema = {
     {
       "@type": "Service",
       "name": "Aplicaciones móviles",
+      "url": `${siteUrl}/servicios/aplicaciones-moviles/`,
       "description": "Apps para iOS y Android, y actualizaciones de aplicaciones que se quedaron atrás",
       "provider": {
         "@type": "Person",
@@ -121,10 +124,17 @@ const servicesSchema = {
   ]
 };
 
-const services = [
+const services: Array<{
+  title: string;
+  description: string;
+  icon: string;
+  capabilities: string[];
+  href?: string;
+}> = [
   {
     title: "Interfaces y aplicaciones web",
     description: "Pantallas claras, usables en el celular y en el escritorio",
+    href: "/servicios/webs-y-sistemas",
     icon: "fa-solid fa-code",
     capabilities: [
       "Sitios y aplicaciones con React, Vue o Angular",
@@ -136,6 +146,7 @@ const services = [
   {
     title: "Sistemas y APIs a medida",
     description: "La lógica del negocio, cuando una plantilla no alcanza",
+    href: "/servicios/webs-y-sistemas",
     icon: "fa-solid fa-server",
     capabilities: [
       "APIs para conectar la web con el resto del negocio",
@@ -147,6 +158,7 @@ const services = [
   {
     title: "Aplicaciones móviles",
     description: "Apps para iOS y Android, y las que hay que poner al día",
+    href: "/servicios/aplicaciones-moviles",
     icon: "fa-solid fa-mobile-screen",
     capabilities: [
       "Apps con React Native",
@@ -226,6 +238,9 @@ const services = [
                 <li>{capability}</li>
               ))}
             </ul>
+            {service.href && (
+              <a href={service.href} class="service-more">Ver el servicio</a>
+            )}
           </div>
         </div>
       ))}
@@ -346,6 +361,18 @@ const services = [
     position: absolute;
     left: 0;
     color: var(--gradient-1);
+  }
+
+  .service-more {
+    display: inline-block;
+    margin-top: 1.25rem;
+    font-weight: 600;
+    color: var(--gradient-1);
+    text-decoration: none;
+  }
+
+  .service-more:hover {
+    text-decoration: underline;
   }
 
   @media (max-width: 768px) {
