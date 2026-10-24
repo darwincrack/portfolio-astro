@@ -27,7 +27,7 @@ export const servicePages: ServicePage[] = [
       "Rendimiento y mantenimiento cuando la web ya existe y dejó de responder."
     ],
     note: "Si el encargo encaja mejor en WordPress, una tienda o un módulo concreto, también lo hago. No es por donde empiezo.",
-    caseSlugs: ["meridiano-net", "misca-studio"],
+    caseSlugs: ["poligono-club", "misca-studio", "pago-movil-woocommerce", "meridiano-net"],
     also: {
       href: "/servicios/aplicaciones-moviles",
       label: "También hago aplicaciones móviles"

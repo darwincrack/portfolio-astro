@@ -1,257 +1,128 @@
 ---
+import { whatsappLink } from '../data/contact';
+
 const siteUrl = 'https://darwincd.com';
 
-// Schema Service para SEO
+const needs: Array<{
+  icon: string;
+  title: string;
+  description: string;
+  serviceName: string;
+  serviceType: string;
+  message: string;
+  more?: { href: string; label: string };
+}> = [
+  {
+    icon: "fas fa-laptop-code",
+    title: "Una web nueva para mi negocio",
+    description: "Una web clara, rápida y que se vea bien en el celular, pensada para que te escriban.",
+    serviceName: "Desarrollo de páginas web",
+    serviceType: "Desarrollo Web",
+    message: "Hola Darwin, necesito una web nueva para mi negocio.",
+    more: { href: "/servicios/webs-y-sistemas", label: "Cómo lo hago" }
+  },
+  {
+    icon: "fas fa-gauge-high",
+    title: "Mi web está lenta o rota",
+    description: "Reviso qué la frena o qué falla y lo arreglo. Muchas veces no hace falta rehacerla.",
+    serviceName: "Optimización y reparación de webs",
+    serviceType: "Optimización Web",
+    message: "Hola Darwin, mi web está lenta o tiene fallos y quiero mejorarla.",
+    more: { href: "/blog/la-web-carga-lenta-que-se-puede-hacer-antes-de-rehacerla", label: "Qué se puede hacer" }
+  },
+  {
+    icon: "fas fa-cart-shopping",
+    title: "Quiero vender online",
+    description: "Tienda con cobros, inventario y envíos. En Venezuela, también con Pago Móvil.",
+    serviceName: "Tiendas online",
+    serviceType: "E-commerce",
+    message: "Hola Darwin, quiero vender online y necesito una tienda.",
+    more: { href: "/blog/cobrar-con-pago-movil-en-una-tienda-online", label: "Cobrar con Pago Móvil" }
+  },
+  {
+    icon: "fas fa-diagram-project",
+    title: "Un sistema a medida",
+    description: "Cuando una plantilla no alcanza: usuarios, permisos, reportes e integraciones para tu forma de trabajar.",
+    serviceName: "Sistemas y aplicaciones web a medida",
+    serviceType: "Desarrollo Web",
+    message: "Hola Darwin, necesito un sistema a medida para mi negocio.",
+    more: { href: "/servicios/webs-y-sistemas", label: "Cómo lo hago" }
+  },
+  {
+    icon: "fas fa-mobile-screen",
+    title: "Una app, o actualizar la mía",
+    description: "Apps para iOS y Android, y puesta al día de apps que se quedaron atrás.",
+    serviceName: "Aplicaciones móviles",
+    serviceType: "Desarrollo móvil",
+    message: "Hola Darwin, necesito una app o actualizar la que tengo.",
+    more: { href: "/servicios/aplicaciones-moviles", label: "Cómo lo hago" }
+  },
+  {
+    icon: "fas fa-screwdriver-wrench",
+    title: "Que alguien la mantenga",
+    description: "Actualizaciones, copias de seguridad y corrección de fallos, sin que tengas que preocuparte.",
+    serviceName: "Mantenimiento web",
+    serviceType: "Mantenimiento Web",
+    message: "Hola Darwin, necesito a alguien que mantenga mi web."
+  }
+];
+
 const servicesSchema = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  "itemListElement": [
-    {
+  "itemListElement": needs.map((need, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "item": {
       "@type": "Service",
-      "name": "Interfaces y aplicaciones web",
-      "url": `${siteUrl}/servicios/webs-y-sistemas/`,
-      "description": "Sitios y aplicaciones claras, usables en el celular y en el escritorio, con React, Vue, Angular y PWA",
+      "name": need.serviceName,
+      "description": need.description,
+      "serviceType": need.serviceType,
       "provider": {
         "@type": "Person",
         "name": "Darwin Cedeño",
         "url": siteUrl
       },
-      "serviceType": "Desarrollo Web",
-      "areaServed": [
-        { "@type": "Country", "name": "Venezuela" },
-        { "@type": "Country", "name": "España" },
-        { "@type": "Place", "name": "Latinoamérica" }
-      ]
-    },
-    {
-      "@type": "Service",
-      "name": "Sistemas y APIs a medida",
-      "url": `${siteUrl}/servicios/webs-y-sistemas/`,
-      "description": "La lógica del negocio cuando una plantilla no alcanza: APIs, bases de datos, acceso de usuarios e integraciones",
-      "provider": {
-        "@type": "Person",
-        "name": "Darwin Cedeño",
-        "url": siteUrl
-      },
-      "serviceType": "Desarrollo Web",
-      "areaServed": [
-        { "@type": "Country", "name": "Venezuela" },
-        { "@type": "Country", "name": "España" },
-        { "@type": "Place", "name": "Latinoamérica" }
-      ]
-    },
-    {
-      "@type": "Service",
-      "name": "Aplicaciones móviles",
-      "url": `${siteUrl}/servicios/aplicaciones-moviles/`,
-      "description": "Apps para iOS y Android, y actualizaciones de aplicaciones que se quedaron atrás",
-      "provider": {
-        "@type": "Person",
-        "name": "Darwin Cedeño",
-        "url": siteUrl
-      },
-      "serviceType": "Desarrollo móvil",
-      "areaServed": [
-        { "@type": "Country", "name": "Venezuela" },
-        { "@type": "Country", "name": "España" },
-        { "@type": "Place", "name": "Latinoamérica" }
-      ]
-    },
-    {
-      "@type": "Service",
-      "name": "Tiendas online",
-      "description": "Tiendas con cobros, inventario y envíos. WooCommerce, pasarelas y Pago Móvil para Venezuela",
-      "provider": {
-        "@type": "Person",
-        "name": "Darwin Cedeño",
-        "url": siteUrl
-      },
-      "serviceType": "E-commerce",
-      "areaServed": [
-        { "@type": "Country", "name": "Venezuela" },
-        { "@type": "Country", "name": "España" },
-        { "@type": "Place", "name": "Latinoamérica" }
-      ]
-    },
-    {
-      "@type": "Service",
-      "name": "WordPress y módulos a medida",
-      "description": "Sitios, temas y plugins de WordPress cuando hace falta una función que no existe hecha",
-      "provider": {
-        "@type": "Person",
-        "name": "Darwin Cedeño",
-        "url": siteUrl
-      },
-      "serviceType": "Desarrollo Web",
-      "areaServed": [
-        { "@type": "Country", "name": "Venezuela" },
-        { "@type": "Country", "name": "España" },
-        { "@type": "Place", "name": "Latinoamérica" }
-      ]
-    },
-    {
-      "@type": "Service",
-      "name": "Rendimiento web",
-      "description": "Menos peso, mejor caché y una web que vuelve a responder: carga, SEO técnico, Core Web Vitals y CDN",
-      "provider": {
-        "@type": "Person",
-        "name": "Darwin Cedeño",
-        "url": siteUrl
-      },
-      "serviceType": "Optimización Web",
-      "areaServed": [
-        { "@type": "Country", "name": "Venezuela" },
-        { "@type": "Country", "name": "España" },
-        { "@type": "Place", "name": "Latinoamérica" }
-      ]
-    },
-    {
-      "@type": "Service",
-      "name": "Mantenimiento",
-      "description": "Actualizaciones de seguridad, copias de seguridad y corrección de fallos, con seguimiento en horario laboral",
-      "provider": {
-        "@type": "Person",
-        "name": "Darwin Cedeño",
-        "url": siteUrl
-      },
-      "serviceType": "Mantenimiento Web",
       "areaServed": [
         { "@type": "Country", "name": "Venezuela" },
         { "@type": "Country", "name": "España" },
         { "@type": "Place", "name": "Latinoamérica" }
       ]
     }
-  ]
+  }))
 };
-
-const services: Array<{
-  title: string;
-  description: string;
-  icon: string;
-  capabilities: string[];
-  href?: string;
-}> = [
-  {
-    title: "Interfaces y aplicaciones web",
-    description: "Pantallas claras, usables en el celular y en el escritorio",
-    href: "/servicios/webs-y-sistemas",
-    icon: "fa-solid fa-code",
-    capabilities: [
-      "Sitios y aplicaciones con React, Vue o Angular",
-      "Aplicaciones web progresivas (PWA)",
-      "Interfaces que cargan rápido",
-      "Diseño adaptable, pensado primero para el móvil"
-    ]
-  },
-  {
-    title: "Sistemas y APIs a medida",
-    description: "La lógica del negocio, cuando una plantilla no alcanza",
-    href: "/servicios/webs-y-sistemas",
-    icon: "fa-solid fa-server",
-    capabilities: [
-      "APIs para conectar la web con el resto del negocio",
-      "Bases de datos SQL y NoSQL",
-      "Acceso de usuarios, autenticación y permisos",
-      "Integración con servicios externos"
-    ]
-  },
-  {
-    title: "Aplicaciones móviles",
-    description: "Apps para iOS y Android, y las que hay que poner al día",
-    href: "/servicios/aplicaciones-moviles",
-    icon: "fa-solid fa-mobile-screen",
-    capabilities: [
-      "Apps con React Native",
-      "iOS y Android",
-      "Actualización de apps ya publicadas",
-      "Conexión con la web y los sistemas del negocio"
-    ]
-  },
-  {
-    title: "Tiendas online",
-    description: "Cobros, inventario y envíos, en WooCommerce o a medida",
-    icon: "fa-solid fa-shopping-cart",
-    capabilities: [
-      "Tiendas con WooCommerce",
-      "Pasarelas de pago, incluido Pago Móvil en Venezuela",
-      "Gestión de inventario",
-      "Sistemas de envío"
-    ]
-  },
-  {
-    title: "WordPress y módulos a medida",
-    description: "Sitios, temas y plugins cuando hace falta algo que no existe hecho",
-    icon: "fa-brands fa-wordpress",
-    capabilities: [
-      "Temas a medida",
-      "Plugins y módulos para un proceso concreto",
-      "Optimización y seguridad",
-      "Migración y mantenimiento"
-    ]
-  },
-  {
-    title: "Rendimiento web",
-    description: "Menos peso, mejor caché y una web que vuelve a responder",
-    icon: "fa-solid fa-gauge-high",
-    capabilities: [
-      "Optimización de carga",
-      "SEO técnico",
-      "Core Web Vitals",
-      "Caché y CDN"
-    ]
-  },
-  {
-    title: "Mantenimiento",
-    description: "Actualizaciones, copias de seguridad y corrección de fallos",
-    icon: "fa-solid fa-wrench",
-    capabilities: [
-      "Actualizaciones de seguridad",
-      "Copias de seguridad",
-      "Resolución de problemas",
-      "Seguimiento en horario laboral"
-    ]
-  }
-];
 ---
 
-{/* Schema Service para SEO */}
 <script type="application/ld+json" set:html={JSON.stringify(servicesSchema)} />
 
 <section id="services-section" class="py-5">
   <div class="container">
-    <h2 class="text-center mb-3">Servicios</h2>
+    <h2 class="text-center mb-3">¿Qué necesitas?</h2>
     <p class="services-intro text-center mb-5">
-      Webs, sistemas y aplicaciones móviles a medida, más rendimiento y mantenimiento.
+      Elige lo que más se parece a tu caso y escríbeme. Si no lo tienes claro, también.
+      <br /><a href="/desarrollo-de-software-venezuela" class="service-more">Desarrollo de software para negocios en Venezuela →</a>
     </p>
 
     <div class="row g-4">
-      {services.map(service => (
+      {needs.map((need) => (
         <div class="col-md-6 col-lg-4">
           <div class="service-card">
             <div class="service-icon">
-              <i class={service.icon}></i>
+              <i class={need.icon} aria-hidden="true"></i>
             </div>
-            <h4 class="h5">{service.title}</h4>
-            <p>{service.description}</p>
-            <ul class="capabilities-list">
-              {service.capabilities.map(capability => (
-                <li>{capability}</li>
-              ))}
-            </ul>
-            {service.href && (
-              <a href={service.href} class="service-more">Ver el servicio</a>
-            )}
+            <h3 class="h5">{need.title}</h3>
+            <p>{need.description}</p>
+            <div class="service-actions">
+              <a href={whatsappLink(need.message)} class="service-cta" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-whatsapp me-1" aria-hidden="true"></i>Cuéntame
+              </a>
+              {need.more && (
+                <a href={need.more.href} class="service-more">{need.more.label} →</a>
+              )}
+            </div>
           </div>
         </div>
       ))}
-    </div>
-
-    <!-- Botón de contacto -->
-    <div class="text-center mt-5">
-      <a href="#contact-section" class="contact-button">
-        Contáctame
-        <i class="fas fa-arrow-right ms-2"></i>
-      </a>
     </div>
   </div>
 </section>
@@ -270,33 +141,14 @@ const services: Array<{
       rootMargin: '50px'
     });
 
-    // Observar las cards de servicios con delay escalonado
     const serviceCards = document.querySelectorAll('.service-card') as NodeListOf<HTMLElement>;
     serviceCards.forEach((card, index) => {
-      card.style.opacity = '0';
       card.classList.add('animate-initial');
       card.style.transitionDelay = `${index * 0.1}s`;
       observer.observe(card);
     });
-
-    // Observar el título
-    const title = document.querySelector('#services-section h2') as HTMLElement | null;
-    if (title) {
-      title.style.opacity = '0';
-      title.classList.add('animate-initial');
-      observer.observe(title);
-    }
-
-    // Observar el botón de contacto
-    const contactButton = document.querySelector('.contact-button') as HTMLElement | null;
-    if (contactButton) {
-      contactButton.style.opacity = '0';
-      contactButton.classList.add('animate-initial');
-      observer.observe(contactButton);
-    }
   }
 
-  // Inicializar en ambos eventos
   document.addEventListener('DOMContentLoaded', initServiceAnimations);
   document.addEventListener('astro:page-load', initServiceAnimations);
 </script>
@@ -320,12 +172,14 @@ const services: Array<{
   }
 
   .service-card {
+    display: flex;
+    flex-direction: column;
     background: var(--primary-bg);
     border: 1px solid var(--secondary-bg);
     border-radius: 1rem;
     padding: 2rem;
     height: 100%;
-    transition: all 0.3s ease;
+    transition: opacity 0.6s ease, transform 0.3s ease, box-shadow 0.3s ease;
   }
 
   .service-card:hover {
@@ -334,38 +188,39 @@ const services: Array<{
   }
 
   .service-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1.5rem;
+    font-size: 2.25rem;
+    margin-bottom: 1.25rem;
     background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
-  .capabilities-list {
-    list-style: none;
-    padding-left: 0;
-    margin-top: 1rem;
+  .service-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1.25rem;
+    margin-top: auto;
+    padding-top: 1rem;
   }
 
-  .capabilities-list li {
-    position: relative;
-    padding-left: 1.5rem;
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-    color: var(--text);
+  .service-cta {
+    display: inline-block;
+    padding: 0.5rem 1.1rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    color: #f8fafc;
+    text-decoration: none;
+    background: linear-gradient(90deg, var(--gradient-3), var(--gradient-2), var(--gradient-1));
   }
 
-  .capabilities-list li::before {
-    content: "→";
-    position: absolute;
-    left: 0;
-    color: var(--gradient-1);
+  .service-cta:hover {
+    color: #f8fafc;
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
   }
 
   .service-more {
-    display: inline-block;
-    margin-top: 1.25rem;
     font-weight: 600;
     color: var(--gradient-1);
     text-decoration: none;
@@ -375,77 +230,20 @@ const services: Array<{
     text-decoration: underline;
   }
 
-  @media (max-width: 768px) {
-    .service-card {
-      padding: 1.5rem;
-    }
-  }
-
-  .contact-button {
-    display: inline-flex;
-    align-items: center;
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: white;
-    background: linear-gradient(
-      90deg,
-      var(--gradient-3) 0%,
-      var(--gradient-2) 49.37%,
-      var(--gradient-1) 101.93%
-    ) !important;
-    border-radius: 2rem;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    border: none;
-  }
-
-  .contact-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    color: white;
-  }
-
-  .contact-button i {
-    transition: transform 0.3s ease;
-  }
-
-  .contact-button:hover i {
-    transform: translateX(5px);
-  }
-
-  /* Animaciones mejoradas */
   .animate-initial {
     opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(20px);
   }
 
   .animate-in {
-    opacity: 1 !important;
+    opacity: 1;
     transform: translateY(0);
   }
 
-  /* Animación especial para el título */
-  #services-section h2.animate-initial {
-    transform: translateY(-30px);
-  }
-
-  /* Animación para el botón de contacto */
-  .contact-button.animate-initial {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-
-  .contact-button.animate-in {
-    opacity: 1 !important;
-    transform: scale(1);
-  }
-
-  /* Ajuste para móvil */
   @media (max-width: 768px) {
     .service-card {
-      transition-delay: 0s !important; /* Eliminar delays en móvil */
+      padding: 1.5rem;
+      transition-delay: 0s !important;
     }
   }
-</style> 
+</style>

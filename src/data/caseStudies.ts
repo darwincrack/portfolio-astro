@@ -15,15 +15,15 @@ export type CaseStudy = {
 
 export const caseStudies: CaseStudy[] = [
   {
-    slug: "meridiano-net",
-    title: "meridiano.net",
-    summary: "Portal deportivo de alto tráfico, desarrollado y mantenido durante años.",
-    problem: "Los medios de Bloque de Armas necesitaban portales capaces de sostener mucho tráfico y crecer en búsqueda.",
-    solution: "Dirección técnica y desarrollo de meridiano.net, el portal deportivo, junto con 2001online.com y Revista Ronda, durante varios años.",
-    result: "Esas plataformas superaban el millón de visitas mensuales. El SEO y el rendimiento acompañaron un aumento del 200% en tráfico orgánico.",
-    details: "Web de noticias deportivas. Desarrollo y mantenimiento durante varios años como parte de la dirección técnica de los medios de Bloque de Armas. El sitio ya fue actualizado por terceros.",
-    tags: ["PHP", "JavaScript", "MySQL", "CMS"],
-    link: "https://meridiano.net",
+    slug: "poligono-club",
+    title: "Polígono Valencia — App de socios conectada a Profit",
+    summary: "Socios que pagan con Pago Móvil, reservan y entran con un QR, con saldos sincronizados desde Profit.",
+    problem: "El club social Polígono Valencia administra a sus socios en Profit y necesitaba que pudieran consultar su saldo, reportar pagos y reservar desde el celular, además de controlar quién entra al club, todo sin tocar su sistema administrativo.",
+    solution: "Un sistema a medida sobre WordPress con una app web para socios y vigilantes. Los socios entran con su cédula, ven su saldo y su solvencia, reportan pagos con Pago Móvil, reservan áreas deportivas y sociales, anotan invitados y entran con un código QR. Los vigilantes escanean el QR en la puerta. El personal valida pagos y reservas desde un panel de administración.",
+    result: "Saldos y facturas se sincronizan solos con Profit cada 5 minutos, sin modificar la contabilidad. La solvencia se muestra con un semáforo verde o rojo, los saldos se convierten con la tasa BCV del día y cada ingreso al club queda registrado.",
+    details: "Integración de solo lectura con Profit (SQL Server) mediante un agente en la red del club, para no exponer la base de datos. Roles para titular, cónyuge, hijos, padres, transeúntes, vigilantes y administradores; núcleo familiar; reservas con calendario y validación de pagos; tasa BCV automática; reporte de accesos. La landing del club no es parte de este trabajo.",
+    tags: ["WordPress", "PHP", "SQL Server", "Profit", "Pago Móvil", "QR"],
+    link: "https://poligonovalencia.com/app",
     github: "",
     serviceHref: "/servicios/webs-y-sistemas",
     serviceLabel: "Ver webs y sistemas a medida"
@@ -67,6 +67,20 @@ export const caseStudies: CaseStudy[] = [
     tags: ["WordPress", "Plugins", "WooCommerce"],
     link: "https://iqsalud.app/tienda/",
     github: "https://github.com/darwincrack/wp-payment-pago-movil",
+    serviceHref: "/servicios/webs-y-sistemas",
+    serviceLabel: "Ver webs y sistemas a medida"
+  },
+  {
+    slug: "meridiano-net",
+    title: "meridiano.net",
+    summary: "Portal deportivo de alto tráfico, desarrollado y mantenido durante años.",
+    problem: "Los medios de Bloque de Armas necesitaban portales capaces de sostener mucho tráfico y crecer en búsqueda.",
+    solution: "Dirección técnica y desarrollo de meridiano.net, el portal deportivo, junto con 2001online.com y Revista Ronda, durante varios años.",
+    result: "Esas plataformas superaban el millón de visitas mensuales. El SEO y el rendimiento acompañaron un aumento del 200% en tráfico orgánico.",
+    details: "Web de noticias deportivas. Desarrollo y mantenimiento durante varios años como parte de la dirección técnica de los medios de Bloque de Armas. El sitio ya fue actualizado por terceros.",
+    tags: ["PHP", "JavaScript", "MySQL", "CMS"],
+    link: "https://meridiano.net",
+    github: "",
     serviceHref: "/servicios/webs-y-sistemas",
     serviceLabel: "Ver webs y sistemas a medida"
   }

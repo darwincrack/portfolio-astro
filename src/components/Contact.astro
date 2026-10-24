@@ -1,386 +1,329 @@
 ---
-import ContactMenu from './ContactMenu.astro';
-
-import profileImage from '../images/profile-image.jpg';
+import { Image } from 'astro:assets';
+import { WHATSAPP_URL } from '../data/contact';
+import caracasImage from '../images/caracas-avila.jpg';
 
 const services = [
-  "Desarrollo de páginas web a la medida",
-  "Desarrollo de aplicaciones móviles",
-  "Temas de WordPress",
-  "Base de datos",
-  "Posicionamiento SEO",
-  "Asesorías"
+  "Página web",
+  "Sistema o aplicación web a medida",
+  "Aplicación móvil",
+  "Tienda online",
+  "WordPress o plugin a medida",
+  "Mejorar la velocidad de mi web",
+  "Mantenimiento",
+  "Otro / no estoy seguro"
 ];
 
 const RECAPTCHA_SITE_KEY = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY || '6Lf22YkqAAAAAI3bpWLQB0_UYS3HWEHQ5THo1ZjC';
 const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.com/darwinc-dev/consulta-15-min';
 ---
 
-<section id="contact-section" class="py-5">
-  <div class="container">
-    <h2 class="text-center mb-5">Contáctame</h2>
+<section id="contact-section" class="contact-section">
+  <Image
+    src={caracasImage}
+    alt=""
+    class="contact-bg"
+    widths={[800, 1400, 2000]}
+    sizes="100vw"
+    format="avif"
+    quality={60}
+    loading="lazy"
+    decoding="async"
+  />
+  <div class="contact-overlay" aria-hidden="true"></div>
 
-    <div class="row g-4 h-100">
-      <div class="col-md-6 d-flex">
-        <div class="card border-0 shadow-sm w-100">
-          <div class="card-body p-4 d-flex flex-column">
-            <h3 class="h5 mb-4">¿Necesitas ayuda con tu proyecto?</h3>
-            
-            <p class="lead mb-4">
-              Cuéntame qué web o sistema necesitas. Trabajo con negocios en Venezuela, Latinoamérica y España.
-            </p>
+  <div class="container contact-inner">
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-5 contact-info">
+        <h2>¿Me cuentas qué necesitas?</h2>
+        <p class="contact-lead">
+          Cuéntame tu idea o tu problema, aunque no lo tengas todo definido. Te respondo en menos de 24 horas.
+        </p>
 
-            {CALENDLY_URL && (
-              <a
-                href={CALENDLY_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn btn-calendly mb-4"
-              >
-                <i class="fas fa-calendar-check me-2"></i>
-                Agendar consulta gratuita de 15 min
-              </a>
-            )}
-
-            <div class="contact-methods mb-4">
-              <div class="contact-method mb-3">
-                <i class="fas fa-envelope gradient-text me-2"></i>
-                <a href="mailto:contacto@darwincd.com" class="gradient-text text-decoration-none">
-                  contacto@darwincd.com
-                </a>
-              </div>
-              
-              <div class="contact-method mb-3">
-                <i class="fas fa-phone gradient-text me-2"></i>
-                <a href="tel:+584125447114" class="gradient-text text-decoration-none">
-                  +58 412 544 7114
-                </a>
-              </div>
-
-              <div class="contact-method mb-3">
-                <i class="fab fa-whatsapp gradient-text me-2"></i>
-                <a href="https://wa.link/p82cmn" class="gradient-text text-decoration-none">
-                  WhatsApp
-                </a>
-              </div>
-
-              <div class="contact-social">
-                <a href="https://github.com/darwincrack/" target="_blank" rel="noopener noreferrer">
-                  <i class="fab fa-github" aria-hidden="true"></i>
-                  GitHub
-                </a>
-                <a href="https://www.linkedin.com/in/darwincrack/" target="_blank" rel="noopener noreferrer">
-                  <i class="fab fa-linkedin" aria-hidden="true"></i>
-                  LinkedIn
-                </a>
-                <a href="https://www.instagram.com/darwinc.dev/" target="_blank" rel="noopener noreferrer">
-                  <i class="fab fa-instagram" aria-hidden="true"></i>
-                  Instagram
-                </a>
-              </div>
-            </div>
-
-            <div class="availability mt-auto">
-              <p class="mb-0">
-                <i class="fas fa-clock gradient-text me-2"></i>
-                Disponible de Lunes a Viernes, 9:00 AM - 6:00 PM (GMT-4)
-              </p>
-            </div>
-          </div>
+        <p class="contact-label">Teléfono y WhatsApp</p>
+        <div class="contact-row">
+          <a href="tel:+584125447114" class="contact-value">+58 412 544 7114</a>
+          <a href={WHATSAPP_URL} class="contact-pill" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-whatsapp" aria-hidden="true"></i> Escribir por WhatsApp
+          </a>
         </div>
+
+        <p class="contact-label">Correo</p>
+        <a href="mailto:contacto@darwincd.com" class="contact-value">contacto@darwincd.com</a>
+
+        <p class="contact-label">Horario</p>
+        <p class="contact-hours">Lunes a viernes, 9:00 a 18:00 (GMT-4)</p>
+
+        {CALENDLY_URL && (
+          <a href={CALENDLY_URL} class="contact-calendly" target="_blank" rel="noopener noreferrer">
+            ¿Prefieres una llamada? Agenda 15 minutos <span aria-hidden="true">→</span>
+          </a>
+        )}
       </div>
 
-      <div class="col-md-6 d-flex">
-        <div class="card border-0 shadow-sm w-100">
-          <div class="card-body p-4 d-flex flex-column">
-            <h3 class="h4 mb-4">Envíame un mensaje</h3>
-            
-            <form action="https://formspree.io/f/xrbgaarw" 
-                  method="POST" 
-                  class="contact-form d-flex flex-column flex-grow-1"
-                  accept="application/json">
-              <div class="mb-3">
+      <div class="col-lg-7">
+        <div class="form-card">
+          <form action="https://formspree.io/f/xrbgaarw"
+                method="POST"
+                class="contact-form"
+                accept="application/json">
+            <div class="row g-3">
+              <div class="col-sm-6">
                 <label for="name" class="form-label">Nombre</label>
                 <input type="text" class="form-control" id="name" name="nombre" autocomplete="name" required>
               </div>
-              
-              <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
+              <div class="col-sm-6">
+                <label for="whatsapp" class="form-label">WhatsApp <span class="optional">(opcional)</span></label>
+                <input type="tel" class="form-control" id="whatsapp" name="whatsapp" autocomplete="tel">
+              </div>
+              <div class="col-12">
+                <label for="email" class="form-label">Correo</label>
                 <input type="email" class="form-control" id="email" name="email" autocomplete="email" required>
               </div>
-              
-              <div class="mb-3 flex-grow-1">
+              <div class="col-12">
+                <label for="service" class="form-label">¿Qué necesitas?</label>
+                <select class="form-select" id="service" name="servicio" required>
+                  <option value="" disabled selected>Elige una opción</option>
+                  {services.map((service) => (
+                    <option value={service}>{service}</option>
+                  ))}
+                </select>
+              </div>
+              <div class="col-12">
                 <label for="message" class="form-label">Mensaje</label>
-                <textarea class="form-control h-100" id="message" name="message" autocomplete="off" style="min-height: 150px;" required></textarea>
+                <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
               </div>
-
-              <div class="g-recaptcha flex-grow-1 mb-3  mt-4" 
-                   data-sitekey={RECAPTCHA_SITE_KEY}
-                   data-callback="onRecaptchaSuccess"
-                   data-expired-callback="onRecaptchaExpired">
+              <div class="col-12">
+                <div class="g-recaptcha"
+                     data-sitekey={RECAPTCHA_SITE_KEY}
+                     data-callback="onRecaptchaSuccess"
+                     data-expired-callback="onRecaptchaExpired">
+                </div>
               </div>
+            </div>
 
-              <button type="submit" class="btn btn-primary w-100 mt-auto" disabled>
-                Enviar mensaje
-                <i class="fas fa-paper-plane ms-2"></i>
+            <div class="form-footer">
+              <p class="form-note">Uso estos datos solo para responder tu consulta.</p>
+              <button type="submit" class="form-submit" disabled>
+                Enviar mensaje <span aria-hidden="true">→</span>
               </button>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
 
-
-  <ContactMenu />
- 
+  <p class="photo-credit">
+    Foto: <a href="https://unsplash.com/photos/a-view-of-a-city-with-mountains-in-the-background-BIvkvLqOVEI" target="_blank" rel="noopener noreferrer">Bona Lee / Unsplash</a>
+  </p>
 </section>
 
 <style>
-  /* Añade esto al inicio de tus estilos */
-  #contact-section {
-    scroll-margin-top: 30px; /* Ajusta este valor según necesites */
+  .contact-section {
+    position: relative;
+    overflow: hidden;
+    padding: 6rem 0;
+    color: #f8fafc;
+    background-color: #0f172a;
+    scroll-margin-top: 30px;
   }
 
-  /* Estilos base */
-  section {
-    background-color: var(--primary-bg);
-    color: var(--text);
-  }
-
-  /* Estilos para las cards */
-  .card {
-    background-color: var(--primary-bg) !important;
-    border: 1px solid var(--secondary-bg) !important;
-    color: var(--text) !important;
-  }
-
-  /* Estilos para el formulario */
-  .contact-form .form-control {
-    background-color: var(--secondary-bg) !important;
-    border: 1px solid var(--secondary-bg);
-    color: var(--text) !important;
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    transition: all 0.3s ease;
-  }
-
-  .contact-form .form-control:focus {
-    border-color: var(--gradient-1);
-    box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.2);
-    background-color: var(--secondary-bg) !important;
-  }
-
-  .contact-form .form-control::placeholder {
-    color: var(--text-muted);
-  }
-
-  /* Ajustes específicos para modo oscuro */
-  :root[data-theme="dark"] .card {
-    background-color: rgba(17, 25, 40, 0.75) !important;
-    backdrop-filter: blur(4px);
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  }
-
-  :root[data-theme="dark"] .form-control {
-    background-color: rgba(17, 25, 40, 0.75) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  :root[data-theme="dark"] .form-control:focus {
-    background-color: rgba(17, 25, 40, 0.9) !important;
-    border-color: var(--gradient-1);
-  }
-
-  /* Estilos para títulos */
-  h2.text-center {
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 2rem;
-    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+  .contact-bg {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    text-align: center;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
   }
 
-  /* Animación específica para el título */
-  #contact-section h2.animate-initial {
-    opacity: 0;
-    transform: translateY(-30px);
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  .contact-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(100deg, rgba(15, 23, 42, 0.92) 0%, rgba(15, 23, 42, 0.78) 45%, rgba(15, 23, 42, 0.55) 100%);
   }
 
-  #contact-section h2.animate-in {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
+  .contact-inner {
+    position: relative;
+    z-index: 2;
   }
 
-  /* Efecto de brillo para modo oscuro */
-  :root[data-theme="dark"] h2.text-center {
-    text-shadow: 0 0 20px rgba(14, 165, 233, 0.5),
-                 0 0 30px rgba(14, 165, 233, 0.3);
-    animation: glow 3s ease-in-out infinite;
+  .contact-info h2 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    color: #f8fafc;
   }
 
-  @keyframes glow {
-    0% {
-      text-shadow: 0 0 10px rgba(14, 165, 233, 0.3);
-    }
-    50% {
-      text-shadow: 0 0 20px rgba(14, 165, 233, 0.5),
-                   0 0 30px rgba(14, 165, 233, 0.3);
-    }
-    100% {
-      text-shadow: 0 0 10px rgba(14, 165, 233, 0.3);
-    }
+  .contact-lead {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    margin-bottom: 2rem;
   }
 
-  /* Estilos para subtítulos */
-  h3.h4, h3.h5 {
-    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 600;
+  .contact-label {
+    margin: 1.25rem 0 0.25rem;
+    font-size: 0.85rem;
+    opacity: 0.75;
   }
 
-  :root[data-theme="dark"] h3.h4,
-  :root[data-theme="dark"] h3.h5 {
-    text-shadow: 0 0 10px rgba(14, 165, 233, 0.3);
-  }
-
-  /* Estilos para el texto gradiente */
-  .gradient-text {
-    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .contact-social {
+  .contact-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem 1.25rem;
-    margin-top: 0.25rem;
+    align-items: center;
+    gap: 0.75rem 1rem;
   }
 
-  .contact-social a {
+  .contact-value {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #f8fafc;
+    text-decoration: none;
+  }
+
+  .contact-value:hover {
+    color: #7dd3fc;
+  }
+
+  .contact-pill {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    color: var(--text);
-    text-decoration: none;
+    padding: 0.45rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.9rem;
     font-weight: 600;
-  }
-
-  .contact-social a:hover {
-    color: var(--gradient-1);
-  }
-
-  .contact-form .form-label {
-    color: var(--text);
-  }
-
-  .contact-form .btn-primary {
-    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
-    border: none;
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    color: #fff;
-  }
-
-  .contact-form .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
-  }
-
-  /* Botón CTA Calendly */
-  .btn-calendly {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
-    border: none;
-    padding: 0.75rem 1.25rem;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    color: #fff !important;
+    color: #f8fafc;
     text-decoration: none;
-    transition: all 0.3s ease;
-    width: 100%;
+    background: rgba(248, 250, 252, 0.14);
+    border: 1px solid rgba(248, 250, 252, 0.2);
+    transition: background 0.2s ease;
   }
 
-  .btn-calendly:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.35);
-    color: #fff !important;
+  .contact-pill:hover {
+    color: #f8fafc;
+    background: rgba(248, 250, 252, 0.24);
   }
 
-  /* Estilos para el botón de WhatsApp */
-  .whatsapp-button {
-    position: fixed;
-    width: 60px;
-    height: 60px;
-    bottom: 40px;
-    right: 40px;
-    background-color: #25d366;
-    color: #FFF;
-    border-radius: 50px;
-    text-align: center;
-    font-size: 30px;
-    box-shadow: 2px 2px 3px #999;
+  .contact-hours {
+    margin: 0;
+  }
+
+  .contact-calendly {
+    display: inline-block;
+    margin-top: 2rem;
+    color: #7dd3fc;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .contact-calendly:hover {
+    text-decoration: underline;
+  }
+
+  .form-card {
+    background: #ffffff;
+    color: #0f172a;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  }
+
+  .form-card .form-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #0f172a;
+  }
+
+  .form-card .optional {
+    font-weight: 400;
+    color: #64748b;
+  }
+
+  .form-card .form-control,
+  .form-card .form-select {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #dbe3ee;
+    border-radius: 0.75rem;
+    padding: 0.7rem 0.9rem;
+  }
+
+  .form-card .form-control:focus,
+  .form-card .form-select:focus {
+    border-color: var(--gradient-1);
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.18);
+  }
+
+  .form-footer {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    transition: all 0.3s ease;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.5rem;
   }
 
-  .whatsapp-button:hover {
-    transform: scale(1.1);
-    color: #FFF;
+  .form-note {
+    margin: 0;
+    max-width: 16rem;
+    font-size: 0.85rem;
+    color: #64748b;
   }
 
-  /* Animaciones mejoradas */
-  .animate-initial {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform, opacity;
+  .form-submit {
+    padding: 0.8rem 1.6rem;
+    border: none;
+    border-radius: 2rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: linear-gradient(90deg, var(--gradient-3), var(--gradient-2), var(--gradient-1));
+    transition: box-shadow 0.2s ease, opacity 0.2s ease;
   }
 
-  .animate-in {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
+  .form-submit:hover:not(:disabled) {
+    box-shadow: 0 6px 16px rgba(14, 165, 233, 0.35);
   }
 
-  /* Animación especial para el botón de WhatsApp */
-  .whatsapp-button.animate-initial {
-    transform: scale(0.8) translateY(30px);
+  .form-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 
-  .whatsapp-button.animate-in {
-    transform: scale(1) translateY(0) !important;
+  .photo-credit {
+    position: absolute;
+    right: 1rem;
+    bottom: 0.5rem;
+    z-index: 2;
+    margin: 0;
+    font-size: 0.7rem;
+    opacity: 0.6;
   }
 
-  /* Delay para la segunda card */
-  .col-md-6:nth-child(2) .card.animate-initial {
-    transition-delay: 0.2s;
+  .photo-credit a {
+    color: inherit;
   }
 
   @media (max-width: 768px) {
-    .card {
-      transition-delay: 0s !important;
+    .contact-section {
+      padding: 4rem 0;
+    }
+
+    .form-card {
+      padding: 1.5rem;
+    }
+
+    .contact-overlay {
+      background: rgba(15, 23, 42, 0.85);
     }
   }
 </style>
 
 <script>
-  // Función para cargar el script de reCAPTCHA
+  // Cargar reCAPTCHA solo cuando la sección de contacto se acerca a la pantalla
   function loadRecaptchaScript() {
     if (typeof window.grecaptcha === 'undefined' && !document.querySelector('script[src*="recaptcha"]')) {
       const script = document.createElement('script');
@@ -391,28 +334,22 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
     }
   }
 
-  // Función para observar la sección de contacto
   function initRecaptchaObserver() {
+    const contactSection = document.querySelector('#contact-section');
+    if (!contactSection) return;
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           loadRecaptchaScript();
-          observer.unobserve(entry.target); // Dejar de observar una vez cargado
+          observer.unobserve(entry.target);
         }
       });
-    }, {
-      threshold: 0.1, // Cargar cuando al menos 10% de la sección sea visible
-      rootMargin: '50px' // Cargar un poco antes de llegar a la sección
-    });
+    }, { threshold: 0.1, rootMargin: '50px' });
 
-    // Observar la sección de contacto
-    const contactSection = document.querySelector('#contact-section');
-    if (contactSection) {
-      observer.observe(contactSection);
-    }
+    observer.observe(contactSection);
   }
 
-  // Funciones de callback para reCAPTCHA
   window.onRecaptchaSuccess = function() {
     const submitButton = document.querySelector('.contact-form button[type="submit"]');
     if (submitButton) submitButton.disabled = false;
@@ -423,103 +360,22 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
     if (submitButton) submitButton.disabled = true;
   };
 
-  function initContactForm() {
-    const form = document.querySelector('.contact-form');
-    
-    form?.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      // Verificar reCAPTCHA
-      const recaptchaResponse = grecaptcha.getResponse();
-      if (!recaptchaResponse) {
-        alert('Por favor, completa el reCAPTCHA');
-        return;
-      }
-
-      const formElement = e.target as HTMLFormElement;
-      const submitButton = formElement.querySelector('button[type="submit"]') as HTMLButtonElement;
-      const formData = new FormData(formElement);
-      
-      try {
-        // Cambiar estado del botón
-        submitButton.disabled = true;
-        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-        
-        // Enviar formulario
-        const response = await fetch('https://formspree.io/f/xrbgaarw', {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'Accept': 'application/json'
-          },
-          mode: 'cors' // Agregar modo CORS
+  // Registrar el envío del formulario como conversión en Google Analytics
+  function initLeadTracking() {
+    const form = document.querySelector('.contact-form') as HTMLFormElement | null;
+    form?.addEventListener('submit', () => {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'generate_lead', {
+          method: 'formulario',
+          service: new FormData(form).get('servicio'),
+          transport_type: 'beacon'
         });
-
-        const data = await response.json();
-        
-        if (response.ok) {
-          // Éxito
-          formElement.reset();
-          alert('¡Mensaje enviado con éxito! Pronto me pondré en contacto contigo.');
-        } else {
-          // Error con respuesta
-          throw new Error(data.error || 'Error al enviar el mensaje');
-        }
-      } catch (error) {
-        // Error general
-        console.error('Error:', error);
-        alert('Hubo un error al enviar el mensaje. Por favor, intenta nuevamente.');
-      } finally {
-        // Restaurar botón
-        submitButton.disabled = false;
-        submitButton.innerHTML = 'Enviar mensaje <i class="fas fa-paper-plane ms-2"></i>';
       }
     });
   }
 
-  // Inicializar el observer en lugar de cargar reCAPTCHA directamente
-  document.addEventListener('DOMContentLoaded', initRecaptchaObserver);
-  document.addEventListener('astro:page-load', initRecaptchaObserver);
-
-  function initContactAnimations() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-in');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '50px'
-    });
-
-    // Observar las cards con delay escalonado
-    document.querySelectorAll('#contact-section .card').forEach((card, index) => {
-      card.style.opacity = '0';
-      card.classList.add('animate-initial');
-      card.style.transitionDelay = `${index * 0.2}s`;
-      observer.observe(card);
-    });
-
-    // Observar el título
-    const title = document.querySelector('#contact-section h2');
-    if (title) {
-      title.style.opacity = '0';
-      title.classList.add('animate-initial');
-      observer.observe(title);
-    }
-
-    // Observar el botón de WhatsApp
-    const whatsappButton = document.querySelector('.whatsapp-button');
-    if (whatsappButton) {
-      whatsappButton.style.opacity = '0';
-      whatsappButton.classList.add('animate-initial');
-      observer.observe(whatsappButton);
-    }
-  }
-
-  // Inicializar en ambos eventos
-  document.addEventListener('DOMContentLoaded', initContactAnimations);
-  document.addEventListener('astro:page-load', initContactAnimations);
+  document.addEventListener('DOMContentLoaded', () => {
+    initRecaptchaObserver();
+    initLeadTracking();
+  });
 </script>

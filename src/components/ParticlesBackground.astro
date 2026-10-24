@@ -1,8 +1,14 @@
 ---
+interface Props {
+  id?: string;
+  fill?: boolean;
+}
+
+const { id = 'tsparticles', fill = false } = Astro.props;
 ---
 
-<div class="particles-container">
-  <div id="tsparticles"></div>
+<div class:list={['particles-container', { 'particles-fill': fill }]}>
+  <div id={id} class="particles-canvas"></div>
 </div>
 
 <style>
@@ -15,7 +21,11 @@
     overflow: hidden; /* Importante: evita que las partículas se desborden */
   }
 
-  #tsparticles {
+  .particles-fill {
+    height: 100%;
+  }
+
+  .particles-canvas {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -38,10 +48,15 @@
       const existingInstances = tsParticles.dom();
       existingInstances.forEach(instance => instance.destroy());
       
-      await tsParticles.load("tsparticles", {
+      const isSmallScreen = window.matchMedia('(max-width: 768px)').matches;
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const targets = document.querySelectorAll<HTMLElement>('.particles-canvas');
+
+      for (const target of targets) {
+      await tsParticles.load(target.id, {
         particles: {
           number: {
-            value: 50,
+            value: isSmallScreen ? 25 : 50,
             density: {
               enable: true,
               value_area: 1000
@@ -75,7 +90,7 @@
             width: 1
           },
           move: {
-            enable: true,
+            enable: !reduceMotion,
             speed: 1,
             direction: "none",
             random: false,
@@ -123,6 +138,7 @@
           enable: false // Importante: deshabilitar el modo pantalla completa
         }
       });
+      }
     } catch (error) {
       console.error('Error initializing particles:', error);
     }

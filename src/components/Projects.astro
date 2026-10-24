@@ -25,6 +25,10 @@ import project17_1 from '../images/project17_1.avif';
 import project17_2 from '../images/project17_2.avif';
 import project18 from '../images/project18.avif';
 import project19 from '../images/project19.avif';
+import projectClarityJobs from '../images/project-clarityjobs.jpg';
+import poligonoApp from '../images/poligono-app.jpg';
+import poligonoReservas from '../images/poligono-reservas.jpg';
+import poligonoBcv from '../images/poligono-bcv.jpg';
 
 
 
@@ -33,6 +37,30 @@ import projectsupport1 from '../images/projectsupport1.avif';
 import { caseStudyByTitle } from '../data/caseStudies';
 
 const projects = [
+  {
+    title: "Polígono Valencia — App de socios conectada a Profit",
+    description: "Socios que pagan con Pago Móvil, reservan y entran con un QR, con saldos sincronizados desde Profit.",
+    detailedDescription: "Sistema a medida para el club social Polígono Valencia: app web para socios y vigilantes, y panel de administración. Los socios entran con su cédula, ven su saldo y solvencia, reportan pagos con Pago Móvil, reservan áreas deportivas y sociales, anotan invitados y entran con un código QR que el vigilante escanea en la puerta. Saldos y facturas se sincronizan cada 5 minutos con Profit (SQL Server, solo lectura) y los montos se convierten con la tasa BCV del día. La landing del club no es parte de este trabajo.",
+    tags: ["WordPress", "PHP", "SQL Server", "Profit", "Pago Móvil"],
+    link: "https://poligonovalencia.com/app",
+    image: poligonoApp,
+    additionalImages: [poligonoApp, poligonoReservas, poligonoBcv],
+    priority: 0,
+    github: "",
+    type: "fullstack"
+  },
+  {
+    title: "ClarityJobs",
+    description: "Web para una consultora de empleabilidad y atracción de talento, con ofertas laborales y publicación de vacantes.",
+    detailedDescription: "Landing institucional de ClarityJobs, consultora especializada en empleabilidad, desarrollo profesional y atracción de talento: presentación de servicios para postulantes y empresas, ofertas laborales, publicación de vacantes y formulario de contacto. Desarrollada en TypeScript y desplegada en servidor propio con Node.js y Nginx. Es la base del futuro portal de empleo.",
+    tags: ["TypeScript", "Node.js", "Nginx"],
+    link: "https://getclarityjobs.com/",
+    image: projectClarityJobs,
+    additionalImages: [projectClarityJobs],
+    priority: 0,
+    github: "",
+    type: "fullstack"
+  },
   {
     title: "Misca Studio — Optimización y conversión",
     description: "La portada pesaba demasiado y el contacto quedaba escondido.",
@@ -133,7 +161,7 @@ const projects = [
     title: "Vipticket",
     description: "Sistema de gestión de eventos para venta de entradas con pasarela de pagos",
     tags: ["PHP", "MySQL", "JavaScript"],
-    link: "https://vipticket.mx/",
+    link: "",
     image: project1,
     priority: 1,
     github: "",
@@ -161,7 +189,7 @@ const projects = [
   },
   {
     title: "Latampaper",
-    description: "Web informativa y CMS",
+    description: "Web informativa y CMS actualizados de PHP 7.4 a PHP 8.3, sin rehacerlos.",
     tags: ["PHP", "JavaScript", "MySQL"],
     link: "https://latampaper.com",
     image: project4,
@@ -262,10 +290,10 @@ const projects = [
 
 // Casos con problema, solución y resultado van primero. El resto sigue por prioridad.
 const featuredTitles = [
-  "meridiano.net",
-  "CropLife — actualización de la app",
+  "Polígono Valencia — App de socios conectada a Profit",
   "Misca Studio — Optimización y conversión",
   "Pago Móvil para WooCommerce",
+  "CropLife — actualización de la app",
 ];
 
 const sortedProjects = [...projects].sort((a, b) => {
@@ -295,7 +323,7 @@ const projectsForClient = sortedProjects.map((project) => ({
 
 <section id="projects-section" class="py-5">
   <div class="container">
-    <h2 class="text-center mb-5">Proyectos Destacados</h2>
+    <h1 class="projects-title text-center mb-5">Proyectos</h1>
 
     <div class="projects-grid">
       {sortedProjects.map((project, index) => (
@@ -390,7 +418,7 @@ const projectsForClient = sortedProjects.map((project) => ({
 </div>
 
 <style>
-  h2.text-center {
+  .projects-title {
     font-size: 3rem;
     font-weight: 700;
     background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));

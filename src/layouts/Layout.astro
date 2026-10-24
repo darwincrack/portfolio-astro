@@ -36,8 +36,8 @@ const lightThemeColors = {
   gradient3: '#4f46e5', // Indigo
 };
 
-const defaultTitle = 'Darwin Cedeño - Desarrollador Web Freelance en Venezuela';
-const defaultDescription = 'Desarrollador web freelance en Venezuela. Webs, sistemas y aplicaciones móviles a medida para negocios en Venezuela, Latinoamérica y España.';
+const defaultTitle = 'Desarrollo de software y web en Venezuela | Darwin Cedeño';
+const defaultDescription = 'Desarrollo de software, páginas web, sistemas y apps a medida en Venezuela. Sin intermediarios, respuesta en menos de 24 horas y +300 proyectos entregados.';
 
 const areaServed = [
   { "@type": "Country", "name": "Venezuela" },
@@ -74,6 +74,8 @@ const optimizedTitle = optimizeTitle(title);
 
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
+import ContactMenu from '../components/ContactMenu.astro';
+import { GOOGLE_PROFILE_URL } from '../data/contact';
 
 ---
 
@@ -160,7 +162,8 @@ import Footer from '../components/Footer.astro';
       "sameAs": [
         "https://github.com/darwincrack/",
         "https://www.linkedin.com/in/darwincrack/",
-        "https://www.instagram.com/darwinc.dev/"
+        "https://www.instagram.com/darwinc.dev/",
+        GOOGLE_PROFILE_URL
       ],
       "knowsAbout": [
         "Desarrollo Web",
@@ -192,7 +195,8 @@ import Footer from '../components/Footer.astro';
       "sameAs": [
         "https://github.com/darwincrack/",
         "https://www.linkedin.com/in/darwincrack/",
-        "https://www.instagram.com/darwinc.dev/"
+        "https://www.instagram.com/darwinc.dev/",
+        GOOGLE_PROFILE_URL
       ],
       "contactPoint": {
         "@type": "ContactPoint",
@@ -291,6 +295,21 @@ import Footer from '../components/Footer.astro';
   gtag('js', new Date());
 
   gtag('config', 'G-320P4MZGS0');
+
+  // Registrar clics en los canales de contacto como eventos de conversión
+  document.addEventListener('click', function (event) {
+    var link = event.target.closest && event.target.closest('a[href]');
+    if (!link) return;
+    var href = link.getAttribute('href');
+    var channel = /wa\.me|whatsapp/.test(href) ? 'whatsapp'
+      : /calendly\.com/.test(href) ? 'calendly'
+      : href.indexOf('mailto:') === 0 ? 'email'
+      : href.indexOf('tel:') === 0 ? 'phone'
+      : null;
+    if (channel) {
+      gtag('event', 'contact_click', { channel: channel, page_path: location.pathname });
+    }
+  });
 </script>
 <script>
   import { reportWebVitals } from '../scripts/web-vitals';
@@ -301,5 +320,6 @@ import Footer from '../components/Footer.astro';
     <Navigation />
     <slot />
     <Footer />
+    <ContactMenu />
   </body>
 </html>

@@ -4,6 +4,7 @@ export const prerender = true;
 import Layout from '../../layouts/Layout.astro';
 import { servicePages } from '../../data/servicePages';
 import { caseStudies } from '../../data/caseStudies';
+import { WHATSAPP_URL } from '../../data/contact';
 
 export function getStaticPaths() {
   return servicePages.map((page) => ({
@@ -90,13 +91,15 @@ const breadcrumbSchema = {
         ))}
       </ul>
 
-      <p class="proof">Top Rated en Workana · +300 proyectos · 5 estrellas</p>
+      <p class="proof">+300 proyectos entregados · Valoración 5 estrellas</p>
 
       <div class="actions">
-        <a href={CALENDLY_URL} class="btn-primary" target="_blank" rel="noopener noreferrer">
+        <a href={WHATSAPP_URL} class="btn-primary" target="_blank" rel="noopener noreferrer">
+          Escríbeme por WhatsApp
+        </a>
+        <a href={CALENDLY_URL} class="btn-secondary" target="_blank" rel="noopener noreferrer">
           Agendar consulta de 15 min
         </a>
-        <a href="/#contact-section" class="btn-secondary">Contáctame</a>
       </div>
 
       <p class="also">

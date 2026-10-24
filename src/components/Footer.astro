@@ -1,55 +1,170 @@
-<footer class="bg-dark text-white py-4" role="contentinfo" aria-label="Pie de página">
-    <div class="container text-center">
-      <p class="mb-1">Venezuela · Trabajo con clientes en Latinoamérica y España</p>
-      <p class="mb-2">
-        <a href="tel:+584125447114" class="footer-phone">+58 412 544 7114</a>
-      </p>
-      <p class="footer-social mb-2">
-        <a href="https://github.com/darwincrack/" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-          <i class="fab fa-github" aria-hidden="true"></i>
-          GitHub
-        </a>
-        <a href="https://www.linkedin.com/in/darwincrack/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-          <i class="fab fa-linkedin" aria-hidden="true"></i>
-          LinkedIn
-        </a>
-        <a href="https://www.instagram.com/darwinc.dev/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-          <i class="fab fa-instagram" aria-hidden="true"></i>
-          Instagram
-        </a>
-      </p>
-      <p class="mb-0">
-        © {new Date().getFullYear()} Darwin Cedeño. Todos los derechos reservados.
-      </p>
+---
+import { GOOGLE_PROFILE_URL, WHATSAPP_URL } from '../data/contact';
+
+const navLinks = [
+  { href: "/#services-section", label: "Servicios" },
+  { href: "/proyectos", label: "Proyectos" },
+  { href: "/sobre-mi", label: "Sobre mí" },
+  { href: "/blog", label: "Blog" },
+  { href: "/desarrollo-de-software-venezuela", label: "Desarrollo de software en Venezuela" }
+];
+
+const socialLinks = [
+  { href: "https://github.com/darwincrack/", icon: "fab fa-github", label: "GitHub" },
+  { href: "https://www.linkedin.com/in/darwincrack/", icon: "fab fa-linkedin", label: "LinkedIn" },
+  { href: "https://www.instagram.com/darwinc.dev/", icon: "fab fa-instagram", label: "Instagram" }
+];
+---
+
+<footer class="site-footer" role="contentinfo" aria-label="Pie de página">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo" aria-label="Darwin Cedeño - Inicio">DC</a>
+        <p class="footer-name">Darwin Cedeño</p>
+        <p class="footer-tagline">
+          Desarrollo de software en Venezuela, para negocios de Latinoamérica y España.
+        </p>
+      </div>
+
+      <nav class="footer-col" aria-label="Navegación del pie de página">
+        <p class="footer-title">Navegación</p>
+        <ul>
+          {navLinks.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="footer-col">
+        <p class="footer-title">Contacto</p>
+        <ul>
+          <li>
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-whatsapp" aria-hidden="true"></i> WhatsApp
+            </a>
+          </li>
+          <li><a href="mailto:contacto@darwincd.com">contacto@darwincd.com</a></li>
+          <li><a href="tel:+584125447114">+58 412 544 7114</a></li>
+        </ul>
+        <div class="footer-social">
+          {socialLinks.map((link) => (
+            <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.label}>
+              <i class={link.icon} aria-hidden="true"></i>
+            </a>
+          ))}
+        </div>
+      </div>
     </div>
-  </footer>
+
+    <div class="footer-bottom">
+      <p>© {new Date().getFullYear()} Darwin Cedeño</p>
+      <a href={GOOGLE_PROFILE_URL} target="_blank" rel="noopener noreferrer">
+        Reseñas en Google <span class="footer-stars" aria-hidden="true">★★★★★</span>
+      </a>
+    </div>
+  </div>
+</footer>
 
 <style>
-  .footer-phone {
-    color: #f8fafc;
-    text-decoration: none;
+  .site-footer {
+    background: #0b1220;
+    color: #cbd5e1;
+    padding: 3.5rem 0 5.5rem; /* espacio para el botón flotante de WhatsApp */
+    font-size: 0.95rem;
   }
 
-  .footer-phone:hover {
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 2.5rem;
+  }
+
+  .footer-logo {
+    display: inline-block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .footer-name {
+    margin: 0.5rem 0 0.25rem;
+    font-weight: 600;
+    color: #f8fafc;
+  }
+
+  .footer-tagline {
+    max-width: 22rem;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .footer-title {
+    margin-bottom: 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #f8fafc;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-col li {
+    margin-bottom: 0.5rem;
+  }
+
+  .site-footer a {
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .site-footer a:hover {
     color: #7dd3fc;
   }
 
   .footer-social {
     display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    font-size: 1.2rem;
+  }
+
+  .footer-bottom {
+    display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.75rem 1.25rem;
-  }
-
-  .footer-social a {
-    display: inline-flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 0.4rem;
-    color: #f8fafc;
-    text-decoration: none;
+    gap: 0.5rem 1rem;
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(248, 250, 252, 0.1);
+    font-size: 0.85rem;
   }
 
-  .footer-social a:hover {
-    color: #7dd3fc;
+  .footer-bottom p {
+    margin: 0;
+  }
+
+  .footer-stars {
+    margin-left: 0.25rem;
+    color: #fbbf24;
+    letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
   }
 </style>

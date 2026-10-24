@@ -1,76 +1,34 @@
 ---
-// Importar el componente Image de Astro
-import { Image } from 'astro:assets';
-
 import ParticlesBackground from './ParticlesBackground.astro';
-import azureBadge from '../images/badges/microsoft-certified-azure-fundamentals.avif';
-import pmBadge from '../images/badges/certificado-de-gestion-de-proyectos-de-google.avif';
-import aiBadge from '../images/badges/google-ai-essentials.avif';
+import { WHATSAPP_URL } from '../data/contact';
 
 const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.com/darwinc-dev/consulta-15-min';
 ---
 
 <header class="header">
-  <ParticlesBackground/>
+  <ParticlesBackground id="tsparticles" />
 
   <!-- Hero Section -->
   <div class="hero-section">
     <div class="container text-center">
-      <p class="hero-name">Darwin Cedeño</p>
-      <h1 class="hero-lead">Hago webs, sistemas y aplicaciones móviles a medida.</h1>
-      <p class="hero-places">Venezuela, Latinoamérica y España.</p>
-      <p class="hero-proof">Top Rated en Workana · +300 proyectos · 5 estrellas</p>
+      <p class="hero-name">Darwin Cedeño · Desarrollo de software en Venezuela</p>
+      <h1 class="hero-lead">Webs, sistemas y apps para tu negocio. <span class="hero-accent">Sin intermediarios.</span></h1>
+      <p class="hero-sub">Hablas directo con quien lo construye.<br />Te respondo en menos de 24 horas.</p>
 
       <div class="cta-container">
-        <a href={CALENDLY_URL} class="contact-btn" target="_blank" rel="noopener noreferrer">
-          Agendar consulta de 15 min
+        <a href={WHATSAPP_URL} class="contact-btn" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-whatsapp me-2" aria-hidden="true"></i>Escríbeme por WhatsApp
         </a>
-        <a href="#contact-section" class="contact-btn contact-btn-secondary">
-          Contáctame
+        <a href={CALENDLY_URL} class="hero-link" target="_blank" rel="noopener noreferrer">
+          Agendar una llamada <span aria-hidden="true">→</span>
         </a>
       </div>
-      <p class="technologies">PHP · JavaScript · WordPress · Laravel · React · Node.js · MySQL · IA</p>
 
-      <!-- Certificaciones con imágenes -->
-      <div class="certifications-badges">
-        {[
-          {
-            url: "https://www.credly.com/badges/7f36d2ec-e6eb-4d9a-bfa1-8ba960a750af/public_url",
-            img: azureBadge,
-            alt: "Microsoft Certified: Azure Fundamentals",
-            title: "Microsoft Certified: Azure Fundamentals"
-          },
-          {
-            url: "https://www.credly.com/badges/583f34eb-f507-48f0-9865-7a09fb730dda/public_url",
-            img: pmBadge,
-            alt: "Certificado de gestión de proyectos de Google",
-            title: "Certificado de gestión de proyectos de Google"
-          },
-          {
-            url: "https://www.credly.com/badges/4252e689-70c1-40e8-b539-d3f1f0e7e00d/public_url",
-            img: aiBadge,
-            alt: "Google AI Essentials",
-            title: "Google AI Essentials"
-          }
-        ].map((badge, index) => (
-          <a href={badge.url} 
-             target="_blank" 
-             rel="noopener"
-             title={badge.title}>
-            <Image 
-              src={badge.img} 
-              alt={badge.alt}
-              width={90}
-              height={90}
-              loading={index === 0 ? "eager" : "lazy"}
-              decoding={index === 0 ? "sync" : "async"}
-              fetchpriority={index === 0 ? "high" : undefined}
-              format="avif"
-              quality={90}
-            />
-          </a>
-        ))}
-      </div>
+      <ul class="hero-proof">
+        <li><strong>+300</strong> proyectos</li>
+        <li><strong>5★</strong> en reseñas</li>
+        <li>Desde <strong>2017</strong></li>
+      </ul>
     </div>
   </div>
 </header>
@@ -251,8 +209,9 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
   .subtitle,
   .technologies,
   .hero-lead,
-  .hero-places,
+  .hero-sub,
   .hero-proof,
+  .hero-link,
   .cta-note {
     color: #f8fafc !important; /* Forzar color claro siempre */
   }
@@ -261,7 +220,8 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
   html[data-theme="light"] .hero-section .subtitle,
   html[data-theme="light"] .hero-section .technologies,
   html[data-theme="light"] .hero-section .hero-lead,
-  html[data-theme="light"] .hero-section .hero-places,
+  html[data-theme="light"] .hero-section .hero-sub,
+  html[data-theme="light"] .hero-section .hero-link,
   html[data-theme="light"] .hero-section .hero-proof,
   html[data-theme="light"] .hero-section .cta-note,
   html[data-theme="light"] .hero-section .hero-name,
@@ -293,13 +253,47 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
     font-weight: 700;
   }
 
-  .hero-places {
-    margin: 0 auto 0.75rem;
-    font-size: 1rem;
+  .hero-accent {
+    background: linear-gradient(90deg, var(--gradient-1), var(--gradient-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-sub {
+    margin: 0 auto;
+    font-size: 1.15rem;
+    line-height: 1.6;
     opacity: 0.9;
   }
 
-  .hero-proof,
+  .hero-link {
+    align-self: center;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .hero-link:hover {
+    text-decoration: underline;
+  }
+
+  .hero-proof {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 2rem;
+    list-style: none;
+    padding: 0;
+    margin: 2.5rem auto 0;
+    font-size: 0.95rem;
+    opacity: 0.85;
+  }
+
+  .hero-proof strong {
+    font-size: 1.15rem;
+  }
+
   .cta-note {
     margin: 0 auto;
     font-size: 0.95rem;
@@ -401,7 +395,7 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
     justify-content: center;
     flex-wrap: wrap;
     gap: 0.75rem;
-    margin-top: 1.25rem;
+    margin-top: 2rem;
   }
 
   .social-links {
@@ -656,7 +650,7 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
     display: flex;
     justify-content: center;
     gap: 1.5rem;
-    margin: 1.5rem 0;
+    margin: 2rem 0 1.5rem;
   }
 
   .certifications-badges a {

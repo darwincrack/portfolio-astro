@@ -4,16 +4,28 @@ export const prerender = true;
 import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import { caseStudies } from '../../data/caseStudies';
+import { WHATSAPP_URL } from '../../data/contact';
 import meridianoImage from '../../images/project5.avif';
 import croplifeImage from '../../images/project16_1.avif';
 import miscaImage from '../../images/project19.avif';
 import pagoMovilImage from '../../images/project11.avif';
+import poligonoAppImage from '../../images/poligono-app.jpg';
+import poligonoReservasImage from '../../images/poligono-reservas.jpg';
+import poligonoBcvImage from '../../images/poligono-bcv.jpg';
 
 const images: Record<string, ImageMetadata> = {
   'meridiano-net': meridianoImage,
   croplife: croplifeImage,
   'misca-studio': miscaImage,
-  'pago-movil-woocommerce': pagoMovilImage
+  'pago-movil-woocommerce': pagoMovilImage,
+  'poligono-club': poligonoAppImage
+};
+
+const extraImages: Record<string, { src: ImageMetadata; alt: string }[]> = {
+  'poligono-club': [
+    { src: poligonoReservasImage, alt: 'Calendario de reservas en el panel de administración' },
+    { src: poligonoBcvImage, alt: 'Configuración de la tasa BCV automática' }
+  ]
 };
 
 export function getStaticPaths() {
@@ -28,6 +40,8 @@ if (!study) {
 }
 
 const image = images[study.slug];
+const extras = extraImages[study.slug] ?? [];
+const isPortrait = image ? image.height > image.width * 0.9 : false;
 const siteUrl = 'https://darwincd.com';
 const pageUrl = `${siteUrl}/proyectos/${study.slug}/`;
 
@@ -54,7 +68,7 @@ const caseSchema = {
         <ol>
           <li><a href="/">Inicio</a></li>
           <li aria-hidden="true">/</li>
-          <li><a href="/#projects-section">Proyectos</a></li>
+          <li><a href="/proyectos">Proyectos</a></li>
           <li aria-hidden="true">/</li>
           <li>{study.title}</li>
         </ol>
@@ -70,11 +84,10 @@ const caseSchema = {
         <Image
           src={image}
           alt={`Captura del proyecto ${study.title}`}
-          width={960}
-          height={540}
+          width={Math.min(960, image.width)}
           format="avif"
           quality={80}
-          class="case-image"
+          class:list={['case-image', { 'case-image-portrait': isPortrait }]}
         />
       )}
 
@@ -93,6 +106,22 @@ const caseSchema = {
         </div>
       </dl>
 
+      {extras.length > 0 && (
+        <div class="case-extras">
+          {extras.map((extra) => (
+            <Image
+              src={extra.src}
+              alt={extra.alt}
+              width={Math.min(960, extra.src.width)}
+              format="avif"
+              quality={80}
+              loading="lazy"
+              class="case-image"
+            />
+          ))}
+        </div>
+      )}
+
       <p class="details">{study.details}</p>
 
       <ul class="tags">
@@ -106,7 +135,7 @@ const caseSchema = {
         {study.github && (
           <a href={study.github} class="btn-secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
         )}
-        <a href="/#contact-section" class="btn-secondary">Hablemos del tuyo</a>
+        <a href={WHATSAPP_URL} class="btn-secondary" target="_blank" rel="noopener noreferrer">Hablemos del tuyo por WhatsApp</a>
       </div>
     </div>
   </main>
@@ -171,6 +200,18 @@ const caseSchema = {
     height: auto;
     border-radius: 1rem;
     margin-bottom: 2rem;
+  }
+
+  .case-image-portrait {
+    display: block;
+    max-width: 26rem;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .case-extras {
+    margin: 1rem 0 1.5rem;
   }
 
   .case-study {
