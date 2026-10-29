@@ -29,7 +29,7 @@ const posts = (await getCollection('blog'))
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">{post.data.title}</h5>
                                 <time class="post-date" datetime={post.data.pubDate.toISOString()}>
-                                    {post.data.pubDate.toLocaleDateString('es-ES', {
+                                    {post.data.pubDate.toLocaleDateString('es-ES', { timeZone: 'UTC',
                                         year: 'numeric',
                                         month: 'long',
                                         day: 'numeric',

@@ -6,8 +6,8 @@ const posts = (await getCollection('blog')).sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
-const pageTitle = "Mi Blog de Tecnología";
-const pageDescription = "Publicaciones sobre inteligencia artificial, programación, fundamentos de software y mucho más.";
+const pageTitle = "Blog: antes de encargar una web, un sistema o una app";
+const pageDescription = "Precios, mantenimiento, SEO y qué pedir al terminar un proyecto. Lo que conviene saber antes de contratar, con casos reales.";
 
 // Breadcrumb Schema para la página del blog
 const breadcrumbSchema = {
@@ -58,7 +58,7 @@ const breadcrumbSchema = {
                             <h5 class="card-title">{post.data.title}</h5>
                             <p class="card-text flex-grow-1">{post.data.description.slice(0, 100)}...</p>
                             <time class="post-date mt-auto" datetime={post.data.pubDate.toISOString()}>
-                                {post.data.pubDate.toLocaleDateString('es-ES', {
+                                {post.data.pubDate.toLocaleDateString('es-ES', { timeZone: 'UTC',
                                     year: 'numeric',
                                     month: 'long',
                                     day: 'numeric',
