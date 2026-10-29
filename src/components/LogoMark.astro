@@ -1,0 +1,52 @@
+---
+// Símbolo de marca (mismo trazado que scripts/generate-brand.mjs).
+// tone="auto" sigue el tema claro/oscuro; tone="dark" fuerza la versión para fondo oscuro.
+interface Props {
+  size?: number;
+  tone?: 'auto' | 'dark';
+}
+
+const { size = 32, tone = 'auto' } = Astro.props;
+const gradientId = `logo-mark-${tone}`;
+---
+
+<svg
+  class:list={['logo-mark', `logo-mark-${tone}`]}
+  width={size}
+  height={size}
+  viewBox="0 0 100 100"
+  aria-hidden="true"
+  focusable="false"
+>
+  <defs>
+    <linearGradient id={gradientId} gradientUnits="userSpaceOnUse" x1="16" y1="16" x2="84" y2="84">
+      <stop offset="0" class="logo-mark-from" />
+      <stop offset="1" class="logo-mark-to" />
+    </linearGradient>
+  </defs>
+  <path fill="none" stroke={`url(#${gradientId})`} stroke-width="8" stroke-linecap="square" d="M80 34 V16 H16 V84 H80 V66" />
+  <path fill="none" stroke={`url(#${gradientId})`} stroke-width="9" stroke-linejoin="miter" d="M38 34 V66 H46 A16 16 0 0 0 46 34 Z" />
+</svg>
+
+<style>
+  .logo-mark {
+    flex-shrink: 0;
+    display: block;
+  }
+
+  .logo-mark-from {
+    stop-color: #0ea5e9;
+  }
+
+  .logo-mark-to {
+    stop-color: #2563eb;
+  }
+
+  :global(:root[data-theme="light"]) .logo-mark-auto .logo-mark-from {
+    stop-color: #0284c7;
+  }
+
+  :global(:root[data-theme="light"]) .logo-mark-auto .logo-mark-to {
+    stop-color: #1d4ed8;
+  }
+</style>

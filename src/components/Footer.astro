@@ -1,5 +1,6 @@
 ---
 import { GOOGLE_PROFILE_URL, WHATSAPP_URL } from '../data/contact';
+import LogoMark from './LogoMark.astro';
 
 const navLinks = [
   { href: "/#services-section", label: "Servicios" },
@@ -20,7 +21,7 @@ const socialLinks = [
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="/" class="footer-logo" aria-label="Darwin Cedeño - Inicio">DC</a>
+        <a href="/" class="footer-logo" aria-label="Darwin Cedeño - Inicio"><LogoMark size={40} tone="dark" /></a>
         <p class="footer-name">Darwin Cedeño</p>
         <p class="footer-tagline">
           Desarrollo de software en Venezuela, para negocios de Latinoamérica y España.
@@ -82,13 +83,6 @@ const socialLinks = [
 
   .footer-logo {
     display: inline-block;
-    font-size: 1.5rem;
-    font-weight: 700;
-    text-decoration: none;
-    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
   }
 
   .footer-name {

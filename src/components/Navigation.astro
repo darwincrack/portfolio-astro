@@ -1,5 +1,6 @@
 ---
 import { WHATSAPP_URL } from '../data/contact';
+import LogoMark from './LogoMark.astro';
 
 const menuItems = [
   { href: "/#services-section", label: "Servicios" },
@@ -13,7 +14,8 @@ const menuItems = [
   <div class="container">
     <div class="navbar-content">
       <a href="/" class="logo" aria-label="Darwin Cedeño - Inicio">
-        <span class="logo-text">DC</span>
+        <LogoMark size={34} />
+        <span class="logo-name">Darwin Cedeño</span>
       </a>
       <div class="nav-container">
         <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="nav-links">
@@ -71,20 +73,16 @@ const menuItems = [
     text-decoration: none;
     display: flex;
     align-items: center;
+    gap: 0.6rem;
   }
 
-  .logo-text {
-    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-size: 1.5rem;
-    font-weight: 700;
-    padding: 0.5rem;
-    border: 2px solid transparent;
-    border-image: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
-    border-image-slice: 1;
-    transition: all 0.3s ease;
+  .logo-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text-nav);
+    white-space: nowrap;
   }
 
   .nav-container {
@@ -249,10 +247,6 @@ const menuItems = [
 
   :root[data-theme="light"] .nav-link::after {
     background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
-  }
-
-  :root[data-theme="light"] .logo-text {
-    border-image: linear-gradient(45deg, var(--gradient-1), var(--gradient-2)) 1;
   }
 </style>
 

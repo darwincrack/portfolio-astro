@@ -35,7 +35,7 @@ const siteUrl = 'https://darwincd.com';
 const postUrl = `${siteUrl}/blog/${post.slug}/`;
 const postImage = post.data.image?.url
   ? new URL(post.data.image.url, siteUrl).href
-  : `${siteUrl}/logodc.jpg`;
+  : `${siteUrl}/og-default.jpg`;
 
 // Schema Article para el post
 const articleSchema = {
@@ -132,11 +132,11 @@ const breadcrumbSchema = {
             )}
             <h1 itemprop="headline">{post.data.title}</h1>
             <p><em>Publicado el <time datetime={post.data.pubDate.toISOString()} itemprop="datePublished">
-                {post.data.pubDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}
+                {post.data.pubDate.toLocaleDateString('es-ES', { timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric' })}
             </time></em></p>
             {post.data.updatedDate && (
                 <p><em>Actualizado el <time datetime={new Date(post.data.updatedDate).toISOString()} itemprop="dateModified">
-                    {new Date(post.data.updatedDate).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}
+                    {new Date(post.data.updatedDate).toLocaleDateString('es-ES', { timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric' })}
                 </time></em></p>
             )}
             <div class="content" itemprop="articleBody">
@@ -170,7 +170,7 @@ const breadcrumbSchema = {
                                     <h3 class="related-card-title">{related.data.title}</h3>
                                     <p class="related-card-description">{related.data.description.length > 80 ? related.data.description.slice(0, 80) + '...' : related.data.description}</p>
                                     <time class="related-card-date" datetime={related.data.pubDate.toISOString()}>
-                                        {related.data.pubDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric' })}
+                                        {related.data.pubDate.toLocaleDateString('es-ES', { timeZone: 'UTC', year: 'numeric', month: 'short', day: 'numeric' })}
                                     </time>
                                 </div>
                             </article>

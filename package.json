@@ -9,7 +9,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "optimize-project-images": "node scripts/optimize-project-images.mjs",
-    "generate-favicons": "node scripts/generate-favicons.mjs",
+    "generate-brand": "node scripts/generate-brand.mjs",
     "generate-blog-covers": "node scripts/generate-blog-covers.mjs"
   },
   "dependencies": {
@@ -31,6 +31,7 @@
     "web-vitals": "^5.1.0"
   },
   "devDependencies": {
+    "qrcode": "^1.5.4",
     "to-ico": "^1.1.5"
   }
 }
