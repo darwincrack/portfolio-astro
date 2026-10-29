@@ -1,6 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
+// Artículos retirados del blog: redirigir al índice en lugar de dar 404
+if (Astro.url.pathname.startsWith('/blog/')) {
+  return Astro.redirect('/blog/', 301);
+}
+
 // Responder con 404 para cualquier ruta no definida
 Astro.response.status = 404;
 Astro.response.statusText = 'Not Found';
