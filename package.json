@@ -10,7 +10,8 @@
     "astro": "astro",
     "evergreen": "node scripts/generar-evergreen.js",
     "optimize-project-images": "node scripts/optimize-project-images.mjs",
-    "generate-favicons": "node scripts/generate-favicons.mjs"
+    "generate-favicons": "node scripts/generate-favicons.mjs",
+    "generate-blog-covers": "node scripts/generate-blog-covers.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.4.1",
@@ -24,7 +25,6 @@
     "@popperjs/core": "^2.11.8",
     "astro": "^5.10.1",
     "bootstrap": "^5.3.3",
-    "openai": "^5.6.0",
     "slugify": "^1.6.6",
     "tsparticles": "^2.12.0",
     "tsparticles-engine": "^2.12.0",
