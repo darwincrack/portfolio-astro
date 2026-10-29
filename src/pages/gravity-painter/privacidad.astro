@@ -1,0 +1,122 @@
+---
+export const prerender = true;
+
+const title = 'Privacidad de The Gravity Painter';
+const description =
+  'Política de privacidad de The Gravity Painter. Sin cuentas ni servidor propio: el récord, el pincel y las obras se quedan en el teléfono. Los anuncios son de Google AdMob.';
+const canonical = 'https://darwincd.com/gravity-painter/privacidad/';
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+  </head>
+  <body>
+    <main>
+      <h1>Privacidad de The Gravity Painter</h1>
+      <p class="meta">Última actualización: 13 de octubre de 2026.</p>
+      <p>
+        The Gravity Painter no tiene cuentas ni servidor propio. Esta página explica qué datos toca
+        y qué hace con ellos.
+      </p>
+
+      <h2>Qué se guarda en el teléfono</h2>
+      <ul>
+        <li>El récord.</li>
+        <li>El pincel.</li>
+        <li>El reto del día.</li>
+        <li>Como máximo, las últimas 40 obras.</li>
+      </ul>
+      <p>
+        Eso no se envía al desarrollador. Si se desinstala la aplicación, se borra también.
+      </p>
+
+      <h2>Sensor de inclinación</h2>
+      <p>El sensor de inclinación solo mueve la gota y no se transmite.</p>
+
+      <h2>Anuncios</h2>
+      <p>
+        Los anuncios son de Google AdMob: uno opcional para continuar y otro de vez en cuando al
+        tocar «Otra vez». Google puede recibir el identificador de publicidad, la dirección IP
+        (ubicación aproximada), el modelo del teléfono y si el anuncio se vio o se tocó, para
+        mostrar anuncios y evitar fraude. El desarrollador no vende esos datos.
+      </p>
+
+      <h2>Edad</h2>
+      <p>La aplicación no está dirigida a menores de 13 años.</p>
+
+      <h2>Contacto</h2>
+      <p>
+        Darwin Cedeño<br />
+        <a href="mailto:contacto@darwincd.com">contacto@darwincd.com</a>
+      </p>
+
+      <h2>Privacy</h2>
+      <p>
+        The Gravity Painter has no accounts and no server of its own. The phone stores the high
+        score, the brush, the daily challenge, and at most the last 40 artworks. That information
+        is not sent to the developer and is deleted when the app is uninstalled. The tilt sensor
+        only moves the drop and is not transmitted. Ads are from Google AdMob: an optional one to
+        continue, and another from time to time when tapping “Again”. Google may receive the
+        advertising ID, IP address (approximate location), phone model, and whether an ad was viewed
+        or tapped, to show ads and prevent fraud. The developer does not sell that data. The app is
+        not directed at children under 13. Contact: Darwin Cedeño,
+        <a href="mailto:contacto@darwincd.com">contacto@darwincd.com</a>.
+      </p>
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  body {
+    margin: 0;
+    background: #f7f1e6;
+    color: #2a241c;
+    font-family: Georgia, 'Noto Serif', serif;
+    line-height: 1.5;
+  }
+
+  main {
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 3rem;
+  }
+
+  h1,
+  h2 {
+    line-height: 1.2;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    margin-top: 2rem;
+  }
+
+  p,
+  li {
+    font-size: 1.05rem;
+  }
+
+  .meta {
+    color: #5c5348;
+  }
+
+  a {
+    color: #163044;
+  }
+</style>
