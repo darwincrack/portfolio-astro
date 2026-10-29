@@ -31,6 +31,7 @@
     "web-vitals": "^5.1.0"
   },
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^8.0.0",
     "qrcode": "^1.5.4",
     "to-ico": "^1.1.5"
   }

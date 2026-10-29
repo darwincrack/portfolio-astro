@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 import { whatsappLink } from '../data/contact';
 
 const siteUrl = 'https://darwincd.com';
@@ -108,13 +109,13 @@ const servicesSchema = {
         <div class="col-md-6 col-lg-4">
           <div class="service-card">
             <div class="service-icon">
-              <i class={need.icon} aria-hidden="true"></i>
+              <Icon name={need.icon} />
             </div>
             <h3 class="h5">{need.title}</h3>
             <p>{need.description}</p>
             <div class="service-actions">
               <a href={whatsappLink(need.message)} class="service-cta" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-whatsapp me-1" aria-hidden="true"></i>Cuéntame
+                <Icon name="fab fa-whatsapp me-1" />Cuéntame
               </a>
               {need.more && (
                 <a href={need.more.href} class="service-more">{need.more.label} →</a>
@@ -190,10 +191,10 @@ const servicesSchema = {
   .service-icon {
     font-size: 2.25rem;
     margin-bottom: 1.25rem;
-    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+  }
+
+  .service-icon :global(svg) {
+    fill: url(#icon-gradient);
   }
 
   .service-actions {

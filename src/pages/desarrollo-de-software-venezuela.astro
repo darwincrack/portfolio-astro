@@ -1,4 +1,5 @@
 ---
+import Icon from '../components/Icon.astro';
 export const prerender = true;
 
 import Layout from '../layouts/Layout.astro';
@@ -122,7 +123,7 @@ const faqSchema = {
 
       <div class="actions">
         <a href={WHATSAPP_VE} class="btn-primary" target="_blank" rel="noopener noreferrer">
-          <i class="fab fa-whatsapp me-1" aria-hidden="true"></i> Escríbeme por WhatsApp
+          <Icon name="fab fa-whatsapp me-1" /> Escríbeme por WhatsApp
         </a>
         <a href={CALENDLY_URL} class="btn-secondary" target="_blank" rel="noopener noreferrer">
           Agendar una llamada de 15 min
@@ -184,7 +185,7 @@ const faqSchema = {
         <p>Te respondo en menos de 24 horas.</p>
         <div class="actions">
           <a href={WHATSAPP_VE} class="btn-primary" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-whatsapp me-1" aria-hidden="true"></i> Escríbeme por WhatsApp
+            <Icon name="fab fa-whatsapp me-1" /> Escríbeme por WhatsApp
           </a>
           <a href="/#contact-section" class="btn-secondary">Dejar un mensaje</a>
         </div>

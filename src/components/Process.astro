@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 const steps = [
   {
     icon: "fas fa-comments",
@@ -41,7 +42,7 @@ const included = [
           <div class="process-card">
             <span class="process-number">{index + 1}</span>
             <div class="process-icon">
-              <i class={step.icon} aria-hidden="true"></i>
+              <Icon name={step.icon} />
             </div>
             <h3 class="h5">{step.title}</h3>
             <p class="mb-0">{step.description}</p>
@@ -54,7 +55,7 @@ const included = [
       <h3 class="h5 text-center">Siempre incluye</h3>
       <ul class="included-list">
         {included.map((item) => (
-          <li><i class="fas fa-check" aria-hidden="true"></i>{item}</li>
+          <li><Icon name="fas fa-check" />{item}</li>
         ))}
       </ul>
     </div>
@@ -97,10 +98,10 @@ const included = [
   .process-icon {
     font-size: 2rem;
     margin-bottom: 1rem;
-    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+  }
+
+  .process-icon :global(svg) {
+    fill: url(#icon-gradient);
   }
 
   .included {
@@ -117,7 +118,7 @@ const included = [
     margin: 1rem 0 0;
   }
 
-  .included-list i {
+  .included-list :global(i) {
     margin-right: 0.5rem;
     color: var(--gradient-1);
   }

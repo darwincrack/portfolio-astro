@@ -2,18 +2,14 @@
 
 import '../styles/main.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
 
-// Importar Poppins localmente
-import '@fontsource/poppins/300.css';
-import '@fontsource/poppins/400.css';
-import '@fontsource/poppins/500.css';
-import '@fontsource/poppins/600.css';
-import '@fontsource/poppins/700.css';
+// Poppins local, solo el subconjunto latino (cubre á, é, ñ, ¿, ¡)
+import '@fontsource/poppins/latin-300.css';
+import '@fontsource/poppins/latin-400.css';
+import '@fontsource/poppins/latin-500.css';
+import '@fontsource/poppins/latin-600.css';
+import '@fontsource/poppins/latin-700.css';
 
-// Opcional: Agregar JetBrains Mono para secciones de código
-import '@fontsource/jetbrains-mono/400.css';
-import '@fontsource/jetbrains-mono/500.css';
 
 // Agregar CSS para los temas
 const darkThemeColors = {
@@ -84,6 +80,15 @@ import { GOOGLE_PROFILE_URL } from '../data/contact';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      // Aplicar el tema guardado antes de pintar, para que no parpadee
+      try {
+        var savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light' || savedTheme === 'dark') {
+          document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+      } catch (e) {}
+    </script>
     <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
     
@@ -335,6 +340,15 @@ import { GOOGLE_PROFILE_URL } from '../data/contact';
 </script>
   </head>
   <body>
+    {/* Degradado de marca para iconos SVG (fill: url(#icon-gradient)); sigue el tema */}
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="icon-gradient" x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0" style="stop-color: var(--gradient-1)" />
+          <stop offset="1" style="stop-color: var(--gradient-2)" />
+        </linearGradient>
+      </defs>
+    </svg>
     <Navigation />
     <slot />
     <Footer />

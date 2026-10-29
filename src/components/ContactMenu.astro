@@ -1,9 +1,10 @@
 ---
+import Icon from './Icon.astro';
 import { WHATSAPP_URL } from '../data/contact';
 ---
 
 <a href={WHATSAPP_URL} class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Escríbeme por WhatsApp">
-  <i class="fab fa-whatsapp" aria-hidden="true"></i>
+  <Icon name="fab fa-whatsapp" />
   <span class="whatsapp-float-label">Escríbeme</span>
 </a>
 
@@ -41,7 +42,7 @@ import { WHATSAPP_URL } from '../data/contact';
     transform: scale(1.05);
   }
 
-  .whatsapp-float i {
+  .whatsapp-float :global(i) {
     font-size: 1.6rem;
   }
 

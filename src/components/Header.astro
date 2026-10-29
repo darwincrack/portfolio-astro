@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 import ParticlesBackground from './ParticlesBackground.astro';
 import { WHATSAPP_URL } from '../data/contact';
 
@@ -17,7 +18,7 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
 
       <div class="cta-container">
         <a href={WHATSAPP_URL} class="contact-btn" target="_blank" rel="noopener noreferrer">
-          <i class="fab fa-whatsapp me-2" aria-hidden="true"></i>Escríbeme por WhatsApp
+          <Icon name="fab fa-whatsapp me-2" />Escríbeme por WhatsApp
         </a>
         <a href={CALENDLY_URL} class="hero-link" target="_blank" rel="noopener noreferrer">
           Agendar una llamada <span aria-hidden="true">→</span>
@@ -747,51 +748,6 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
   }
 </style>
 
-<script>
-  function handleTheme() {
-    const themeToggle = document.getElementById('theme-toggle');
-    const icon = themeToggle?.querySelector('i');
-    
-    // Asegurar que empezamos en modo oscuro
-    if (!localStorage.getItem('theme')) {
-      localStorage.setItem('theme', 'dark');
-      document.documentElement.setAttribute('data-theme', 'dark');
-    }
-    
-    // Establecer el tema inicial
-    const currentTheme = localStorage.getItem('theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', currentTheme);
-    
-    // Establecer el icono inicial
-    if (icon) {
-      icon.className = currentTheme === 'dark' 
-        ? 'fa-regular fa-sun' 
-        : 'fa-regular fa-moon';
-    }
-
-    // Manejar el click
-    themeToggle?.addEventListener('click', () => {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      
-      // Cambiar el tema
-      document.documentElement.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-      
-      // Cambiar el icono
-      if (icon) {
-        icon.className = newTheme === 'dark' 
-          ? 'fa-regular fa-sun' 
-          : 'fa-regular fa-moon';
-      }
-    });
-  }
-
-  // Ejecutar cuando el DOM esté listo
-  document.addEventListener('DOMContentLoaded', handleTheme);
-  // Ejecutar cuando Astro complete la navegación
-  document.addEventListener('astro:page-load', handleTheme);
-</script>
 
 <script>
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {

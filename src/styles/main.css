@@ -8,6 +8,24 @@
     --font-family: 'Roboto', system-ui, -apple-system, sans-serif;
   }
   
+  /* Iconos SVG en línea (componente Icon) */
+  .icon {
+    display: inline-block;
+    font-style: normal;
+    line-height: 1;
+  }
+
+  .icon svg {
+    height: 1em;
+    vertical-align: -0.125em;
+    fill: currentColor;
+    overflow: visible;
+  }
+
+  .icon.gradient-text svg {
+    fill: url(#icon-gradient);
+  }
+
   /* Base */
   body {
     

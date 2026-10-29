@@ -1,0 +1,26 @@
+---
+// Icono SVG en línea. Acepta el nombre corto ("whatsapp") o las clases de
+// Font Awesome que había antes ("fab fa-whatsapp me-2"): las clases que no
+// son de Font Awesome se conservan en el <i> para no romper estilos.
+import { icons, aliases } from '../data/icons';
+
+interface Props {
+  name: string;
+  class?: string;
+}
+
+const { name, class: extraClass = '' } = Astro.props;
+
+const tokens = `${name} ${extraClass}`.split(/\s+/).filter(Boolean);
+const faName = tokens.find((t) => t.startsWith('fa-') && !['fa-solid', 'fa-regular', 'fa-brands'].includes(t));
+let key = faName ? faName.slice(3) : tokens[0];
+key = aliases[key] ?? key;
+const icon = icons[key];
+if (!icon) throw new Error(`Icono desconocido: ${name}`);
+
+const keep = tokens.filter((t) => !/^fa[srb]?$/.test(t) && !t.startsWith('fa-') && t !== key);
+const [, , vbW, vbH] = icon.viewBox.split(' ').map(Number);
+const width = `${(vbW / vbH).toFixed(4)}em`;
+---
+
+<i class:list={['icon', ...keep]} aria-hidden="true"><svg viewBox={icon.viewBox} style={`width:${width}`} focusable="false"><path d={icon.d} /></svg></i>

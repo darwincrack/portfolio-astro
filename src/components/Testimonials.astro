@@ -6,9 +6,28 @@ import { GOOGLE_PROFILE_URL } from '../data/contact';
   <div class="container">
     <h2 class="text-center mb-5">Testimonios</h2>
 
-    <!-- Elfsight Google Reviews Widget -->
-    <script src="https://static.elfsight.com/platform/platform.js" async></script>
+    <!-- Elfsight Google Reviews Widget: el script se pide al acercarse a la sección -->
     <div class="elfsight-app-66274e5e-52d8-490e-8df4-d5ea45976ebb" data-elfsight-app-lazy></div>
+    <script is:inline>
+      (function () {
+        var section = document.getElementById('testimonials-section');
+        var load = function () {
+          if (document.querySelector('script[src*="elfsight.com/platform"]')) return;
+          var s = document.createElement('script');
+          s.src = 'https://static.elfsight.com/platform/platform.js';
+          s.async = true;
+          document.body.appendChild(s);
+        };
+        if (!section || !('IntersectionObserver' in window)) return load();
+        var observer = new IntersectionObserver(function (entries) {
+          if (entries.some(function (e) { return e.isIntersecting; })) {
+            observer.disconnect();
+            load();
+          }
+        }, { rootMargin: '600px 0px' });
+        observer.observe(section);
+      })();
+    </script>
   </div>
   <p class="text-center mt-2">
     <a href={GOOGLE_PROFILE_URL} target="_blank" rel="noopener noreferrer">Ver todas las reseñas en Google</a>

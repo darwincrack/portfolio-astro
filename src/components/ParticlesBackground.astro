@@ -37,11 +37,23 @@ const { id = 'tsparticles', fill = false } = Astro.props;
 </style>
 
 <script>
-  import { tsParticles } from "tsparticles-engine";
-  import { loadSlim } from "tsparticles-slim";
+  // La librería (~140 KB) se descarga solo en pantallas grandes y cuando el
+  // navegador está libre: en el celular el fondo queda liso.
+  type Engine = typeof import("tsparticles-engine").tsParticles;
+  let tsParticles: Engine | undefined;
+
+  const wantsParticles = () =>
+    window.matchMedia("(min-width: 769px)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const initParticles = async () => {
+    if (!wantsParticles()) return;
     try {
+      const [engine, { loadSlim }] = await Promise.all([
+        import("tsparticles-engine"),
+        import("tsparticles-slim"),
+      ]);
+      tsParticles = engine.tsParticles;
       await loadSlim(tsParticles);
       
       // Destruir instancias anteriores si existen
@@ -146,6 +158,7 @@ const { id = 'tsparticles', fill = false } = Astro.props;
 
   // Limpiar instancias anteriores antes de reinicializar
   const cleanupParticles = () => {
+    if (!tsParticles) return;
     const instances = tsParticles.dom();
     instances.forEach(instance => instance.destroy());
   };

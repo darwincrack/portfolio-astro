@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 import { Image } from 'astro:assets';
 import { WHATSAPP_URL } from '../data/contact';
 import caracasImage from '../images/caracas-avila.jpg';
@@ -44,7 +45,7 @@ const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.co
         <div class="contact-row">
           <a href="tel:+584125447114" class="contact-value">+58 412 544 7114</a>
           <a href={WHATSAPP_URL} class="contact-pill" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-whatsapp" aria-hidden="true"></i> Escribir por WhatsApp
+            <Icon name="fab fa-whatsapp" /> Escribir por WhatsApp
           </a>
         </div>
 

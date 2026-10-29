@@ -1,8 +1,10 @@
 /**
- * Sitemap solo para el blog. Incluye todos los posts (incluidos los generados automáticamente).
+ * Sitemap solo para el blog. Incluye todos los posts.
  * Así los buscadores indexan bien cada artículo.
  */
 import { getCollection } from 'astro:content';
+
+export const prerender = true;
 
 const SITE = 'https://darwincd.com';
 

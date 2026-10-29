@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 import { WHATSAPP_URL } from '../data/contact';
 import LogoMark from './LogoMark.astro';
 
@@ -19,17 +20,19 @@ const menuItems = [
       </a>
       <div class="nav-container">
         <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="nav-links">
-          <i class="fas fa-bars" aria-hidden="true"></i>
+          <Icon name="bars" class="menu-icon-open" />
+          <Icon name="xmark" class="menu-icon-close" />
         </button>
         <div class="nav-links" id="nav-links">
           {menuItems.map(item => (
             <a href={item.href} class="nav-link">{item.label}</a>
           ))}
           <a href={WHATSAPP_URL} class="nav-cta" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-whatsapp me-1" aria-hidden="true"></i>WhatsApp
+            <Icon name="fab fa-whatsapp me-1" />WhatsApp
           </a>
           <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Cambiar entre tema claro y oscuro">
-            <i class="fa-regular fa-sun" aria-hidden="true"></i>
+            <Icon name="sun" class="theme-icon-sun" />
+            <Icon name="moon" class="theme-icon-moon" />
           </button>
         </div>
       </div>
@@ -153,6 +156,22 @@ const menuItems = [
     align-items: center;
     opacity: 0.8;
     transition: all 0.3s ease;
+  }
+
+  /* Cada botón lleva sus dos iconos; el estado decide cuál se ve */
+  .theme-toggle :global(.theme-icon-moon),
+  .menu-toggle :global(.menu-icon-close) {
+    display: none;
+  }
+
+  :global(:root[data-theme="light"]) .theme-toggle :global(.theme-icon-sun),
+  .menu-toggle[aria-expanded="true"] :global(.menu-icon-open) {
+    display: none;
+  }
+
+  :global(:root[data-theme="light"]) .theme-toggle :global(.theme-icon-moon),
+  .menu-toggle[aria-expanded="true"] :global(.menu-icon-close) {
+    display: inline-block;
   }
 
   .menu-toggle {
@@ -280,17 +299,6 @@ const menuItems = [
           navLinks.classList.add('active');
           menuToggle.setAttribute('aria-expanded', 'true');
         }
-        
-        const icon = this.querySelector('i');
-        if (icon) {
-          if (isActive) {
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
-          } else {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-times');
-          }
-        }
       });
 
       // Cerrar menú al hacer click en enlaces
@@ -299,11 +307,6 @@ const menuItems = [
         link.addEventListener('click', function() {
           navLinks.classList.remove('active');
           menuToggle.setAttribute('aria-expanded', 'false');
-          const icon = menuToggle.querySelector('i');
-          if (icon) {
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
-          }
         });
       });
 
@@ -314,21 +317,32 @@ const menuItems = [
           if (navLinks.classList.contains('active')) {
             navLinks.classList.remove('active');
             menuToggle.setAttribute('aria-expanded', 'false');
-            const icon = menuToggle.querySelector('i');
-            if (icon) {
-              icon.classList.remove('fa-times');
-              icon.classList.add('fa-bars');
-            }
           }
         }
+      });
+    }
+
+    // Tema claro/oscuro. El tema guardado ya se aplicó en <head> (Layout.astro).
+    function initThemeToggle() {
+      const themeToggle = document.getElementById('theme-toggle');
+      if (!themeToggle || themeToggle.dataset.initialized === 'true') return;
+      themeToggle.dataset.initialized = 'true';
+
+      themeToggle.addEventListener('click', function() {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
       });
     }
 
     // Inicializar inmediatamente si el DOM ya está listo
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', initMobileMenu);
+      document.addEventListener('DOMContentLoaded', initThemeToggle);
     } else {
       initMobileMenu();
+      initThemeToggle();
     }
     
     // También inicializar en navegación de Astro

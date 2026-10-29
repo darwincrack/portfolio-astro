@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 import { GOOGLE_PROFILE_URL, WHATSAPP_URL } from '../data/contact';
 import LogoMark from './LogoMark.astro';
 
@@ -42,7 +43,7 @@ const socialLinks = [
         <ul>
           <li>
             <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-              <i class="fab fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              <Icon name="fab fa-whatsapp" /> WhatsApp
             </a>
           </li>
           <li><a href="mailto:contacto@darwincd.com">contacto@darwincd.com</a></li>
@@ -51,7 +52,7 @@ const socialLinks = [
         <div class="footer-social">
           {socialLinks.map((link) => (
             <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.label}>
-              <i class={link.icon} aria-hidden="true"></i>
+              <Icon name={link.icon} />
             </a>
           ))}
         </div>

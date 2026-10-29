@@ -1,4 +1,6 @@
 ---
+import Icon from './Icon.astro';
+import { icons } from '../data/icons';
 // Importar imágenes
 import project1 from '../images/project1.avif';
 import project2 from '../images/project2.avif';
@@ -319,6 +321,9 @@ const projectsForClient = sortedProjects.map((project) => ({
   additionalImages: project.additionalImages?.map((img) => ({ src: img.src })) ?? [],
 }));
 
+
+// El modal se arma en el cliente: el icono va como HTML ya resuelto
+const githubIconHtml = `<i class="icon" aria-hidden="true"><svg viewBox="${icons.github.viewBox}" style="width:0.9688em" focusable="false"><path d="${icons.github.d}"/></svg></i>`;
 ---
 
 <section id="projects-section" class="py-5">
@@ -351,7 +356,7 @@ const projectsForClient = sortedProjects.map((project) => ({
               )}
               {project.github && (
                 <a href={project.github} target="_blank" rel="noopener noreferrer" class="btn btn-github">
-                  <i class="fab fa-github"></i> GitHub
+                  <Icon name="fab fa-github" /> GitHub
                 </a>
               )}
               {caseStudyByTitle.get(project.title) ? (
@@ -360,7 +365,7 @@ const projectsForClient = sortedProjects.map((project) => ({
                 </a>
               ) : project.detailedDescription && (
                 <button class="btn btn-info details-btn" data-index={index}>
-                  <i class="fas fa-info-circle"></i> Detalles
+                  <Icon name="fas fa-info-circle" /> Detalles
                 </button>
               )}
             </div>
@@ -391,11 +396,11 @@ const projectsForClient = sortedProjects.map((project) => ({
       <div class="project-slider">
         <div class="slider-container">
           <button class="slider-nav prev" id="prev-btn">
-            <i class="fas fa-chevron-left"></i>
+            <Icon name="fas fa-chevron-left" />
           </button>
           <div class="slider-images"></div>
           <button class="slider-nav next" id="next-btn">
-            <i class="fas fa-chevron-right"></i>
+            <Icon name="fas fa-chevron-right" />
           </button>
         </div>
         <div class="slider-dots"></div>
@@ -891,7 +896,7 @@ const projectsForClient = sortedProjects.map((project) => ({
   }
 </style>
 
-<script define:vars={{ projectsForClient }}>
+<script define:vars={{ projectsForClient, githubIconHtml }}>
   let currentProject = null;
   let currentSlide = 0;
   const projects = projectsForClient;
@@ -986,7 +991,7 @@ const projectsForClient = sortedProjects.map((project) => ({
       githubBtn.target = '_blank';
       githubBtn.rel = 'noopener noreferrer';
       githubBtn.className = 'btn btn-github';
-      githubBtn.innerHTML = '<i class="fab fa-github"></i> GitHub';
+      githubBtn.innerHTML = githubIconHtml + ' GitHub';
       projectLinks.appendChild(githubBtn);
     }
     
