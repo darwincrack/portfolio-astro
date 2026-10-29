@@ -1,0 +1,130 @@
+---
+const steps = [
+  {
+    icon: "fas fa-comments",
+    title: "Me cuentas qué necesitas",
+    description: "Por WhatsApp, en una llamada de 15 minutos o con el formulario. No hace falta tenerlo todo definido."
+  },
+  {
+    icon: "fas fa-file-signature",
+    title: "Te envío una propuesta",
+    description: "Por escrito, con lo que incluye, el plazo y el precio. Sin compromiso."
+  },
+  {
+    icon: "fas fa-code",
+    title: "Desarrollo con avances",
+    description: "Ves el trabajo mientras avanza y puedes pedir cambios antes de la entrega."
+  },
+  {
+    icon: "fas fa-rocket",
+    title: "Entrega y seguimiento",
+    description: "Lo dejo publicado, te entrego el código y los accesos, y te explico cómo usarlo."
+  }
+];
+
+const included = [
+  "Respuesta en menos de 24 horas",
+  "Propuesta por escrito antes de empezar",
+  "Avances durante el desarrollo",
+  "El código y los accesos son tuyos",
+  "Soporte después de la entrega"
+];
+---
+
+<section id="process-section" class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-5">Cómo trabajo</h2>
+
+    <ol class="row g-4 process-list">
+      {steps.map((step, index) => (
+        <li class="col-md-6 col-lg-3">
+          <div class="process-card">
+            <span class="process-number">{index + 1}</span>
+            <div class="process-icon">
+              <i class={step.icon} aria-hidden="true"></i>
+            </div>
+            <h3 class="h5">{step.title}</h3>
+            <p class="mb-0">{step.description}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    <div class="included">
+      <h3 class="h5 text-center">Siempre incluye</h3>
+      <ul class="included-list">
+        {included.map((item) => (
+          <li><i class="fas fa-check" aria-hidden="true"></i>{item}</li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  h2.text-center {
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .process-list {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .process-card {
+    position: relative;
+    background: var(--primary-bg);
+    border: 1px solid var(--secondary-bg);
+    border-radius: 1rem;
+    padding: 2rem;
+    height: 100%;
+  }
+
+  .process-number {
+    position: absolute;
+    top: 1rem;
+    right: 1.25rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--secondary-bg);
+  }
+
+  .process-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .included {
+    margin-top: 3rem;
+  }
+
+  .included-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem 2rem;
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+  }
+
+  .included-list i {
+    margin-right: 0.5rem;
+    color: var(--gradient-1);
+  }
+
+  @media (max-width: 768px) {
+    .process-card {
+      padding: 1.5rem;
+    }
+  }
+</style>

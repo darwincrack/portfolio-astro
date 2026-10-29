@@ -1,0 +1,123 @@
+---
+const faqs = [
+  {
+    question: "¿Cuánto cuesta?",
+    answer: "Depende de lo que necesites: no cuesta lo mismo una web informativa que un sistema con usuarios o una app. Después de una conversación corta te envío un presupuesto por escrito, sin compromiso."
+  },
+  {
+    question: "¿Cómo se paga?",
+    answer: "Con PayPal, Payoneer, Binance o AirTM. Si hace falta, también en bolívares."
+  },
+  {
+    question: "¿El código y los accesos son míos?",
+    answer: "Sí, siempre. Al terminar te entrego el código, los accesos al hosting, al dominio y a los paneles. No dependes de mí para seguir."
+  },
+  {
+    question: "¿Cuánto tardas en responder?",
+    answer: "En menos de 24 horas, de lunes a viernes."
+  },
+  {
+    question: "¿Cuánto tarda?",
+    answer: "Depende del alcance. El plazo queda escrito en la propuesta antes de empezar."
+  },
+  {
+    question: "¿Trabajas con clientes en España?",
+    answer: "Sí. Trabajo de lunes a viernes de 9:00 a 18:00 hora de Venezuela (GMT-4), que coincide con la tarde en España."
+  },
+  {
+    question: "Ya tengo una web o una app. ¿Puedes arreglarla en vez de hacerla de nuevo?",
+    answer: "Sí. Muchas veces basta con optimizarla, actualizarla o añadir lo que falta. Lo reviso y te digo qué conviene antes de proponerte rehacerla."
+  },
+  {
+    question: "¿Qué pasa después de la entrega?",
+    answer: "Te explico cómo usarlo y, si quieres, sigo con el mantenimiento: actualizaciones, copias de seguridad y corrección de fallos."
+  }
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map((faq) => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+<section id="faq-section" class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-5">Preguntas frecuentes</h2>
+
+    <div class="faq-list">
+      {faqs.map((faq) => (
+        <details class="faq-item">
+          <summary>{faq.question}</summary>
+          <p>{faq.answer}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  h2.text-center {
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .faq-list {
+    max-width: 48rem;
+    margin: 0 auto;
+  }
+
+  .faq-item {
+    background: var(--primary-bg);
+    border: 1px solid var(--secondary-bg);
+    border-radius: 1rem;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .faq-item summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--text);
+    list-style: none;
+    position: relative;
+    padding-right: 2rem;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: "+";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    color: var(--gradient-1);
+  }
+
+  .faq-item[open] summary::after {
+    content: "−";
+  }
+
+  .faq-item p {
+    margin: 1rem 0 0;
+    line-height: 1.6;
+  }
+</style>

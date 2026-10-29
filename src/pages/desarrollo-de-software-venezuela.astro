@@ -1,0 +1,340 @@
+---
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+import { caseStudies } from '../data/caseStudies';
+import { GOOGLE_PROFILE_URL, whatsappLink } from '../data/contact';
+
+const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.com/darwinc-dev/consulta-15-min';
+const WHATSAPP_VE = whatsappLink('Hola Darwin, soy de Venezuela y necesito desarrollar un proyecto.');
+const siteUrl = 'https://darwincd.com';
+const pageUrl = `${siteUrl}/desarrollo-de-software-venezuela/`;
+
+const offer = [
+  {
+    title: "Páginas web para negocios",
+    text: "Webs rápidas, que se ven bien en el celular y están pensadas para que te escriban por WhatsApp.",
+    href: "/servicios/webs-y-sistemas"
+  },
+  {
+    title: "Sistemas y software a medida",
+    text: "Inventario, ventas, reportes, usuarios y permisos, adaptados a cómo trabaja tu negocio.",
+    href: "/servicios/webs-y-sistemas"
+  },
+  {
+    title: "Tiendas online con Pago Móvil",
+    text: "Tiendas con WooCommerce que cobran con Pago Móvil, además de pasarelas internacionales.",
+    href: "/blog/cobrar-con-pago-movil-en-una-tienda-online"
+  },
+  {
+    title: "Aplicaciones móviles",
+    text: "Apps para Android e iOS, y actualización de apps que se quedaron atrás.",
+    href: "/servicios/aplicaciones-moviles"
+  }
+];
+
+const cases = ["poligono-club", "pago-movil-woocommerce", "misca-studio", "croplife"]
+  .map((slug) => caseStudies.find((item) => item.slug === slug))
+  .filter((item) => item !== undefined);
+
+const faqs = [
+  {
+    question: "¿Cuánto cuesta desarrollar una página web o un sistema en Venezuela?",
+    answer: "Depende de lo que necesites: una web informativa no cuesta lo mismo que un sistema con usuarios o una tienda. Después de una conversación corta te envío un presupuesto por escrito, sin compromiso."
+  },
+  {
+    question: "¿Cómo se paga?",
+    answer: "Con PayPal, Payoneer, Binance o AirTM. Si hace falta, también en bolívares."
+  },
+  {
+    question: "¿Trabajas con negocios fuera de Caracas?",
+    answer: "Sí. Trabajo en remoto con negocios de cualquier parte de Venezuela: Caracas, Valencia, Maracaibo, Barquisimeto o donde estés. Hablamos por WhatsApp o videollamada."
+  },
+  {
+    question: "¿Puedo cobrar con Pago Móvil en mi tienda online?",
+    answer: "Sí. Desarrollé un plugin de Pago Móvil para WooCommerce, así que tu tienda puede recibir pagos por transferencia móvil además de otros métodos."
+  },
+  {
+    question: "¿El código y los accesos son míos?",
+    answer: "Sí, siempre. Al terminar te entrego el código y los accesos al hosting, al dominio y a los paneles."
+  }
+];
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Darwin Cedeño — Desarrollo de software en Venezuela",
+  "url": pageUrl,
+  "description": "Desarrollo de software, páginas web, sistemas a medida, tiendas online con Pago Móvil y aplicaciones móviles para negocios en Venezuela.",
+  "email": "contacto@darwincd.com",
+  "telephone": "+584125447114",
+  "address": { "@type": "PostalAddress", "addressCountry": "VE" },
+  "areaServed": { "@type": "Country", "name": "Venezuela" },
+  "founder": { "@type": "Person", "name": "Darwin Cedeño", "url": siteUrl },
+  "hasMap": GOOGLE_PROFILE_URL,
+  "sameAs": [GOOGLE_PROFILE_URL],
+  "paymentAccepted": "PayPal, Payoneer, Binance, AirTM, Bolívares"
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Inicio", "item": siteUrl },
+    { "@type": "ListItem", "position": 2, "name": "Desarrollo de software en Venezuela", "item": pageUrl }
+  ]
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map((faq) => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": { "@type": "Answer", "text": faq.answer }
+  }))
+};
+---
+
+<Layout
+  title="Desarrollo de software y páginas web en Venezuela"
+  description="Desarrollador de software en Venezuela: páginas web, sistemas a medida, tiendas con Pago Móvil y apps. Trato directo, respuesta en menos de 24 horas."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <main id="main-content" class="ve-page" tabindex="-1">
+    <div class="container">
+      <nav aria-label="Ruta de navegación">
+        <ol>
+          <li><a href="/">Inicio</a></li>
+          <li aria-current="page">Desarrollo de software en Venezuela</li>
+        </ol>
+      </nav>
+
+      <h1>Desarrollo de software y páginas web en Venezuela</h1>
+      <p class="lead">
+        Soy Darwin Cedeño, desarrollador de software en Venezuela. Hago páginas web, sistemas a medida,
+        tiendas online y aplicaciones móviles para negocios de todo el país. Hablas directo conmigo,
+        sin intermediarios, y te respondo en menos de 24 horas.
+      </p>
+
+      <div class="actions">
+        <a href={WHATSAPP_VE} class="btn-primary" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-whatsapp me-1" aria-hidden="true"></i> Escríbeme por WhatsApp
+        </a>
+        <a href={CALENDLY_URL} class="btn-secondary" target="_blank" rel="noopener noreferrer">
+          Agendar una llamada de 15 min
+        </a>
+      </div>
+
+      <h2>Qué desarrollo</h2>
+      <ul class="offer">
+        {offer.map((item) => (
+          <li>
+            <h3><a href={item.href}>{item.title}</a></h3>
+            <p>{item.text}</p>
+          </li>
+        ))}
+      </ul>
+
+      <h2>¿Empresa de desarrollo o desarrollador independiente?</h2>
+      <p>
+        Con una empresa de desarrollo de software sueles hablar con un comercial o un gestor, y el trabajo
+        pasa por varias manos. Conmigo hablas con quien escribe el código: entiendo tu negocio de primera mano,
+        las decisiones se toman rápido y no pagas la estructura de una agencia.
+      </p>
+      <p>
+        Llevo desde 2017 trabajando de forma independiente y he entregado más de 300 proyectos para negocios en
+        Venezuela, Latinoamérica y España.
+      </p>
+
+      <h2>Pensado para negocios en Venezuela</h2>
+      <ul class="checks">
+        <li><strong>Pago Móvil:</strong> tu tienda o sistema puede cobrar con Pago Móvil.</li>
+        <li><strong>Pagos flexibles:</strong> PayPal, Payoneer, Binance, AirTM o bolívares.</li>
+        <li><strong>Mismo horario:</strong> lunes a viernes de 9:00 a 18:00, hora de Venezuela.</li>
+        <li><strong>Webs ligeras:</strong> optimizadas para que carguen bien también con conexiones lentas.</li>
+        <li><strong>Todo es tuyo:</strong> al terminar te entrego el código y los accesos.</li>
+      </ul>
+
+      <h2>Algunos proyectos</h2>
+      <ul class="cases">
+        {cases.map((item) => (
+          <li>
+            <a href={`/proyectos/${item.slug}`}>{item.title}</a>
+            <p>{item.summary}</p>
+          </li>
+        ))}
+      </ul>
+
+      <h2>Preguntas frecuentes</h2>
+      <div class="faq">
+        {faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+
+      <div class="final-cta">
+        <h2>¿Me cuentas tu proyecto?</h2>
+        <p>Te respondo en menos de 24 horas.</p>
+        <div class="actions">
+          <a href={WHATSAPP_VE} class="btn-primary" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-whatsapp me-1" aria-hidden="true"></i> Escríbeme por WhatsApp
+          </a>
+          <a href="/#contact-section" class="btn-secondary">Dejar un mensaje</a>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .ve-page {
+    padding: 7rem 0 4rem;
+  }
+
+  .container {
+    max-width: 46rem;
+  }
+
+  nav ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+
+  nav li + li::before {
+    content: "/";
+    margin-right: 0.5rem;
+  }
+
+  nav a {
+    color: inherit;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 3rem 0 1rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    margin: 0 0 0.25rem;
+  }
+
+  .lead {
+    font-size: 1.15rem;
+    line-height: 1.6;
+  }
+
+  p {
+    line-height: 1.7;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    display: inline-block;
+    padding: 0.75rem 1.25rem;
+    border-radius: 2rem;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .btn-primary {
+    background: linear-gradient(90deg, var(--gradient-3), var(--gradient-2), var(--gradient-1));
+    color: #f8fafc;
+  }
+
+  .btn-secondary {
+    border: 1px solid var(--gradient-1);
+    color: inherit;
+  }
+
+  .offer,
+  .cases {
+    list-style: none;
+    padding: 0;
+  }
+
+  .offer li,
+  .cases li {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--secondary-bg);
+  }
+
+  .offer a,
+  .cases a {
+    color: var(--gradient-1);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .offer p,
+  .cases p {
+    margin: 0.25rem 0 0;
+  }
+
+  .checks {
+    padding-left: 1.25rem;
+  }
+
+  .checks li {
+    margin-bottom: 0.6rem;
+    line-height: 1.6;
+  }
+
+  .faq details {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--secondary-bg);
+  }
+
+  .faq summary {
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .faq details p {
+    margin: 0.75rem 0 0;
+  }
+
+  .final-cta {
+    margin-top: 3rem;
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 1px solid var(--secondary-bg);
+    text-align: center;
+  }
+
+  .final-cta h2 {
+    margin-top: 0;
+  }
+
+  .final-cta .actions {
+    justify-content: center;
+  }
+</style>

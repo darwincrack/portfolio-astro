@@ -1,0 +1,101 @@
+---
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+import Experience from '../components/Experience.astro';
+import Education from '../components/Education.astro';
+import { WHATSAPP_URL } from '../data/contact';
+
+const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.com/darwinc-dev/consulta-15-min';
+---
+
+<Layout
+  title="Sobre mí | Darwin Cedeño, desarrollador web"
+  description="Experiencia, formación y certificaciones de Darwin Cedeño, desarrollador de webs, sistemas y aplicaciones móviles a medida."
+>
+  <main id="main-content" class="about-page" tabindex="-1">
+    <div class="container about-intro">
+      <h1>Sobre mí</h1>
+      <p>
+        Soy Darwin Cedeño, ingeniero en informática. Desde 2017 hago webs, sistemas y aplicaciones
+        a medida para negocios en Venezuela, Latinoamérica y España, con más de 300 proyectos entregados.
+      </p>
+      <p class="about-stack">PHP · JavaScript · WordPress · Laravel · React · React Native · Node.js · MySQL · IA</p>
+    </div>
+
+    <Experience />
+    <Education />
+
+    <div class="container about-cta">
+      <h2>¿Hablamos de tu proyecto?</h2>
+      <div class="actions">
+        <a href={WHATSAPP_URL} class="btn-primary" target="_blank" rel="noopener noreferrer">
+          Escríbeme por WhatsApp
+        </a>
+        <a href={CALENDLY_URL} class="btn-secondary" target="_blank" rel="noopener noreferrer">
+          Agendar consulta de 15 min
+        </a>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .about-page {
+    padding: 7rem 0 4rem;
+  }
+
+  .about-intro,
+  .about-cta {
+    max-width: 46rem;
+    text-align: center;
+  }
+
+  .about-intro h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .about-intro p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+
+  .about-stack {
+    font-size: 0.95rem !important;
+    font-weight: 500;
+    opacity: 0.75;
+  }
+
+  .about-cta {
+    margin-top: 2rem;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    display: inline-block;
+    padding: 0.75rem 1.25rem;
+    border-radius: 2rem;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .btn-primary {
+    background: linear-gradient(90deg, var(--gradient-3), var(--gradient-2), var(--gradient-1));
+    color: #f8fafc;
+  }
+
+  .btn-secondary {
+    border: 1px solid var(--gradient-1);
+    color: inherit;
+  }
+</style>

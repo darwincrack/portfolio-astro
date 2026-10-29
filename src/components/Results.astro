@@ -1,0 +1,112 @@
+---
+const results = [
+  {
+    stat: "Conectado a Profit",
+    client: "Club social en Valencia",
+    description: "Los socios pagan con Pago Móvil, reservan y entran con un QR. Saldos y solvencia se sincronizan solos con Profit, sin tocar la contabilidad.",
+    href: "/proyectos/poligono-club"
+  },
+  {
+    stat: "Cobra con Pago Móvil",
+    client: "Tienda WooCommerce en Venezuela",
+    description: "Plugin publicado en GitHub para que la tienda cobre como paga la gente aquí, desde la propia web.",
+    href: "/proyectos/pago-movil-woocommerce"
+  },
+  {
+    stat: "−85 % de peso",
+    client: "Misca Studio",
+    description: "El vídeo de la portada pesa un 85 % menos: carga mucho más rápido en el móvil, y WhatsApp, email y llamada quedan a un toque.",
+    href: "/proyectos/misca-studio"
+  },
+  {
+    stat: "Sin rehacerla",
+    client: "CropLife",
+    description: "Una app con 12 versiones de atraso puesta al día en iOS y Android, sin el costo de empezar de cero.",
+    href: "/proyectos/croplife"
+  }
+];
+---
+
+<section id="results-section" class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-5">Resultados reales</h2>
+
+    <div class="row g-4">
+      {results.map((result) => (
+        <div class="col-md-6 col-lg-3">
+          <a href={result.href} class="result-card">
+            <span class="result-stat">{result.stat}</span>
+            <span class="result-client">{result.client}</span>
+            <p>{result.description}</p>
+            <span class="result-link">Ver el caso →</span>
+          </a>
+        </div>
+      ))}
+    </div>
+
+    <p class="text-center mt-4">
+      <a href="/proyectos" class="results-all">Ver todos los proyectos →</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  h2.text-center {
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .result-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 2rem;
+    border-radius: 1rem;
+    background: var(--primary-bg);
+    border: 1px solid var(--secondary-bg);
+    color: var(--text);
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .result-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    color: var(--text);
+  }
+
+  .result-stat {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 700;
+    line-height: 1.1;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .result-client {
+    margin: 0.75rem 0 0.5rem;
+    font-weight: 600;
+  }
+
+  .result-card p {
+    margin-bottom: 1rem;
+  }
+
+  .result-link,
+  .results-all {
+    margin-top: auto;
+    font-weight: 600;
+    color: var(--gradient-1);
+    text-decoration: none;
+  }
+
+  .results-all:hover {
+    text-decoration: underline;
+  }
+</style>
