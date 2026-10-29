@@ -310,6 +310,14 @@ import { GOOGLE_PROFILE_URL } from '../data/contact';
       gtag('event', 'contact_click', { channel: channel, page_path: location.pathname });
     }
   });
+
+  // El formulario envía a Formspree y sale de la página: beacon para no perder el evento
+  document.addEventListener('submit', function (event) {
+    var form = event.target;
+    if (form.action && form.action.indexOf('formspree.io') !== -1) {
+      gtag('event', 'contact_click', { channel: 'form', page_path: location.pathname, transport_type: 'beacon' });
+    }
+  });
 </script>
 <script>
   import { reportWebVitals } from '../scripts/web-vitals';
