@@ -6,6 +6,9 @@ author: "Darwin Cedeño"
 tags:
   - para-contratar
   - aplicaciones
+image:
+  url: "/images/blog/la-app-se-quedo-atras-actualizarla-o-hacer-otra.jpg"
+  alt: "Portada: La app se quedó atrás, con captura de la app CropLife en Google Play"
 ---
 
 Una app que lleva años sin tocarse da dos miedos: que deje de publicarse, y que actualizarla salga igual de caro que hacer otra. No siempre es así.

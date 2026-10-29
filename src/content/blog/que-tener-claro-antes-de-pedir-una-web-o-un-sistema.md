@@ -6,6 +6,9 @@ author: "Darwin Cedeño"
 tags:
   - para-contratar
   - webs
+image:
+  url: "/images/blog/que-tener-claro-antes-de-pedir-una-web-o-un-sistema.jpg"
+  alt: "Portada: Qué tener claro antes de pedir una web o un sistema, con captura del sistema de reservas de Polígono Valencia"
 ---
 
 No hace falta llegar con un documento de cuarenta páginas ni con la tecnología ya elegida. Hace falta saber qué tiene que pasar cuando alguien usa lo que vamos a hacer.

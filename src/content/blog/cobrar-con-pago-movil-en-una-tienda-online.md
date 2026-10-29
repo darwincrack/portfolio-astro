@@ -6,6 +6,9 @@ author: "Darwin Cedeño"
 tags:
   - para-contratar
   - webs
+image:
+  url: "/images/blog/cobrar-con-pago-movil-en-una-tienda-online.jpg"
+  alt: "Portada: Cobrar con Pago Móvil, con captura del formulario de Pago Móvil en una tienda WooCommerce"
 ---
 
 En Venezuela mucha gente paga con Pago Móvil. Una tienda armada con WooCommerce no trae ese método. El comercio se queda con un catálogo que no puede cobrar como cobran sus clientes.

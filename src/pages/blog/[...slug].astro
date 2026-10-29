@@ -33,7 +33,9 @@ const relatedPosts = allPosts
 // Construir URL del post
 const siteUrl = 'https://darwincd.com';
 const postUrl = `${siteUrl}/blog/${post.slug}/`;
-const postImage = post.data.image?.url || `${siteUrl}/logodc.jpg`;
+const postImage = post.data.image?.url
+  ? new URL(post.data.image.url, siteUrl).href
+  : `${siteUrl}/logodc.jpg`;
 
 // Schema Article para el post
 const articleSchema = {

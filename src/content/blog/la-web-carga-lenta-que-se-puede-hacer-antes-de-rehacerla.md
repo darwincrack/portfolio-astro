@@ -6,6 +6,9 @@ author: "Darwin Cedeño"
 tags:
   - para-contratar
   - rendimiento
+image:
+  url: "/images/blog/la-web-carga-lenta-que-se-puede-hacer-antes-de-rehacerla.jpg"
+  alt: "Portada: La web carga lenta, con captura de la web optimizada de Misca Studio"
 ---
 
 Una web lenta no siempre hay que tirarla y hacer otra. A veces el problema está en unas pocas piezas pesadas, y el resto del sitio puede quedarse.

@@ -7,6 +7,9 @@ tags:
   - para-contratar
   - webs
   - aplicaciones
+image:
+  url: "/images/blog/web-sistema-o-aplicacion-que-encargar.jpg"
+  alt: "Portada: Web, sistema o aplicación, con captura del portal meridiano.net"
 ---
 
 A veces el pedido llega así: «necesito una página». Otras, «necesito una app». En el medio hay negocios que en realidad necesitan un sistema: usuarios, datos y un proceso que una plantilla no trae.
