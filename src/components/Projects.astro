@@ -335,7 +335,7 @@ const projectsForClient = sortedProjects.map((project) => ({
                 alt={`Captura de pantalla del proyecto ${project.title} - ${project.description}`}
                 width={800}
                 height={450}
-                loading="eager"
+                loading={index < 6 ? "eager" : "lazy"}
                 fetchpriority={index < 6 ? "high" : "low"}
                 decoding="async"
                 class="project-img"
@@ -379,12 +379,6 @@ const projectsForClient = sortedProjects.map((project) => ({
           </div>
         </div>
       ))}
-    </div>
-
-    <div class="text-center mt-5">
-      <button id="load-more-projects" class="btn btn-primary">
-        Ver más proyectos
-      </button>
     </div>
   </div>
 </section>
@@ -441,13 +435,6 @@ const projectsForClient = sortedProjects.map((project) => ({
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     height: 100%;
     border: 1px solid var(--secondary-bg);
-    opacity: 0;
-    transform: translateY(20px);
-    display: none;
-  }
-
-  .project-card.visible {
-    display: block;
   }
 
   .project-card.animate-initial {
@@ -878,14 +865,6 @@ const projectsForClient = sortedProjects.map((project) => ({
     }
   }
 
-  .project-card {
-    display: none;
-  }
-
-  .project-card.visible {
-    display: block;
-  }
-
   .project-card[data-type="support"] span.tag{
     font-size: 0.8rem;
     padding: 0.25rem 0.75rem;
@@ -910,13 +889,6 @@ const projectsForClient = sortedProjects.map((project) => ({
     background: var(--secondary-bg) !important;
     color: var(--text) !important;
   }
-
-  #load-more-projects {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
 </style>
 
 <script define:vars={{ projectsForClient }}>
@@ -1087,11 +1059,7 @@ const projectsForClient = sortedProjects.map((project) => ({
 
   // Inicializar proyectos
   function initProjectsGrid() {
-    const projectsGrid = document.querySelector('.projects-grid');
-    const loadMoreBtn = document.querySelector('#load-more-projects');
     const projectCards = document.querySelectorAll('.project-card');
-    let visibleCount = 6;
-    const increment = 3;
 
     markLoadedProjectImages();
 
@@ -1103,7 +1071,7 @@ const projectsForClient = sortedProjects.map((project) => ({
       });
     });
 
-    // Configurar el IntersectionObserver para las animaciones iniciales
+    // Configurar el IntersectionObserver para las animaciones
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -1118,35 +1086,15 @@ const projectsForClient = sortedProjects.map((project) => ({
 
     // Función para animar un proyecto
     function animateProject(card, delay) {
-      card.classList.add('visible', 'animate-initial');
+      card.classList.add('animate-initial');
       card.style.transitionDelay = `${delay}s`;
       observer.observe(card);
     }
 
-    // Mostrar los primeros 6 proyectos con animación escalonada
+    // Animar todos los proyectos con un pequeño escalonado
     projectCards.forEach((card, index) => {
-      if (index < visibleCount) {
-        animateProject(card, index * 0.1);
-      }
+      animateProject(card, Math.min(index, 8) * 0.08);
     });
-
-    // Manejar el botón "Ver más"
-    if (loadMoreBtn) {
-      loadMoreBtn.style.display = projectCards.length > visibleCount ? 'block' : 'none';
-      loadMoreBtn.addEventListener('click', () => {
-        const newVisibleCount = visibleCount + increment;
-        projectCards.forEach((card, index) => {
-          if (index >= visibleCount && index < newVisibleCount) {
-            card.style.display = 'block';
-            card.classList.add('visible', 'animate-in');
-          }
-        });
-        visibleCount = newVisibleCount;
-        if (visibleCount >= projectCards.length) {
-          loadMoreBtn.style.display = 'none';
-        }
-      });
-    }
   }
 
   // Inicializar cuando el DOM esté listo
