@@ -125,6 +125,20 @@ const servicesSchema = {
         </div>
       ))}
     </div>
+
+    <aside class="ai-banner">
+      <div class="ai-banner-text">
+        <span class="ai-badge">Nuevo</span>
+        <h3 class="h5">Un asistente con IA para tu negocio</h3>
+        <p>Responde con tu información, hace las preguntas de un primer contacto y te pasa el cliente por WhatsApp.</p>
+      </div>
+      <div class="ai-banner-actions">
+        <button type="button" class="ai-try" data-open-chat>
+          <Icon name="comment-dots" class="me-1" />Pruébalo aquí
+        </button>
+        <a href="/servicios/asistentes-ia" class="service-more">Cómo funciona →</a>
+      </div>
+    </aside>
   </div>
 </section>
 
@@ -229,6 +243,72 @@ const servicesSchema = {
 
   .service-more:hover {
     text-decoration: underline;
+  }
+
+  .ai-banner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem 2rem;
+    margin-top: 2rem;
+    padding: 1.5rem 2rem;
+    border: 1px solid var(--secondary-bg);
+    border-radius: 1rem;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(37, 99, 235, 0.18), transparent 60%),
+      var(--primary-bg);
+  }
+
+  .ai-banner-text {
+    flex: 1 1 22rem;
+  }
+
+  .ai-banner-text h3 {
+    margin: 0.5rem 0 0.35rem;
+  }
+
+  .ai-banner-text p {
+    margin: 0;
+    opacity: 0.85;
+  }
+
+  .ai-badge {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .ai-banner-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .ai-try {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    color: #fff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  @media (max-width: 576px) {
+    .ai-banner {
+      padding: 1.25rem;
+    }
   }
 
   .animate-initial {

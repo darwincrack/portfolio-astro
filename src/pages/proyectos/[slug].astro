@@ -12,19 +12,25 @@ import pagoMovilImage from '../../images/project11.avif';
 import poligonoAppImage from '../../images/poligono-app.jpg';
 import poligonoReservasImage from '../../images/poligono-reservas.jpg';
 import poligonoBcvImage from '../../images/poligono-bcv.jpg';
+import asistenteImage from '../../images/asistente-ia.jpg';
+import asistentePanelImage from '../../images/asistente-ia-panel.jpg';
 
 const images: Record<string, ImageMetadata> = {
   'meridiano-net': meridianoImage,
   croplife: croplifeImage,
   'misca-studio': miscaImage,
   'pago-movil-woocommerce': pagoMovilImage,
-  'poligono-club': poligonoAppImage
+  'poligono-club': poligonoAppImage,
+  'asistente-ia-darwincd': asistenteImage
 };
 
 const extraImages: Record<string, { src: ImageMetadata; alt: string }[]> = {
   'poligono-club': [
     { src: poligonoReservasImage, alt: 'Calendario de reservas en el panel de administración' },
     { src: poligonoBcvImage, alt: 'Configuración de la tasa BCV automática' }
+  ],
+  'asistente-ia-darwincd': [
+    { src: asistentePanelImage, alt: 'El asistente en escritorio, con el botón para enviar el resumen por WhatsApp' }
   ]
 };
 
@@ -129,6 +135,9 @@ const caseSchema = {
       </ul>
 
       <div class="actions">
+        {study.tryAssistant && (
+          <button type="button" class="btn-primary btn-try" data-open-chat>Probar el asistente</button>
+        )}
         {study.link && (
           <a href={study.link} class="btn-primary" target="_blank" rel="noopener noreferrer">Ver el sitio</a>
         )}
@@ -274,6 +283,13 @@ const caseSchema = {
   .btn-primary {
     background: linear-gradient(90deg, var(--gradient-3), var(--gradient-2), var(--gradient-1));
     color: #f8fafc;
+  }
+
+  .btn-try {
+    border: none;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
   }
 
   .btn-secondary {

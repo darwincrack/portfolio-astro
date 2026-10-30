@@ -4,7 +4,7 @@ export const prerender = true;
 import Layout from '../../layouts/Layout.astro';
 import { servicePages } from '../../data/servicePages';
 import { caseStudies } from '../../data/caseStudies';
-import { WHATSAPP_URL } from '../../data/contact';
+import { WHATSAPP_URL, whatsappLink } from '../../data/contact';
 
 export function getStaticPaths() {
   return servicePages.map((page) => ({
@@ -21,6 +21,7 @@ const cases = page.caseSlugs
   .map((slug) => caseStudies.find((item) => item.slug === slug))
   .filter((item) => item !== undefined);
 
+const whatsappUrl = page.whatsappMessage ? whatsappLink(page.whatsappMessage) : WHATSAPP_URL;
 const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.com/darwinc-dev/consulta-15-min';
 const siteUrl = 'https://darwincd.com';
 const pageUrl = `${siteUrl}/servicios/${page.slug}/`;
@@ -94,7 +95,10 @@ const breadcrumbSchema = {
       <p class="proof">+300 proyectos entregados · Valoración 5 estrellas</p>
 
       <div class="actions">
-        <a href={WHATSAPP_URL} class="btn-primary" target="_blank" rel="noopener noreferrer">
+        {page.tryAssistant && (
+          <button type="button" class="btn-primary btn-try" data-open-chat>Probar el asistente</button>
+        )}
+        <a href={whatsappUrl} class:list={[page.tryAssistant ? "btn-secondary" : "btn-primary"]} target="_blank" rel="noopener noreferrer">
           Escríbeme por WhatsApp
         </a>
         <a href={CALENDLY_URL} class="btn-secondary" target="_blank" rel="noopener noreferrer">
@@ -223,6 +227,13 @@ const breadcrumbSchema = {
   .btn-primary {
     background: linear-gradient(90deg, var(--gradient-3), var(--gradient-2), var(--gradient-1));
     color: #f8fafc;
+  }
+
+  .btn-try {
+    border: none;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
   }
 
   .btn-secondary {

@@ -152,6 +152,8 @@ import { WHATSAPP_URL } from '../data/contact';
   .chat-messages {
     flex: 1;
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--secondary-bg) transparent;
     padding: 1rem;
     display: flex;
     flex-direction: column;
@@ -442,7 +444,7 @@ import { WHATSAPP_URL } from '../data/contact';
       a.target = '_blank';
       a.rel = 'noopener noreferrer';
       a.dataset.channel = 'chat';
-      a.textContent = 'Enviar resumen a Darwin por WhatsApp →';
+      a.textContent = 'Enviar resumen por WhatsApp →';
       list.appendChild(a);
     }
 
@@ -548,6 +550,10 @@ import { WHATSAPP_URL } from '../data/contact';
 
     launcher.addEventListener('click', () => (panel.hidden ? open() : hide()));
     close.addEventListener('click', hide);
+    // Cualquier botón con data-open-chat abre el asistente (página del servicio, caso, portada)
+    document.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('[data-open-chat]') && panel.hidden) open();
+    });
     panel.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') hide();
     });

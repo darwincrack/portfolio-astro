@@ -31,6 +31,8 @@ import projectClarityJobs from '../images/project-clarityjobs.jpg';
 import poligonoApp from '../images/poligono-app.jpg';
 import poligonoReservas from '../images/poligono-reservas.jpg';
 import poligonoBcv from '../images/poligono-bcv.jpg';
+import asistenteIa from '../images/asistente-ia.jpg';
+import asistenteIaPanel from '../images/asistente-ia-panel.jpg';
 
 
 
@@ -39,6 +41,18 @@ import projectsupport1 from '../images/projectsupport1.avif';
 import { caseStudyByTitle } from '../data/caseStudies';
 
 const projects = [
+  {
+    title: "Asistente con IA de darwincd.com",
+    description: "Responde con la información de la web, hace las preguntas de un primer contacto y pasa el cliente a WhatsApp con un resumen.",
+    detailedDescription: "Asistente con IA integrado en esta web. Responde solo con la información del sitio (servicios, casos, preguntas frecuentes y blog), hace las preguntas de un primer contacto y, cuando entiende el proyecto, prepara un mensaje de WhatsApp con el resumen. Construido con Astro, un endpoint en Vercel y Gemini, con reglas para no dar precios ni fechas y protección contra abuso. Puedes probarlo con el botón de abajo a la derecha.",
+    tags: ["IA", "Gemini", "Astro", "Vercel", "WhatsApp"],
+    link: "",
+    image: asistenteIa,
+    additionalImages: [asistenteIa, asistenteIaPanel],
+    priority: 0,
+    github: "",
+    type: "tools"
+  },
   {
     title: "Polígono Valencia — App de socios conectada a Profit",
     description: "Socios que pagan con Pago Móvil, reservan y entran con un QR, con saldos sincronizados desde Profit.",
@@ -296,6 +310,7 @@ const featuredTitles = [
   "Misca Studio — Optimización y conversión",
   "Pago Móvil para WooCommerce",
   "CropLife — actualización de la app",
+  "Asistente con IA de darwincd.com",
 ];
 
 const sortedProjects = [...projects].sort((a, b) => {

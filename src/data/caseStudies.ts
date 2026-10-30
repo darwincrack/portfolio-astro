@@ -11,6 +11,8 @@ export type CaseStudy = {
   github: string;
   serviceHref: string;
   serviceLabel: string;
+  // Muestra un botón que abre el asistente de la web
+  tryAssistant?: boolean;
 };
 
 export const caseStudies: CaseStudy[] = [
@@ -83,6 +85,21 @@ export const caseStudies: CaseStudy[] = [
     github: "",
     serviceHref: "/servicios/webs-y-sistemas",
     serviceLabel: "Ver webs y sistemas a medida"
+  },
+  {
+    slug: "asistente-ia-darwincd",
+    title: "Asistente con IA de darwincd.com",
+    summary: "Responde con la información de la web, hace las preguntas de un primer contacto y pasa el cliente a WhatsApp con un resumen.",
+    problem: "Mucha gente llega con dudas antes de escribir y no siempre sabe explicar qué necesita. Quien escribe por WhatsApp sin contexto alarga la primera conversación.",
+    solution: "Un asistente con IA en la propia web. Responde solo con la información del sitio (servicios, casos, preguntas frecuentes y blog), hace las preguntas que haría Darwin en un primer contacto y, cuando entiende el proyecto, prepara un mensaje de WhatsApp con el resumen para que el visitante lo envíe con un toque.",
+    result: "Responde en uno o dos segundos, en español o en inglés, sin dar precios ni inventar datos. Los contactos que llegan desde el asistente se miden aparte en Analytics. Puedes probarlo en esta misma página.",
+    details: "Endpoint en Vercel que consulta Gemini y devuelve la respuesta en streaming. Las instrucciones se arman con los mismos datos que muestra la web, así que el asistente se actualiza solo cuando cambia el contenido. Reglas para no dar precios ni fechas y para decir que es una IA. Protección contra abuso: solo acepta peticiones del propio dominio, límite de mensajes por visitante y por conversación. Eventos de Analytics para aperturas, mensajes y pasos a WhatsApp.",
+    tags: ["IA", "Gemini", "Astro", "Vercel", "WhatsApp"],
+    link: "",
+    github: "",
+    serviceHref: "/servicios/asistentes-ia",
+    serviceLabel: "Ver asistentes con IA para negocios",
+    tryAssistant: true
   }
 ];
 

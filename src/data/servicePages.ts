@@ -10,6 +10,10 @@ export type ServicePage = {
   note: string;
   caseSlugs: string[];
   also: { href: string; label: string };
+  // Mensaje de WhatsApp propio del servicio (si no, el genérico)
+  whatsappMessage?: string;
+  // Muestra un botón que abre el asistente de la web
+  tryAssistant?: boolean;
 };
 
 export const servicePages: ServicePage[] = [
@@ -52,5 +56,28 @@ export const servicePages: ServicePage[] = [
       href: "/servicios/webs-y-sistemas",
       label: "También hago webs y sistemas"
     }
+  },
+  {
+    slug: "asistentes-ia",
+    title: "Asistentes con IA para negocios",
+    seoTitle: "Asistentes con IA para negocios | Darwin Cedeño",
+    description: "Asistentes con IA para la web o el WhatsApp de tu negocio: responden con tu información, hacen las preguntas de un primer contacto y te pasan el cliente. Venezuela, Latinoamérica y España.",
+    headline: "Hago asistentes con IA para negocios.",
+    lead: "Responden con la información de tu negocio y te pasan los clientes listos para atender.",
+    problem: "Las mismas preguntas llegan una y otra vez: qué ofreces, cómo se paga, si haces envíos, cuál es el horario. Muchas consultas llegan fuera de hora o sin decir qué necesitan, y la primera conversación se alarga.",
+    work: [
+      "Asistentes para tu web o tu WhatsApp que responden con la información de tu negocio, no con respuestas genéricas.",
+      "Que hagan las preguntas de un primer contacto y te pasen el cliente con un resumen de lo que necesita.",
+      "Conexión con tus datos (catálogo, inventario, reservas o un sistema como Profit) para responder con información al día.",
+      "Reglas claras: qué puede decir y qué no, como precios o fechas, y aviso de que es una IA."
+    ],
+    note: "El asistente de esta web lo hice yo: pruébalo con el botón de abajo. Antes de construir uno, vemos si de verdad te conviene o si basta con una buena sección de preguntas frecuentes.",
+    caseSlugs: ["asistente-ia-darwincd", "poligono-club"],
+    also: {
+      href: "/servicios/webs-y-sistemas",
+      label: "También hago webs y sistemas"
+    },
+    whatsappMessage: "Hola Darwin, me interesa un asistente con IA para mi negocio.",
+    tryAssistant: true
   }
 ];
