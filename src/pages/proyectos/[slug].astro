@@ -14,6 +14,8 @@ import poligonoReservasImage from '../../images/poligono-reservas.jpg';
 import poligonoBcvImage from '../../images/poligono-bcv.jpg';
 import asistenteImage from '../../images/asistente-ia.jpg';
 import asistentePanelImage from '../../images/asistente-ia-panel.jpg';
+import estrellitasImage from '../../images/estrellitas.jpg';
+import estrellitasAjustesImage from '../../images/estrellitas-ajustes.jpg';
 
 const images: Record<string, ImageMetadata> = {
   'meridiano-net': meridianoImage,
@@ -21,7 +23,8 @@ const images: Record<string, ImageMetadata> = {
   'misca-studio': miscaImage,
   'pago-movil-woocommerce': pagoMovilImage,
   'poligono-club': poligonoAppImage,
-  'asistente-ia-darwincd': asistenteImage
+  'asistente-ia-darwincd': asistenteImage,
+  estrellitas: estrellitasImage
 };
 
 const extraImages: Record<string, { src: ImageMetadata; alt: string }[]> = {
@@ -31,6 +34,9 @@ const extraImages: Record<string, { src: ImageMetadata; alt: string }[]> = {
   ],
   'asistente-ia-darwincd': [
     { src: asistentePanelImage, alt: 'El asistente en escritorio, con el botón para enviar el resumen por WhatsApp' }
+  ],
+  estrellitas: [
+    { src: estrellitasAjustesImage, alt: 'Icono de Estrellitas, elección del nivel según la edad y ajustes para quien cuida al niño' }
   ]
 };
 
@@ -139,7 +145,7 @@ const caseSchema = {
           <button type="button" class="btn-primary btn-try" data-open-chat>Probar el asistente</button>
         )}
         {study.link && (
-          <a href={study.link} class="btn-primary" target="_blank" rel="noopener noreferrer">Ver el sitio</a>
+          <a href={study.link} class="btn-primary" target="_blank" rel="noopener noreferrer">{study.link.includes('play.google.com') ? 'Ver en Google Play' : 'Ver el sitio'}</a>
         )}
         {study.github && (
           <a href={study.github} class="btn-secondary" target="_blank" rel="noopener noreferrer">GitHub</a>

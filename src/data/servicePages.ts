@@ -51,7 +51,7 @@ export const servicePages: ServicePage[] = [
       "Conexión de la app con la web y los sistemas del negocio."
     ],
     note: "El mismo negocio puede necesitar la app y el sistema que hay detrás. Las dos partes las puedo hacer.",
-    caseSlugs: ["croplife"],
+    caseSlugs: ["croplife", "estrellitas"],
     also: {
       href: "/servicios/webs-y-sistemas",
       label: "También hago webs y sistemas"

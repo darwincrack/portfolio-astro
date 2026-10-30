@@ -100,6 +100,20 @@ export const caseStudies: CaseStudy[] = [
     serviceHref: "/servicios/asistentes-ia",
     serviceLabel: "Ver asistentes con IA para negocios",
     tryAssistant: true
+  },
+  {
+    slug: "estrellitas",
+    title: "Estrellitas — juego para niños pequeños",
+    summary: "App propia publicada en Google Play para teléfono y Fire TV: figuras que hablan, tres niveles según la edad y sin anuncios ni internet.",
+    problem: "Hacía falta un juego para niños de 1 a 3 años que funcionara igual en el teléfono y en la tele, sin anuncios, sin cuenta y sin conexión, y que los padres pudieran adaptar con fotos y voces de la familia.",
+    solution: "Una app con tres niveles según la edad (toca y mira, primeras palabras, pregunta y aprende), figuras que dicen su nombre en español, inglés o portugués, fotos y voces que graba un adulto, modo automático y temporizador para la hora de dormir. Se maneja con el dedo en el teléfono y con el mando en el Fire TV.",
+    result: "Publicada en Google Play para teléfono y Fire TV. Funciona sin internet y sin recopilar datos: las fotos, las palabras y las voces se quedan en el aparato.",
+    details: "Juego educativo para niños pequeños. Ajustes protegidos con pulsación larga y un número escrito en palabras para que el niño no entre solo. Grupos de figuras (números, animales, casa, comida, vehículos, cuerpo y ropa, mar), juego de preguntas con celebración al acertar, pantalla fijada en el teléfono y política de privacidad publicada en esta web.",
+    tags: ["Android", "Fire TV", "Google Play", "Sin conexión"],
+    link: "https://play.google.com/store/apps/details?id=com.estrellitas.firetv",
+    github: "",
+    serviceHref: "/servicios/aplicaciones-moviles",
+    serviceLabel: "Ver aplicaciones móviles"
   }
 ];
 

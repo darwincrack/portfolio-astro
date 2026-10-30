@@ -30,9 +30,23 @@ import poligonoReservas from '../images/poligono-reservas.jpg';
 import poligonoBcv from '../images/poligono-bcv.jpg';
 import asistenteIa from '../images/asistente-ia.jpg';
 import asistenteIaPanel from '../images/asistente-ia-panel.jpg';
+import estrellitas from '../images/estrellitas.jpg';
+import estrellitasAjustes from '../images/estrellitas-ajustes.jpg';
 import projectsupport1 from '../images/projectsupport1.avif';
 
 export const projects = [
+  {
+    title: "Estrellitas — juego para niños pequeños",
+    description: "App propia publicada en Google Play para teléfono y Fire TV: figuras que hablan, tres niveles según la edad y sin anuncios ni internet.",
+    detailedDescription: "Juego para niños de 1 a 3 años, publicado en Google Play para teléfono y Fire TV. Tres niveles según la edad, figuras que dicen su nombre en español, inglés o portugués, fotos y voces que graba un adulto, modo automático y temporizador para la hora de dormir. Sin anuncios, sin cuenta y sin internet: todo se queda en el aparato.",
+    tags: ["Android", "Fire TV", "Google Play", "Sin conexión"],
+    link: "https://play.google.com/store/apps/details?id=com.estrellitas.firetv",
+    image: estrellitas,
+    additionalImages: [estrellitas, estrellitasAjustes],
+    priority: 0,
+    github: "",
+    type: "mobile"
+  },
   {
     title: "Asistente con IA de darwincd.com",
     description: "Responde con la información de la web, hace las preguntas de un primer contacto y pasa el cliente a WhatsApp con un resumen.",

@@ -21,7 +21,7 @@ const routes = [
 ];
 const projectLinks = projects
   .filter((p) => p.link)
-  .map((p) => ({ href: p.link, label: p.link.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '') }));
+  .map((p) => ({ href: p.link, label: p.title }));
 ---
 
 <button type="button" class="chat-launcher" aria-label="Abrir el asistente: pregúntame sobre tu proyecto" aria-expanded="false" aria-controls="chat-panel">
@@ -383,10 +383,13 @@ const projectLinks = projects
       return [];
     }
   };
+  // Ignora la barra final y el idioma de Google Play (&hl=…), que el modelo a veces añade.
+  // escapeHtml ya convirtió & en &amp;.
+  const normalize = (url: string) => url.replace(/(&amp;|[?&])hl=[\w-]*/, '').replace(/\/$/, '');
   const knownLink = (url: string) => {
-    const clean = url.replace(/\/$/, '');
+    const clean = normalize(url);
     return [...EXTERNAL_LINKS, ...panelList<{ href: string; label: string }>('links')]
-      .find((l) => l.href.replace(/\/$/, '') === clean);
+      .find((l) => normalize(l.href) === clean);
   };
   const knownRoute = (path: string) => {
     const clean = path.split('#')[0].replace(/\/?$/, '/');
