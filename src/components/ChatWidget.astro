@@ -1,7 +1,27 @@
 ---
 // Asistente del sitio (IA). El botón vive encima del de WhatsApp, que no cambia.
+import { getCollection } from 'astro:content';
 import Icon from './Icon.astro';
 import { WHATSAPP_URL } from '../data/contact';
+import { servicePages } from '../data/servicePages';
+import { caseStudies } from '../data/caseStudies';
+import { projects } from '../data/projects';
+
+// Lo que el chat puede enlazar: rutas que existen y webs reales de los proyectos.
+// Si el modelo inventa una ruta, se muestra como texto y no como un enlace roto.
+const posts = await getCollection('blog');
+const routes = [
+  '/proyectos/',
+  '/blog/',
+  '/sobre-mi/',
+  '/desarrollo-de-software-venezuela/',
+  ...servicePages.map((s) => `/servicios/${s.slug}/`),
+  ...caseStudies.map((c) => `/proyectos/${c.slug}/`),
+  ...posts.map((p) => `/blog/${p.slug}/`),
+];
+const projectLinks = projects
+  .filter((p) => p.link)
+  .map((p) => ({ href: p.link, label: p.link.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '') }));
 ---
 
 <button type="button" class="chat-launcher" aria-label="Abrir el asistente: pregúntame sobre tu proyecto" aria-expanded="false" aria-controls="chat-panel">
@@ -9,7 +29,15 @@ import { WHATSAPP_URL } from '../data/contact';
   <span class="chat-launcher-label">¿Dudas? Pregúntame</span>
 </button>
 
-<section id="chat-panel" class="chat-panel" role="dialog" aria-label="Asistente de Darwin Cedeño" hidden>
+<section
+  id="chat-panel"
+  class="chat-panel"
+  role="dialog"
+  aria-label="Asistente de Darwin Cedeño"
+  data-routes={JSON.stringify(routes)}
+  data-links={JSON.stringify(projectLinks)}
+  hidden
+>
   <header class="chat-header">
     <div>
       <p class="chat-title">Asistente de Darwin</p>
@@ -347,9 +375,22 @@ import { WHATSAPP_URL } from '../data/contact';
     { href: WORKANA_URL, label: 'Reseñas en Workana' },
     ...SOCIAL_LINKS.map((l) => ({ href: l.href, label: l.href.replace(/^https:\/\/(www\.)?/, '').replace(/\/$/, '') })),
   ];
+  // Listas que arma el servidor (ver frontmatter): rutas que existen y webs de proyectos
+  const panelList = <T,>(key: 'routes' | 'links'): T[] => {
+    try {
+      return JSON.parse(document.getElementById('chat-panel')?.dataset[key] ?? '[]');
+    } catch {
+      return [];
+    }
+  };
   const knownLink = (url: string) => {
     const clean = url.replace(/\/$/, '');
-    return EXTERNAL_LINKS.find((l) => l.href.replace(/\/$/, '') === clean);
+    return [...EXTERNAL_LINKS, ...panelList<{ href: string; label: string }>('links')]
+      .find((l) => l.href.replace(/\/$/, '') === clean);
+  };
+  const knownRoute = (path: string) => {
+    const clean = path.split('#')[0].replace(/\/?$/, '/');
+    return panelList<string>('routes').includes(clean) ? clean : null;
   };
 
   const STORAGE_KEY = 'dc_chat';
@@ -397,7 +438,10 @@ import { WHATSAPP_URL } from '../data/contact';
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
       .replace(LINKS, (_m, label, href, bareUrl, before, path) => {
         if (href) {
-          if (href.startsWith('/')) return link(href, label);
+          if (href.startsWith('/')) {
+            const route = knownRoute(href);
+            return route ? link(route, label) : label;
+          }
           const known = knownLink(href);
           return known ? link(known.href, label) : label;
         }
@@ -405,7 +449,8 @@ import { WHATSAPP_URL } from '../data/contact';
           const known = knownLink(bareUrl);
           return known ? link(known.href, known.label) : bareUrl;
         }
-        return `${before}${link(path, path)}`;
+        const route = knownRoute(path);
+        return `${before}${route ? link(route, path) : path}`;
       });
     return html
       .split(/\n{2,}/)

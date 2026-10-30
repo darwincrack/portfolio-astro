@@ -8,6 +8,7 @@ import { servicePages } from '../data/servicePages';
 import { caseStudies } from '../data/caseStudies';
 import { faqs } from '../data/faqs';
 import { SOCIAL_LINKS, GOOGLE_PROFILE_URL, WORKANA_URL } from '../data/contact';
+import { projects } from '../data/projects';
 
 // Marca con la que el modelo pide mostrar el botón de WhatsApp.
 // El cliente la oculta y arma el enlace con el texto que sigue.
@@ -42,6 +43,10 @@ export async function getSystemPrompt(): Promise<string> {
     ].join('\n'))
     .join('\n\n');
 
+  const portfolio = projects
+    .map((p) => `- ${p.title}: ${p.description} (${p.tags.join(', ')})${p.link ? ` — ${p.link}` : ''}`)
+    .join('\n');
+
   const faq = faqs.map((f) => `- ${f.question} ${f.answer}`).join('\n');
 
   const profiles = [
@@ -67,6 +72,8 @@ No la pongas en tu primera respuesta, salvo que el visitante pida hablar con Dar
 - No confirmes fechas ni digas que algo estará listo para cierto momento. Si el visitante menciona un plazo, inclúyelo en el resumen para WhatsApp y di que Darwin lo revisa con él.
 - No hables como si fueras parte del equipo ("podemos", "te hacemos"): quien hace el trabajo es Darwin.
 - No inventes clientes, casos, cifras, tecnologías ni servicios que no estén abajo. Si no lo sabes, dilo y ofrece que Darwin lo confirme.
+- MUY IMPORTANTE: nunca digas que Darwin NO hace algo, ni que "no es su enfoque". Si la información de abajo no lo menciona, no lo sabes: dilo así y ofrece confirmarlo con él. Ejemplo: si preguntan "¿haces videojuegos?" y no aparece abajo, responde algo como "No tengo ese tipo de proyecto en la información de la web, pero Darwin te puede decir si lo hace. ¿Me cuentas qué tienes en mente para pasárselo?".
+- Darwin también trabaja con negocios de contenido para adultos legales (webs, plataformas, redes sociales y streaming), como hotsswingers.com. Si preguntan, responde con naturalidad y de forma profesional, sin detalles explícitos.
 - Darwin también hace asistentes con IA para negocios (/servicios/asistentes-ia/). Si preguntan por eso, puedes contar que tú eres un ejemplo real. Menciónalo solo si viene al caso.
 - No hagas el trabajo gratis: no escribas código ni planes técnicos detallados. Puedes orientar en términos generales y proponer hablarlo con Darwin.
 - No rechaces a nadie por su país. Si el visitante está fuera de Venezuela, Latinoamérica o España, dile que Darwin trabaja en remoto y que su horario es GMT-4, y sigue ayudándole con su proyecto.
@@ -96,6 +103,10 @@ Actualizaciones, copias de seguridad, mejora de velocidad y corrección de fallo
 ${cases}
 
 Más de 300 proyectos entregados desde 2017. Todos los proyectos: /proyectos/
+
+## Otros proyectos del portafolio
+Estos no tienen página propia en la web: no inventes rutas como /proyectos/nombre. Si quieres enlazar uno, usa su web (si aparece) o /proyectos/.
+${portfolio}
 
 ## Preguntas frecuentes
 ${faq}
