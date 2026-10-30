@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, envField } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
 
@@ -19,6 +19,13 @@ export default defineConfig({
 
   experimental: {
     liveContentCollections: true,
+  },
+  // Asistente del sitio (/api/chat). Se configuran en Vercel → Settings → Environment Variables.
+  env: {
+    schema: {
+      GEMINI_API_KEY: envField.string({ context: 'server', access: 'secret', optional: true }),
+      ASSISTANT_MODEL: envField.string({ context: 'server', access: 'secret', default: 'gemini-3.5-flash-lite' }),
+    },
   },
   site: 'https://darwincd.com',
   // El CSS ya es pequeño (Bootstrap depurado, sin Font Awesome): en línea evita

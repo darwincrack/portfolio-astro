@@ -1,0 +1,579 @@
+---
+// Asistente del sitio (IA). El botón vive encima del de WhatsApp, que no cambia.
+import Icon from './Icon.astro';
+import { WHATSAPP_URL } from '../data/contact';
+---
+
+<button type="button" class="chat-launcher" aria-label="Abrir el asistente: pregúntame sobre tu proyecto" aria-expanded="false" aria-controls="chat-panel">
+  <Icon name="comment-dots" />
+  <span class="chat-launcher-label">¿Dudas? Pregúntame</span>
+</button>
+
+<section id="chat-panel" class="chat-panel" role="dialog" aria-label="Asistente de Darwin Cedeño" hidden>
+  <header class="chat-header">
+    <div>
+      <p class="chat-title">Asistente de Darwin</p>
+      <p class="chat-subtitle">Con IA · responde al momento</p>
+    </div>
+    <a href={WHATSAPP_URL} class="chat-header-wa" target="_blank" rel="noopener noreferrer" title="Hablar directo con Darwin por WhatsApp">
+      <Icon name="whatsapp" /> <span>Darwin</span>
+    </a>
+    <button type="button" class="chat-close" aria-label="Cerrar el asistente">
+      <Icon name="xmark" />
+    </button>
+  </header>
+
+  <div class="chat-messages" aria-live="polite"></div>
+
+  <div class="chat-suggestions">
+    <button type="button" data-suggestion="Necesito una web para mi negocio">Necesito una web</button>
+    <button type="button" data-suggestion="Quiero una app o actualizar la que tengo">Quiero una app</button>
+    <button type="button" data-suggestion="¿Cuánto cuesta un proyecto?">¿Cuánto cuesta?</button>
+  </div>
+
+  <form class="chat-form">
+    <label for="chat-input" class="visually-hidden">Escribe tu mensaje</label>
+    <textarea id="chat-input" rows="1" maxlength="800" placeholder="Cuéntame qué necesitas…" autocomplete="off"></textarea>
+    <button type="submit" class="chat-send" aria-label="Enviar mensaje">
+      <Icon name="paper-plane" />
+    </button>
+  </form>
+  <p class="chat-note">Asistente con IA (Gemini): puede equivocarse y Darwin confirma todo. No compartas datos sensibles.</p>
+</section>
+
+<style>
+  .chat-launcher {
+    position: fixed;
+    right: 24px;
+    bottom: 88px;
+    z-index: 1000;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 48px;
+    padding: 0 1rem;
+    border: 1px solid var(--secondary-bg);
+    border-radius: 24px;
+    background: var(--primary-bg);
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .chat-launcher.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .chat-launcher :global(svg) {
+    fill: url(#icon-gradient);
+    font-size: 1.3rem;
+  }
+
+  .chat-panel {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    width: min(380px, calc(100vw - 24px));
+    height: min(580px, calc(100vh - 40px));
+    border: 1px solid var(--secondary-bg);
+    border-radius: 16px;
+    background: var(--primary-bg);
+    color: var(--text);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+  }
+
+  .chat-panel[hidden] {
+    display: none;
+  }
+
+  .chat-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--secondary-bg);
+  }
+
+  .chat-header > div {
+    flex: 1;
+  }
+
+  .chat-title {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  .chat-subtitle {
+    margin: 0;
+    font-size: 0.75rem;
+    opacity: 0.7;
+  }
+
+  .chat-header-wa {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    background: #25d366;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .chat-header-wa:hover {
+    color: #fff;
+  }
+
+  .chat-close {
+    border: none;
+    background: none;
+    color: var(--text);
+    font-size: 1.2rem;
+    padding: 0.25rem 0.4rem;
+    cursor: pointer;
+    opacity: 0.7;
+  }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .chat-messages :global(.chat-msg) {
+    max-width: 85%;
+    padding: 0.6rem 0.85rem;
+    border-radius: 14px;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+
+  .chat-messages :global(.chat-msg p) {
+    margin: 0 0 0.4rem;
+  }
+
+  .chat-messages :global(.chat-msg p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .chat-messages :global(.chat-msg-model) {
+    align-self: flex-start;
+    background: var(--secondary-bg);
+    border-bottom-left-radius: 4px;
+  }
+
+  .chat-messages :global(.chat-msg-model a) {
+    color: var(--gradient-1);
+  }
+
+  .chat-messages :global(.chat-msg-user) {
+    align-self: flex-end;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    color: #fff;
+    border-bottom-right-radius: 4px;
+    white-space: pre-wrap;
+  }
+
+  .chat-messages :global(.chat-handoff) {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 0.9rem;
+    border-radius: 999px;
+    background: #25d366;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.88rem;
+    text-decoration: none;
+  }
+
+  .chat-messages :global(.chat-handoff:hover) {
+    color: #fff;
+  }
+
+  .chat-messages :global(.chat-typing) {
+    align-self: flex-start;
+    opacity: 0.6;
+    font-size: 0.85rem;
+  }
+
+  .chat-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0 1rem 0.6rem;
+  }
+
+  .chat-suggestions[hidden] {
+    display: none;
+  }
+
+  .chat-suggestions button {
+    border: 1px solid var(--secondary-bg);
+    border-radius: 999px;
+    background: none;
+    color: var(--text);
+    font-size: 0.8rem;
+    padding: 0.35rem 0.75rem;
+    cursor: pointer;
+  }
+
+  .chat-suggestions button:hover {
+    border-color: var(--gradient-1);
+  }
+
+  .chat-form {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    border-top: 1px solid var(--secondary-bg);
+  }
+
+  .chat-form textarea {
+    flex: 1;
+    resize: none;
+    max-height: 120px;
+    border: 1px solid var(--secondary-bg);
+    border-radius: 12px;
+    padding: 0.55rem 0.75rem;
+    background: var(--secondary-bg);
+    color: var(--text);
+    font-size: 0.92rem;
+    font-family: inherit;
+  }
+
+  .chat-form textarea:focus {
+    outline: 2px solid var(--gradient-1);
+    outline-offset: 0;
+  }
+
+  .chat-send {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .chat-send:disabled,
+  .chat-form textarea:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .chat-note {
+    margin: 0;
+    padding: 0 1rem 0.6rem;
+    font-size: 0.7rem;
+    opacity: 0.6;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    .chat-launcher {
+      right: 24px;
+      width: 48px;
+      padding: 0;
+      justify-content: center;
+    }
+
+    .chat-launcher-label {
+      display: none;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .chat-panel {
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 88vh;
+      height: 88dvh;
+      border-radius: 16px 16px 0 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chat-launcher {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  import { whatsappLink } from '../data/contact';
+
+  const STORAGE_KEY = 'dc_chat';
+  const MARKER = '[[WHATSAPP]]';
+  const MAX_TURNS = 12;
+  const GREETING =
+    'Hola, soy el asistente de Darwin. Cuéntame qué quieres resolver (una web, un sistema, una app…) y te ayudo a aclararlo. Cuando lo tengas, se lo paso a Darwin por WhatsApp.';
+
+  type Msg = { role: 'user' | 'model'; text: string };
+  type State = { messages: Msg[]; opened: boolean };
+
+  const track = (name: string, params: Record<string, unknown> = {}) => {
+    const w = window as unknown as { gtag?: (...args: unknown[]) => void };
+    w.gtag?.('event', name, { page_path: location.pathname, ...params });
+  };
+
+  function load(): State {
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY) ?? 'null');
+      if (saved && Array.isArray(saved.messages)) return saved;
+    } catch {}
+    return { messages: [], opened: false };
+  }
+
+  function save(state: State) {
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch {}
+  }
+
+  const escapeHtml = (s: string) =>
+    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+  // Formato mínimo: negrita, listas cortas y enlaces a páginas del sitio o a Calendly.
+  function format(text: string): string {
+    const html = escapeHtml(text)
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      // [texto](/ruta) o [texto](https://calendly.com/…)
+      .replace(/\[([^\]]+)\]\((\/[\w\-/#]*|https:\/\/calendly\.com\/[\w\-/]+)\)/g, (_m, label, href) =>
+        href.startsWith('https://')
+          ? `<a href="${href}" target="_blank" rel="noopener noreferrer">${label}</a>`
+          : `<a href="${href}">${label}</a>`)
+      .replace(/(https:\/\/calendly\.com\/[\w\-/]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>')
+      .replace(/(^|[\s(])(\/(?:servicios|proyectos|blog|sobre-mi|desarrollo-de-software-venezuela)[\w\-/]*)/g,
+        '$1<a href="$2">$2</a>');
+    return html
+      .split(/\n{2,}/)
+      .map((block) => `<p>${block.replace(/^[-*] /gm, '• ').replace(/\n/g, '<br>')}</p>`)
+      .join('');
+  }
+
+  function splitHandoff(text: string): { visible: string; summary: string | null } {
+    const i = text.indexOf(MARKER);
+    if (i === -1) {
+      // Mientras llega el texto, no mostrar una marca a medio escribir
+      const partial = text.lastIndexOf('[[');
+      return { visible: partial !== -1 && MARKER.startsWith(text.slice(partial)) ? text.slice(0, partial) : text, summary: null };
+    }
+    const summary = text.slice(i + MARKER.length).trim().split('\n')[0].trim();
+    return { visible: text.slice(0, i).trim(), summary: summary || null };
+  }
+
+  function init() {
+    const launcher = document.querySelector<HTMLButtonElement>('.chat-launcher');
+    const panel = document.querySelector<HTMLElement>('#chat-panel');
+    if (!launcher || !panel || launcher.dataset.ready) return;
+    launcher.dataset.ready = 'true';
+
+    const list = panel.querySelector<HTMLElement>('.chat-messages')!;
+    const suggestions = panel.querySelector<HTMLElement>('.chat-suggestions')!;
+    const form = panel.querySelector<HTMLFormElement>('.chat-form')!;
+    const input = panel.querySelector<HTMLTextAreaElement>('#chat-input')!;
+    const send = panel.querySelector<HTMLButtonElement>('.chat-send')!;
+    const close = panel.querySelector<HTMLButtonElement>('.chat-close')!;
+
+    const state = load();
+    let busy = false;
+
+    // Visible tras pasar el botón del hero en la portada; siempre en el resto
+    const heroButton = document.querySelector('.hero-section .contact-btn');
+    if (!heroButton) launcher.classList.add('visible');
+    else {
+      new IntersectionObserver((entries) => {
+        entries.forEach((e) => launcher.classList.toggle('visible', !e.isIntersecting));
+      }, { rootMargin: '-50px 0px 0px 0px' }).observe(heroButton);
+    }
+
+    function addBubble(role: Msg['role'], text: string): HTMLElement {
+      const el = document.createElement('div');
+      el.className = `chat-msg chat-msg-${role}`;
+      if (role === 'user') el.textContent = text;
+      else el.innerHTML = format(text);
+      list.appendChild(el);
+      return el;
+    }
+
+    function addHandoff(summary: string) {
+      const a = document.createElement('a');
+      a.className = 'chat-handoff';
+      a.href = whatsappLink(summary);
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.dataset.channel = 'chat';
+      a.textContent = 'Enviar resumen a Darwin por WhatsApp →';
+      list.appendChild(a);
+    }
+
+    function renderModel(text: string) {
+      const { visible, summary } = splitHandoff(text);
+      addBubble('model', visible);
+      if (summary) addHandoff(summary);
+    }
+
+    function render() {
+      list.innerHTML = '';
+      addBubble('model', GREETING);
+      for (const m of state.messages) {
+        if (m.role === 'user') addBubble('user', m.text);
+        else renderModel(m.text);
+      }
+      suggestions.hidden = state.messages.length > 0;
+      const turns = state.messages.filter((m) => m.role === 'user').length;
+      if (turns >= MAX_TURNS) {
+        input.disabled = true;
+        send.disabled = true;
+        input.placeholder = 'Para seguir, escríbele a Darwin por WhatsApp.';
+      }
+      list.scrollTop = list.scrollHeight;
+    }
+
+    function open() {
+      panel!.hidden = false;
+      launcher!.setAttribute('aria-expanded', 'true');
+      render();
+      input.focus();
+      if (!state.opened) {
+        state.opened = true;
+        save(state);
+        track('chat_open');
+      }
+    }
+
+    function hide() {
+      panel!.hidden = true;
+      launcher!.setAttribute('aria-expanded', 'false');
+      launcher!.focus();
+    }
+
+    async function ask(text: string) {
+      if (busy || !text.trim()) return;
+      busy = true;
+      send.disabled = true;
+      state.messages.push({ role: 'user', text: text.trim() });
+      save(state);
+      suggestions.hidden = true;
+      addBubble('user', text.trim());
+      const typing = document.createElement('div');
+      typing.className = 'chat-typing';
+      typing.textContent = 'Escribiendo…';
+      list.appendChild(typing);
+      list.scrollTop = list.scrollHeight;
+      track('chat_message', { turn: state.messages.filter((m) => m.role === 'user').length });
+
+      let reply = '';
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: state.messages }),
+        });
+        if (!res.ok || !res.body) {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(data.error || 'No pude responder ahora.');
+        }
+        typing.remove();
+        const bubble = addBubble('model', '');
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          reply += decoder.decode(value, { stream: true });
+          bubble.innerHTML = format(splitHandoff(reply).visible);
+          list.scrollTop = list.scrollHeight;
+        }
+        if (!reply.trim()) throw new Error('No pude responder ahora.');
+        state.messages.push({ role: 'model', text: reply });
+        save(state);
+        render();
+        if (splitHandoff(reply).summary) track('chat_handoff_offer');
+      } catch (error) {
+        typing.remove();
+        const message = error instanceof Error ? error.message : 'No pude responder ahora.';
+        // Se quita el mensaje del visitante para que pueda reintentar
+        state.messages.pop();
+        save(state);
+        render();
+        const el = addBubble('model', `${message} Si prefieres, escríbele directo a Darwin por WhatsApp.`);
+        el.classList.add('chat-error');
+        input.value = text;
+      } finally {
+        busy = false;
+        if (!input.disabled) send.disabled = false;
+        input.focus();
+      }
+    }
+
+    launcher.addEventListener('click', () => (panel.hidden ? open() : hide()));
+    close.addEventListener('click', hide);
+    panel.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') hide();
+    });
+    suggestions.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-suggestion]');
+      if (btn) ask(btn.dataset.suggestion!);
+    });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = input.value;
+      input.value = '';
+      input.style.height = '';
+      ask(text);
+    });
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        form.requestSubmit();
+      }
+    });
+    input.addEventListener('input', () => {
+      input.style.height = 'auto';
+      input.style.height = `${Math.min(input.scrollHeight, 120)}px`;
+    });
+
+    // Si el visitante navegó con el chat abierto, reabrirlo en la página nueva
+    if (sessionStorage.getItem(STORAGE_KEY + '_open') === '1') open();
+    window.addEventListener('pagehide', () => {
+      sessionStorage.setItem(STORAGE_KEY + '_open', panel.hidden ? '0' : '1');
+    });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+</script>

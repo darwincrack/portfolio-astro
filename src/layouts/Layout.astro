@@ -71,6 +71,7 @@ const optimizedTitle = optimizeTitle(title);
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
 import ContactMenu from '../components/ContactMenu.astro';
+import ChatWidget from '../components/ChatWidget.astro';
 import { GOOGLE_PROFILE_URL } from '../data/contact';
 
 ---
@@ -316,7 +317,9 @@ import { GOOGLE_PROFILE_URL } from '../data/contact';
     var link = event.target.closest && event.target.closest('a[href]');
     if (!link) return;
     var href = link.getAttribute('href');
-    var channel = /wa\.me|whatsapp/.test(href) ? 'whatsapp'
+    // data-channel distingue el origen, p. ej. el resumen que arma el asistente
+    var channel = link.dataset.channel ? link.dataset.channel
+      : /wa\.me|whatsapp/.test(href) ? 'whatsapp'
       : /calendly\.com/.test(href) ? 'calendly'
       : href.indexOf('mailto:') === 0 ? 'email'
       : href.indexOf('tel:') === 0 ? 'phone'
@@ -353,5 +356,6 @@ import { GOOGLE_PROFILE_URL } from '../data/contact';
     <slot />
     <Footer />
     <ContactMenu />
+    <ChatWidget />
   </body>
 </html>
