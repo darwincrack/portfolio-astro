@@ -254,6 +254,7 @@ import { WHATSAPP_URL } from '../data/contact';
     flex: 1;
     resize: none;
     max-height: 120px;
+    overflow-y: hidden;
     border: 1px solid var(--secondary-bg);
     border-radius: 12px;
     padding: 0.55rem 0.75rem;
@@ -368,16 +369,21 @@ import { WHATSAPP_URL } from '../data/contact';
 
   // Formato mínimo: negrita, listas cortas y enlaces a páginas del sitio o a Calendly.
   function format(text: string): string {
+    const link = (href: string, label: string) =>
+      href.startsWith('https://')
+        ? `<a href="${href}" target="_blank" rel="noopener noreferrer">${label}</a>`
+        : `<a href="${href}">${label}</a>`;
+    // Una sola pasada: [texto](enlace), Calendly suelto o una ruta del sitio.
+    // Así un enlace ya convertido no se vuelve a procesar.
+    const LINKS =
+      /\[([^\]]+)\]\((\/[\w\-/#]*|https:\/\/calendly\.com\/[\w\-/]+)\)|(https:\/\/calendly\.com\/[\w\-/]+)|(^|[\s(])(\/(?:servicios|proyectos|blog|sobre-mi|desarrollo-de-software-venezuela)[\w\-/]*)/gm;
     const html = escapeHtml(text)
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-      // [texto](/ruta) o [texto](https://calendly.com/…)
-      .replace(/\[([^\]]+)\]\((\/[\w\-/#]*|https:\/\/calendly\.com\/[\w\-/]+)\)/g, (_m, label, href) =>
-        href.startsWith('https://')
-          ? `<a href="${href}" target="_blank" rel="noopener noreferrer">${label}</a>`
-          : `<a href="${href}">${label}</a>`)
-      .replace(/(https:\/\/calendly\.com\/[\w\-/]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>')
-      .replace(/(^|[\s(])(\/(?:servicios|proyectos|blog|sobre-mi|desarrollo-de-software-venezuela)[\w\-/]*)/g,
-        '$1<a href="$2">$2</a>');
+      .replace(LINKS, (_m, label, href, bareUrl, before, path) => {
+        if (href) return link(href, label);
+        if (bareUrl) return link(bareUrl, 'Agendar la llamada de 15 minutos');
+        return `${before}${link(path, path)}`;
+      });
     return html
       .split(/\n{2,}/)
       .map((block) => `<p>${block.replace(/^[-*] /gm, '• ').replace(/\n/g, '<br>')}</p>`)
@@ -554,6 +560,7 @@ import { WHATSAPP_URL } from '../data/contact';
       const text = input.value;
       input.value = '';
       input.style.height = '';
+      input.style.overflowY = '';
       ask(text);
     });
     input.addEventListener('keydown', (e) => {
@@ -562,10 +569,15 @@ import { WHATSAPP_URL } from '../data/contact';
         form.requestSubmit();
       }
     });
-    input.addEventListener('input', () => {
+    // Crece con el texto; solo muestra barra si pasa del máximo.
+    // scrollHeight no incluye el borde: se suma para que no aparezca una barra de más.
+    const resizeInput = () => {
       input.style.height = 'auto';
-      input.style.height = `${Math.min(input.scrollHeight, 120)}px`;
-    });
+      const full = input.scrollHeight + (input.offsetHeight - input.clientHeight);
+      input.style.height = `${Math.min(full, 120)}px`;
+      input.style.overflowY = full > 120 ? 'auto' : 'hidden';
+    };
+    input.addEventListener('input', resizeInput);
 
     // Si el visitante navegó con el chat abierto, reabrirlo en la página nueva
     if (sessionStorage.getItem(STORAGE_KEY + '_open') === '1') open();
