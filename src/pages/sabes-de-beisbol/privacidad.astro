@@ -1,0 +1,339 @@
+---
+export const prerender = true;
+
+const title = 'Política de Privacidad — ¿Sabes de Béisbol?';
+const description =
+  'Política de privacidad de ¿Sabes de Béisbol?, la trivia de la pelota criolla. Sin registro, sin publicidad y sin venta de datos: el progreso se guarda en el teléfono.';
+const canonical = 'https://darwincd.com/sabes-de-beisbol/privacidad/';
+const email = 'contacto@darwincd.com';
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+  </head>
+  <body>
+    <main>
+      <h1>Política de Privacidad — ¿Sabes de Béisbol?</h1>
+      <p class="meta">
+        <strong>Última actualización:</strong> 30 de octubre de 2026<br />
+        <strong>Vigente desde:</strong> 30 de octubre de 2026
+      </p>
+
+      <p class="summary">
+        <strong>En resumen:</strong> ¿Sabes de Béisbol? es un juego de trivia. No pedimos registro,
+        correo ni contraseña, no mostramos publicidad y no vendemos datos. Tu progreso se guarda en
+        tu teléfono. Si el ranking en línea está activo, solo se envía tu apodo, tu puntaje y el
+        identificador anónimo del juego.
+      </p>
+
+      <h2>1. Quién es el responsable</h2>
+      <p>
+        La aplicación <strong>¿Sabes de Béisbol?</strong> (en adelante, «la app») es desarrollada y
+        publicada por <strong>Darwinc Dev</strong> (en adelante, «nosotros»).
+      </p>
+      <p>Contacto para cualquier tema de privacidad: <a href={`mailto:${email}`}><strong>{email}</strong></a></p>
+
+      <h2>2. Qué datos usa la app</h2>
+
+      <h3>2.1 Datos que se guardan solo en tu teléfono</h3>
+      <p>
+        La app guarda tu progreso en el almacenamiento local del dispositivo (AsyncStorage). Esa
+        información no sale del teléfono salvo lo indicado en el punto 2.2. Incluye:
+      </p>
+      <ul>
+        <li>
+          El <strong>apodo</strong> que escribes al empezar (puede ser un nombre inventado; no es
+          obligatorio usar tu nombre real).
+        </li>
+        <li>El <strong>equipo de la LVBP</strong> que eliges (opcional).</li>
+        <li>
+          Tu <strong>progreso de juego</strong>: carreras, rango, estadísticas, racha de días,
+          misiones, sobres y barajitas del álbum.
+        </li>
+        <li>Tus <strong>preferencias</strong>, como el interruptor de recordatorios.</li>
+        <li>Los <strong>reportes de preguntas</strong> que decidas enviar desde la app.</li>
+      </ul>
+      <p>
+        Puedes borrar todo esto en cualquier momento desde <em>Perfil → Reiniciar carrera</em> o
+        desinstalando la app.
+      </p>
+
+      <h3>2.2 Datos que se envían a nuestro servidor (ranking en línea)</h3>
+      <p>
+        Cuando el ranking en línea está habilitado, la app envía a nuestro proveedor de base de
+        datos (Supabase) únicamente:
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Dato</th>
+              <th scope="col">Para qué</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Apodo elegido por ti</td>
+              <td>Mostrarlo en la tabla de posiciones</td>
+            </tr>
+            <tr>
+              <td>Puntaje / carreras y categoría jugada</td>
+              <td>Calcular el ranking</td>
+            </tr>
+            <tr>
+              <td>Tiempo empleado y fecha del envío</td>
+              <td>Ordenar y depurar el ranking</td>
+            </tr>
+            <tr>
+              <td>Identificador técnico anónimo generado en tu teléfono</td>
+              <td>Asociar tus puntajes sin cuentas ni contraseñas</td>
+            </tr>
+            <tr>
+              <td>Texto de la pregunta y motivo, si reportas un error</td>
+              <td>Corregir el banco de preguntas</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        <strong>No solicitamos ni almacenamos</strong> tu correo electrónico, número de teléfono,
+        dirección, ubicación, contactos, fotos, archivos ni datos de pago. La app no tiene compras
+        dentro de la aplicación.
+      </p>
+
+      <h3>2.3 Lo que la app NO hace</h3>
+      <ul>
+        <li>No crea cuentas de usuario ni pide inicio de sesión.</li>
+        <li>No usa herramientas de analítica, perfilado publicitario ni identificadores de publicidad.</li>
+        <li>No muestra anuncios ni comparte datos con redes publicitarias.</li>
+        <li>No accede a tu ubicación, cámara, contactos, calendario ni archivos personales.</li>
+        <li>No graba audio. Solo reproduce sonidos y música del propio juego.</li>
+      </ul>
+
+      <h2>3. Permisos del teléfono y para qué se usan</h2>
+      <ul>
+        <li>
+          <strong>Internet:</strong> para consultar el banco de preguntas y el ranking en línea (si
+          está activo).
+        </li>
+        <li>
+          <strong>Notificaciones (opcional):</strong> para enviarte recordatorios locales del juego
+          del día. Puedes desactivarlos en la app o en los ajustes de Android.
+        </li>
+        <li>
+          <strong>Audio / reproducción de sonido:</strong> para los efectos y la música del juego.
+          No se graba ni se transmite sonido del micrófono.
+        </li>
+        <li>
+          <strong>Vibración (háptica):</strong> para la respuesta táctil al abrir sobres y
+          responder.
+        </li>
+      </ul>
+
+      <h2>4. Para qué usamos los datos</h2>
+      <ul>
+        <li>Guardar y mostrarte tu progreso y tus estadísticas.</li>
+        <li>Mostrar la tabla de posiciones del ranking nacional.</li>
+        <li>Corregir errores del banco de preguntas cuando los reportas.</li>
+        <li>Enviarte recordatorios del juego, si los activas.</li>
+        <li>
+          Mantener la app funcionando y prevenir abusos del ranking (por ejemplo, puntajes
+          inválidos).
+        </li>
+      </ul>
+      <p>No usamos tus datos para publicidad ni para crear perfiles comerciales.</p>
+
+      <h2>5. Con quién se comparten</h2>
+      <ul>
+        <li>
+          <strong>Supabase</strong> (proveedor de base de datos y alojamiento): guarda los puntajes,
+          reportes de preguntas y el banco de preguntas. Actúa como encargado del tratamiento por
+          nuestra cuenta.
+        </li>
+        <li>
+          <strong>Google Play:</strong> la distribución de la app y los servicios propios de la
+          tienda (por ejemplo, informes de fallos) se rigen por la política de privacidad de Google.
+        </li>
+        <li><strong>Autoridades:</strong> solo si existe una obligación legal.</li>
+      </ul>
+      <p>No vendemos, alquilamos ni cedemos tus datos a terceros con fines comerciales.</p>
+
+      <h2>6. Cuánto tiempo se conservan</h2>
+      <ul>
+        <li>
+          Los datos locales permanecen en tu teléfono hasta que uses «Reiniciar carrera» o
+          desinstales la app.
+        </li>
+        <li>
+          Los puntajes del ranking se conservan mientras el ranking esté activo. Puedes pedir su
+          eliminación escribiendo a <a href={`mailto:${email}`}><strong>{email}</strong></a>.
+        </li>
+        <li>
+          Los reportes de preguntas se conservan hasta que la pregunta se corrige o se retira del
+          banco.
+        </li>
+      </ul>
+
+      <h2>7. Seguridad</h2>
+      <p>
+        Las comunicaciones con nuestros servidores usan HTTPS. El acceso a la base de datos está
+        restringido y se limita a lo necesario para el funcionamiento del ranking. Ningún sistema
+        es 100 % infalible, pero aplicamos medidas razonables para proteger la información.
+      </p>
+
+      <h2>8. Menores de edad</h2>
+      <p>
+        La app es apta para todo público y no está dirigida específicamente a menores de 13 años.
+        No recopilamos a sabiendas datos personales de menores. Como el juego no pide nombre real,
+        correo ni ubicación, el riesgo es mínimo. Si un padre o representante cree que un menor
+        envió datos al ranking, puede solicitar su eliminación en
+        <a href={`mailto:${email}`}><strong>{email}</strong></a>.
+      </p>
+
+      <h2>9. Tus derechos y cómo eliminar tus datos</h2>
+      <ul>
+        <li>
+          <strong>Borrar todo lo local:</strong> abre la app y ve a <em>Perfil → Reiniciar carrera</em>;
+          o desinstala la app.
+        </li>
+        <li>
+          <strong>Borrar tu apodo y tus puntajes del ranking:</strong> escríbenos a
+          <a href={`mailto:${email}`}><strong>{email}</strong></a> indicando el apodo exacto que
+          usaste. Eliminaremos los registros en un plazo máximo de 30 días.
+        </li>
+        <li>
+          <strong>Desactivar notificaciones:</strong> en <em>Perfil</em> o en los ajustes de Android.
+        </li>
+        <li>
+          También puedes solicitarnos acceso, corrección o portabilidad de los datos que tengamos en
+          el servidor.
+        </li>
+      </ul>
+
+      <h2>10. Enlaces a otros sitios</h2>
+      <p>
+        La app puede abrir enlaces externos (por ejemplo, para compartir un reto por WhatsApp). Esos
+        servicios tienen sus propias políticas de privacidad, que no controlamos.
+      </p>
+
+      <h2>11. Cambios a esta política</h2>
+      <p>
+        Si cambiamos esta política, publicaremos la nueva versión en esta misma dirección y
+        actualizaremos la fecha del encabezado. Los cambios importantes se avisarán dentro de la app
+        o en la ficha de Google Play.
+      </p>
+
+      <h2>12. Contacto</h2>
+      <ul>
+        <li>Correo: <a href={`mailto:${email}`}><strong>{email}</strong></a></li>
+        <li>Desarrollador: Darwinc Dev</li>
+        <li>País: Venezuela</li>
+      </ul>
+
+      <hr />
+      <p class="footer">© 2026 Darwinc Dev · ¿Sabes de Béisbol? — La trivia de la pelota criolla ⚾</p>
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  body {
+    margin: 0;
+    background: #f7f1e6;
+    color: #2a241c;
+    font-family: Georgia, 'Noto Serif', serif;
+    line-height: 1.5;
+  }
+
+  main {
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 3rem;
+  }
+
+  h1,
+  h2,
+  h3 {
+    line-height: 1.2;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    margin-top: 2rem;
+  }
+
+  h3 {
+    font-size: 1.08rem;
+    margin-top: 1.5rem;
+  }
+
+  p,
+  li,
+  td,
+  th {
+    font-size: 1.05rem;
+  }
+
+  .meta {
+    color: #5c5348;
+  }
+
+  .summary {
+    padding: 0.85rem 1rem;
+    border-left: 4px solid #163044;
+    background: #efe6d6;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.5rem 0 1rem;
+  }
+
+  th,
+  td {
+    padding: 0.5rem 0.65rem;
+    border: 1px solid #d8ccb8;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    background: #efe6d6;
+  }
+
+  hr {
+    margin-top: 2.5rem;
+    border: none;
+    border-top: 1px solid #d8ccb8;
+  }
+
+  .footer {
+    color: #5c5348;
+    font-size: 0.95rem;
+  }
+
+  a {
+    color: #163044;
+  }
+</style>
