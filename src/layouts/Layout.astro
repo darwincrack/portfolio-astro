@@ -72,7 +72,7 @@ import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
 import ContactMenu from '../components/ContactMenu.astro';
 import ChatWidget from '../components/ChatWidget.astro';
-import { GOOGLE_PROFILE_URL } from '../data/contact';
+import { GOOGLE_PROFILE_URL, SOCIAL_LINKS } from '../data/contact';
 
 ---
 
@@ -165,12 +165,7 @@ import { GOOGLE_PROFILE_URL } from '../data/contact';
       "url": "https://darwincd.com",
       "jobTitle": "Desarrollador Web Full Stack",
       "description": "Desarrollador web freelance en Venezuela. Webs, sistemas y aplicaciones móviles a medida para negocios en Venezuela, Latinoamérica y España.",
-      "sameAs": [
-        "https://github.com/darwincrack/",
-        "https://www.linkedin.com/in/darwincrack/",
-        "https://www.instagram.com/darwinc.dev/",
-        GOOGLE_PROFILE_URL
-      ],
+      "sameAs": [...SOCIAL_LINKS.map((link) => link.href), GOOGLE_PROFILE_URL],
       "knowsAbout": [
         "Desarrollo Web",
         "PHP",
@@ -198,12 +193,7 @@ import { GOOGLE_PROFILE_URL } from '../data/contact';
       "url": "https://darwincd.com",
       "logo": "https://darwincd.com/logodc.jpg?v=2",
       "description": "Desarrollador web freelance en Venezuela. Webs, sistemas y aplicaciones móviles a medida para negocios en Venezuela, Latinoamérica y España.",
-      "sameAs": [
-        "https://github.com/darwincrack/",
-        "https://www.linkedin.com/in/darwincrack/",
-        "https://www.instagram.com/darwinc.dev/",
-        GOOGLE_PROFILE_URL
-      ],
+      "sameAs": [...SOCIAL_LINKS.map((link) => link.href), GOOGLE_PROFILE_URL],
       "contactPoint": {
         "@type": "ContactPoint",
         "email": "contacto@darwincd.com",

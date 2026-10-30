@@ -1,6 +1,6 @@
 ---
 import Icon from './Icon.astro';
-import { GOOGLE_PROFILE_URL, WHATSAPP_URL } from '../data/contact';
+import { GOOGLE_PROFILE_URL, WHATSAPP_URL, SOCIAL_LINKS } from '../data/contact';
 import LogoMark from './LogoMark.astro';
 
 const navLinks = [
@@ -11,11 +11,7 @@ const navLinks = [
   { href: "/desarrollo-de-software-venezuela", label: "Desarrollo de software en Venezuela" }
 ];
 
-const socialLinks = [
-  { href: "https://github.com/darwincrack/", icon: "fab fa-github", label: "GitHub" },
-  { href: "https://www.linkedin.com/in/darwincrack/", icon: "fab fa-linkedin", label: "LinkedIn" },
-  { href: "https://www.instagram.com/darwinc.dev/", icon: "fab fa-instagram", label: "Instagram" }
-];
+const socialLinks = SOCIAL_LINKS;
 ---
 
 <footer class="site-footer" role="contentinfo" aria-label="Pie de página">

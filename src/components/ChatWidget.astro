@@ -336,7 +336,21 @@ import { WHATSAPP_URL } from '../data/contact';
 </style>
 
 <script>
-  import { whatsappLink } from '../data/contact';
+  import { whatsappLink, SOCIAL_LINKS, GOOGLE_PROFILE_URL, WORKANA_URL } from '../data/contact';
+
+  const CALENDLY_URL = 'https://calendly.com/darwinc-dev/consulta-15-min';
+  // Enlaces externos que el chat convierte en enlace. Cualquier otro queda como texto,
+  // por si alguien consigue que el modelo escriba una dirección que no es de Darwin.
+  const EXTERNAL_LINKS = [
+    { href: CALENDLY_URL, label: 'Agendar la llamada de 15 minutos' },
+    { href: GOOGLE_PROFILE_URL, label: 'Reseñas en Google' },
+    { href: WORKANA_URL, label: 'Reseñas en Workana' },
+    ...SOCIAL_LINKS.map((l) => ({ href: l.href, label: l.href.replace(/^https:\/\/(www\.)?/, '').replace(/\/$/, '') })),
+  ];
+  const knownLink = (url: string) => {
+    const clean = url.replace(/\/$/, '');
+    return EXTERNAL_LINKS.find((l) => l.href.replace(/\/$/, '') === clean);
+  };
 
   const STORAGE_KEY = 'dc_chat';
   const MARKER = '[[WHATSAPP]]';
@@ -375,15 +389,22 @@ import { WHATSAPP_URL } from '../data/contact';
       href.startsWith('https://')
         ? `<a href="${href}" target="_blank" rel="noopener noreferrer">${label}</a>`
         : `<a href="${href}">${label}</a>`;
-    // Una sola pasada: [texto](enlace), Calendly suelto o una ruta del sitio.
+    // Una sola pasada: [texto](enlace), una URL suelta o una ruta del sitio.
     // Así un enlace ya convertido no se vuelve a procesar.
     const LINKS =
-      /\[([^\]]+)\]\((\/[\w\-/#]*|https:\/\/calendly\.com\/[\w\-/]+)\)|(https:\/\/calendly\.com\/[\w\-/]+)|(^|[\s(])(\/(?:servicios|proyectos|blog|sobre-mi|desarrollo-de-software-venezuela)[\w\-/]*)/gm;
+      /\[([^\]]+)\]\((\/[\w\-/#]*|https:\/\/[^\s)]+)\)|(https:\/\/[^\s<)]+[^\s<).,;:!?])|(^|[\s(])(\/(?:servicios|proyectos|blog|sobre-mi|desarrollo-de-software-venezuela)[\w\-/]*)/gm;
     const html = escapeHtml(text)
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
       .replace(LINKS, (_m, label, href, bareUrl, before, path) => {
-        if (href) return link(href, label);
-        if (bareUrl) return link(bareUrl, 'Agendar la llamada de 15 minutos');
+        if (href) {
+          if (href.startsWith('/')) return link(href, label);
+          const known = knownLink(href);
+          return known ? link(known.href, label) : label;
+        }
+        if (bareUrl) {
+          const known = knownLink(bareUrl);
+          return known ? link(known.href, known.label) : bareUrl;
+        }
         return `${before}${link(path, path)}`;
       });
     return html
