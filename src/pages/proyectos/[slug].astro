@@ -3,6 +3,7 @@ export const prerender = true;
 
 import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
+import Icon from '../../components/Icon.astro';
 import { caseStudies } from '../../data/caseStudies';
 import { WHATSAPP_URL } from '../../data/contact';
 import meridianoImage from '../../images/project5.avif';
@@ -52,6 +53,7 @@ if (!study) {
 }
 
 const image = images[study.slug];
+const isPlayApp = study.link.includes('play.google.com');
 const extras = extraImages[study.slug] ?? [];
 const isPortrait = image ? image.height > image.width * 0.9 : false;
 const siteUrl = 'https://darwincd.com';
@@ -87,6 +89,9 @@ const caseSchema = {
       </nav>
 
       <h1>{study.title}</h1>
+      {isPlayApp && (
+        <p class="store-label"><Icon name="google-play" /> App para Android · Google Play</p>
+      )}
       <p class="summary">{study.summary}</p>
       <p class="service-link">
         <a href={study.serviceHref}>{study.serviceLabel}</a>
@@ -145,7 +150,13 @@ const caseSchema = {
           <button type="button" class="btn-primary btn-try" data-open-chat>Probar el asistente</button>
         )}
         {study.link && (
-          <a href={study.link} class="btn-primary" target="_blank" rel="noopener noreferrer">{study.link.includes('play.google.com') ? 'Ver en Google Play' : 'Ver el sitio'}</a>
+          isPlayApp ? (
+            <a href={study.link} class="play-badge" target="_blank" rel="noopener noreferrer" aria-label="Descargar en Google Play">
+              <img src="/images/badges/google-play-es.png" alt="Disponible en Google Play" width="194" height="75" loading="lazy" />
+            </a>
+          ) : (
+            <a href={study.link} class="btn-primary" target="_blank" rel="noopener noreferrer">Ver el sitio</a>
+          )
         )}
         {study.github && (
           <a href={study.github} class="btn-secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
@@ -274,7 +285,32 @@ const caseSchema = {
   .actions {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 0.75rem;
+  }
+
+  /* Distintivo oficial de Google Play (se usa tal cual, con su margen transparente) */
+  .play-badge img {
+    display: block;
+    height: 64px;
+    width: auto;
+    margin: -8px -6px;
+  }
+
+  .store-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0 0 0.75rem;
+    padding: 0.3rem 0.8rem;
+    border: 1px solid var(--secondary-bg);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .store-label :global(svg) {
+    fill: #34a853;
   }
 
   .btn-primary,
