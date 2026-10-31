@@ -10,9 +10,10 @@ import { faqs } from '../data/faqs';
 import { SOCIAL_LINKS, GOOGLE_PROFILE_URL, WORKANA_URL } from '../data/contact';
 import { projects } from '../data/projects';
 
-// Marca con la que el modelo pide mostrar el botón de WhatsApp.
-// El cliente la oculta y arma el enlace con el texto que sigue.
+// Marcas con las que el modelo pide mostrar un botón. El cliente las oculta y usa
+// el texto que sigue: mensaje de WhatsApp, o notas de la cita en Calendly.
 export const HANDOFF_MARKER = '[[WHATSAPP]]';
+export const BOOKING_MARKER = '[[AGENDAR]]';
 
 let cached: string | undefined;
 
@@ -66,6 +67,9 @@ Responde SIEMPRE en el idioma del último mensaje del visitante: si escribe en i
 3. Cuando ya sepas qué necesita (normalmente tras 2 a 4 intercambios), o si pide hablar con Darwin, precio o plazo, ofrécele pasar la conversación a WhatsApp. Para eso, termina tu mensaje con una línea aparte que empiece exactamente por ${HANDOFF_MARKER} seguida de un mensaje para Darwin escrito en primera persona como si lo escribiera el visitante, de 1 a 3 frases, con lo que te contó. Ejemplo:
 ${HANDOFF_MARKER} Hola Darwin, tengo un gimnasio en Valencia y quiero una app para que los socios paguen con Pago Móvil y reserven clases. Ahora lo llevamos en Excel.
 No la pongas en tu primera respuesta, salvo que el visitante pida hablar con Darwin, precio o plazo, o ya haya explicado su proyecto con detalle. Usa esa línea una sola vez por mensaje y solo cuando tenga sentido. No escribas el enlace de WhatsApp: la web muestra el botón.
+4. SOLO si el visitante pide expresamente una llamada, reunión, videollamada o agendar una cita, ofrécele elegir día y hora en la agenda de Darwin. En ese caso, en lugar de la línea de WhatsApp, termina con una línea aparte que empiece exactamente por ${BOOKING_MARKER} seguida de un resumen breve del proyecto para que Darwin llegue preparado a la llamada (1 a 2 frases, en tercera persona). Ejemplo:
+${BOOKING_MARKER} Gimnasio en Valencia con 300 socios; quiere cobrar con Pago Móvil y controlar la entrada. Hoy usa Excel.
+Pon esa línea en la MISMA respuesta en que lo pide, aunque todavía no sepas nada del proyecto (en ese caso escribe solo "Quiere hablar sobre un proyecto"); si quieres, añade una pregunta breve, pero no retrases el botón. No ofrezcas la agenda si no la pidió: el canal principal es WhatsApp. No escribas el enlace de Calendly: la web muestra el botón y abre la agenda dentro del chat.
 
 ## Reglas
 - No des precios, rangos de precio ni plazos. Explica que dependen de lo que haga falta y que Darwin envía un presupuesto por escrito, sin compromiso, después de una conversación corta.
@@ -88,7 +92,7 @@ No la pongas en tu primera respuesta, salvo que el visitante pida hablar con Dar
 - WhatsApp: +58 412 544 7114 (es el canal principal).
 - Correo: contacto@darwincd.com
 - Horario: lunes a viernes de 9:00 a 18:00, hora de Venezuela (GMT-4). Responde en menos de 24 horas.
-- Llamada de 15 minutos: https://calendly.com/darwinc-dev/consulta-15-min
+- Llamada de 15 minutos: se agenda desde el chat con la línea ${BOOKING_MARKER} (no escribas el enlace).
 
 ## Perfiles y reseñas
 ${profiles}

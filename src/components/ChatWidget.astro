@@ -247,6 +247,55 @@ const projectLinks = projects
     font-size: 0.85rem;
   }
 
+  .chat-messages :global(.chat-booking) {
+    border: none;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    font: inherit;
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+  }
+
+  /* Agenda de Calendly dentro del panel: ocupa el sitio de la conversación */
+  .chat-panel.calendar-open {
+    width: min(480px, calc(100vw - 24px));
+    height: min(760px, calc(100vh - 40px));
+  }
+
+  .chat-panel.calendar-open .chat-messages,
+  .chat-panel.calendar-open .chat-suggestions,
+  .chat-panel.calendar-open .chat-form,
+  .chat-panel.calendar-open .chat-note {
+    display: none;
+  }
+
+  .chat-panel :global(.chat-calendar) {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .chat-panel :global(.chat-calendar-back) {
+    align-self: flex-start;
+    margin: 0.5rem 0.75rem;
+    padding: 0.35rem 0.6rem;
+    border: none;
+    border-radius: 8px;
+    background: var(--secondary-bg);
+    color: var(--text);
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .chat-panel :global(.chat-calendar iframe) {
+    flex: 1;
+    width: 100%;
+    border: 0;
+  }
+
   .chat-suggestions {
     display: flex;
     flex-wrap: wrap;
@@ -354,6 +403,12 @@ const projectLinks = projects
       height: 88dvh;
       border-radius: 16px 16px 0 0;
     }
+
+    .chat-panel.calendar-open {
+      width: 100%;
+      height: 94vh;
+      height: 94dvh;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -398,6 +453,8 @@ const projectLinks = projects
 
   const STORAGE_KEY = 'dc_chat';
   const MARKER = '[[WHATSAPP]]';
+  const BOOKING_MARKER = '[[AGENDAR]]';
+  const MARKERS = [MARKER, BOOKING_MARKER];
   const MAX_TURNS = 12;
   const GREETING =
     'Hola, soy el asistente de Darwin. Cuéntame qué quieres resolver (una web, un sistema, una app…) y te ayudo a aclararlo. Cuando lo tengas, se lo paso a Darwin por WhatsApp.';
@@ -461,15 +518,29 @@ const projectLinks = projects
       .join('');
   }
 
-  function splitHandoff(text: string): { visible: string; summary: string | null } {
-    const i = text.indexOf(MARKER);
-    if (i === -1) {
+  type Split = { visible: string; summary: string | null; booking: string | null };
+
+  // Separa el texto visible de las marcas: [[WHATSAPP]] (mensaje para WhatsApp)
+  // y [[AGENDAR]] (notas para la cita en Calendly).
+  function splitHandoff(text: string): Split {
+    const hits = MARKERS.map((m) => text.indexOf(m)).filter((i) => i !== -1);
+    if (hits.length === 0) {
       // Mientras llega el texto, no mostrar una marca a medio escribir
       const partial = text.lastIndexOf('[[');
-      return { visible: partial !== -1 && MARKER.startsWith(text.slice(partial)) ? text.slice(0, partial) : text, summary: null };
+      const isMarkerStart = partial !== -1 && MARKERS.some((m) => m.startsWith(text.slice(partial)));
+      return { visible: isMarkerStart ? text.slice(0, partial) : text, summary: null, booking: null };
     }
-    const summary = text.slice(i + MARKER.length).trim().split('\n')[0].trim();
-    return { visible: text.slice(0, i).trim(), summary: summary || null };
+    const after = (marker: string) => {
+      const i = text.indexOf(marker);
+      if (i === -1) return null;
+      return text.slice(i + marker.length).trim().split('\n')[0].trim();
+    };
+    const booking = after(BOOKING_MARKER);
+    return {
+      visible: text.slice(0, Math.min(...hits)).trim(),
+      summary: after(MARKER) || null,
+      booking: booking === null ? null : booking || 'Quiere hablar sobre un proyecto',
+    };
   }
 
   function init() {
@@ -517,11 +588,76 @@ const projectLinks = projects
       list.appendChild(a);
     }
 
+    function addBooking(notes: string) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'chat-handoff chat-booking';
+      button.textContent = 'Elegir día y hora →';
+      button.addEventListener('click', () => openCalendar(notes));
+      list.appendChild(button);
+    }
+
     function renderModel(text: string) {
-      const { visible, summary } = splitHandoff(text);
+      const { visible, summary, booking } = splitHandoff(text);
       addBubble('model', visible);
+      if (booking) addBooking(booking);
       if (summary) addHandoff(summary);
     }
+
+    // Agenda de Calendly dentro del panel. Solo se carga cuando el visitante la pide,
+    // con el resumen de la conversación en las notas de la cita (primera pregunta: a1).
+    let calendar: HTMLElement | null = null;
+
+    function calendarUrl(notes: string): string {
+      const light = document.documentElement.getAttribute('data-theme') === 'light';
+      const params = new URLSearchParams({
+        embed_domain: location.hostname,
+        embed_type: 'Inline',
+        hide_gdpr_banner: '1',
+        a1: notes,
+        background_color: light ? 'ffffff' : '0f172a',
+        text_color: light ? '0f172a' : 'f8fafc',
+        primary_color: light ? '1d4ed8' : '0ea5e9',
+      });
+      return `${CALENDLY_URL}?${params}`;
+    }
+
+    function openCalendar(notes: string) {
+      closeCalendar();
+      calendar = document.createElement('div');
+      calendar.className = 'chat-calendar';
+      const back = document.createElement('button');
+      back.type = 'button';
+      back.className = 'chat-calendar-back';
+      back.textContent = '← Volver al chat';
+      back.addEventListener('click', closeCalendar);
+      const frame = document.createElement('iframe');
+      frame.src = calendarUrl(notes);
+      frame.title = 'Agenda de Darwin: elige día y hora para la llamada';
+      calendar.append(back, frame);
+      panel!.append(calendar);
+      panel!.classList.add('calendar-open');
+      track('chat_calendar_open');
+    }
+
+    function closeCalendar() {
+      calendar?.remove();
+      calendar = null;
+      panel!.classList.remove('calendar-open');
+    }
+
+    // Calendly avisa a la página cuando se confirma la cita
+    window.addEventListener('message', (e) => {
+      if (e.origin !== 'https://calendly.com' || e.data?.event !== 'calendly.event_scheduled') return;
+      track('contact_click', { channel: 'calendly_chat' });
+      state.messages.push({
+        role: 'model',
+        text: '¡Listo! Tu llamada con Darwin quedó agendada. Te llegará la confirmación por correo con el enlace de la videollamada. Si quieres, puedes seguir escribiéndome aquí.',
+      });
+      save(state);
+      closeCalendar();
+      render();
+    });
 
     function render() {
       list.innerHTML = '';
@@ -553,6 +689,7 @@ const projectLinks = projects
     }
 
     function hide() {
+      closeCalendar();
       panel!.hidden = true;
       launcher!.setAttribute('aria-expanded', 'false');
       launcher!.focus();
@@ -599,7 +736,9 @@ const projectLinks = projects
         state.messages.push({ role: 'model', text: reply });
         save(state);
         render();
-        if (splitHandoff(reply).summary) track('chat_handoff_offer');
+        const offered = splitHandoff(reply);
+        if (offered.summary) track('chat_handoff_offer');
+        if (offered.booking) track('chat_booking_offer');
       } catch (error) {
         typing.remove();
         const message = error instanceof Error ? error.message : 'No pude responder ahora.';
