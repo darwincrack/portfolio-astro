@@ -80,6 +80,12 @@ const covers = [
     image: 'project19.avif',
     position: 'northeast',
   },
+  {
+    slug: 'como-elegir-una-empresa-de-desarrollo-web-en-venezuela',
+    title: 'Cómo elegir una empresa de desarrollo web en Venezuela',
+    label: 'ANTES DE CONTRATAR · VENEZUELA',
+    image: 'poligono-app.jpg',
+  },
 ];
 
 const escape = (s) =>
