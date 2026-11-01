@@ -114,6 +114,20 @@ export const caseStudies: CaseStudy[] = [
     github: "",
     serviceHref: "/servicios/aplicaciones-moviles",
     serviceLabel: "Ver aplicaciones móviles"
+  },
+  {
+    slug: "gravity-painter",
+    title: "The Gravity Painter — juego de pintar inclinando el teléfono",
+    summary: "Juego propio publicado en Google Play: inclinas el teléfono para mover una gota de pintura y, al perder, tu dibujo se vuelve una foto.",
+    problem: "Un juego casual suele terminar en una pantalla de «perdiste». La idea era que cada partida dejara algo: un dibujo para guardar o compartir, y que se pudiera jugar sin explicaciones, solo inclinando el teléfono.",
+    solution: "La gota se mueve con el sensor de inclinación y deja un trazo por donde pasa. Cada puerta sube la racha y la dificultad: más esponjas, algunas en movimiento, y una salida más pequeña. Con la racha se desbloquean pinceles (purpurina, arcoíris y doble). Hay un reto del día igual para todos y, al perder, el dibujo se convierte en una foto con título.",
+    result: "Publicado en Google Play. Las obras se guardan en el teléfono, en «Mis obras», sin cuentas ni servidor propio. Los anuncios solo aparecen al perder o al volver a jugar, nunca fijos durante la partida.",
+    details: "La primera partida es de práctica: sin esponjas y con la salida grande, para aprender el movimiento. Pausa con un toque. Se guardan como máximo las últimas 40 obras. El sensor de inclinación solo mueve la gota y no se transmite. Anuncios de Google AdMob. Política de privacidad publicada en esta web.",
+    tags: ["Android", "Google Play", "Sensor de inclinación", "AdMob"],
+    link: "https://play.google.com/store/apps/details?id=com.gamegota.gravitypainter",
+    github: "",
+    serviceHref: "/servicios/aplicaciones-moviles",
+    serviceLabel: "Ver aplicaciones móviles"
   }
 ];
 

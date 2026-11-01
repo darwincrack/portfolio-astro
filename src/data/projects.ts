@@ -32,9 +32,23 @@ import asistenteIa from '../images/asistente-ia.jpg';
 import asistenteIaPanel from '../images/asistente-ia-panel.jpg';
 import estrellitas from '../images/estrellitas.jpg';
 import estrellitasAjustes from '../images/estrellitas-ajustes.jpg';
+import gravityPainter from '../images/gravity-painter.jpg';
+import gravityPainterPartida from '../images/gravity-painter-partida.jpg';
 import projectsupport1 from '../images/projectsupport1.avif';
 
 export const projects = [
+  {
+    title: "The Gravity Painter — juego de pintar inclinando el teléfono",
+    description: "Juego propio publicado en Google Play: inclinas el teléfono para mover una gota de pintura y, al perder, tu dibujo se vuelve una foto.",
+    detailedDescription: "Juego casual para Android publicado en Google Play. La gota se mueve con el sensor de inclinación y deja un trazo; cada puerta sube la racha y la dificultad, y con la racha se desbloquean pinceles. Reto del día igual para todos. Al perder, el dibujo se convierte en una foto con título para guardar o compartir. Sin cuentas ni servidor propio; anuncios de AdMob solo al perder o al volver a jugar.",
+    tags: ["Android", "Google Play", "Sensor de inclinación", "AdMob"],
+    link: "https://play.google.com/store/apps/details?id=com.gamegota.gravitypainter",
+    image: gravityPainter,
+    additionalImages: [gravityPainter, gravityPainterPartida],
+    priority: 0,
+    github: "",
+    type: "mobile"
+  },
   {
     title: "Estrellitas — juego para niños pequeños",
     description: "App propia publicada en Google Play para teléfono y Fire TV: figuras que hablan, tres niveles según la edad y sin anuncios ni internet.",
