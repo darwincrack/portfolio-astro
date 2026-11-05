@@ -1,0 +1,360 @@
+---
+import Icon from '../components/Icon.astro';
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+import { whatsappLink } from '../data/contact';
+
+const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.com/darwinc-dev/consulta-15-min';
+const WHATSAPP_CCS = whatsappLink('Hola Darwin, tengo un negocio en Caracas y necesito una web o un sistema.');
+const siteUrl = 'https://darwincd.com';
+const pageUrl = `${siteUrl}/desarrollo-web-caracas/`;
+
+const offer = [
+  {
+    title: "Páginas web para negocios",
+    text: "Webs rápidas, que se ven bien en el celular y están pensadas para que tus clientes te escriban.",
+    href: "/servicios/webs-y-sistemas"
+  },
+  {
+    title: "Sistemas a medida",
+    text: "Inventario, ventas, reportes, usuarios y permisos, adaptados a cómo trabaja tu negocio.",
+    href: "/servicios/webs-y-sistemas"
+  },
+  {
+    title: "Tiendas online con Pago Móvil",
+    text: "Tiendas que cobran con Pago Móvil y transferencia, además de pasarelas internacionales.",
+    href: "/blog/cobrar-con-pago-movil-en-una-tienda-online"
+  },
+  {
+    title: "Aplicaciones móviles",
+    text: "Apps para Android e iOS, y actualización de apps que se quedaron atrás.",
+    href: "/servicios/aplicaciones-moviles"
+  },
+  {
+    title: "Asistentes con IA",
+    text: "Asistentes para tu web o tu WhatsApp que responden con la información de tu negocio.",
+    href: "/servicios/asistentes-ia"
+  }
+];
+
+// Proyectos de clientes de Caracas
+const projects = [
+  {
+    title: "meridiano.net, 2001online y Revista Ronda",
+    text: "Dirección técnica y desarrollo de los medios de Bloque de Armas durante varios años. Esas plataformas superaban el millón de visitas mensuales, y el SEO y el rendimiento acompañaron un aumento del 200 % en tráfico orgánico.",
+    href: "/proyectos/meridiano-net"
+  },
+  {
+    title: "Cursos AB",
+    text: "Plataforma de cursos en línea (cursosab.com): presentación del curso, venta con PayPal y tarjeta, y área de alumno con acceso tras el pago.",
+    href: "/proyectos"
+  },
+  {
+    title: "Sistema de gestión de inventario",
+    text: "Sistema a medida para controlar el inventario de un negocio, hecho con Laravel y MySQL.",
+    href: "/proyectos"
+  }
+];
+
+const faqs = [
+  {
+    question: "¿Cuánto cuesta una página web en Caracas?",
+    answer: "Depende de lo que necesites: una web informativa no cuesta lo mismo que una tienda o un sistema con usuarios. Después de una conversación corta te envío un presupuesto por escrito, sin compromiso."
+  },
+  {
+    question: "¿Nos podemos reunir en persona?",
+    answer: "Sí. Me reúno con clientes en Caracas cuando hace falta. Si prefieres, también lo hablamos por WhatsApp o por videollamada."
+  },
+  {
+    question: "¿Cómo se paga?",
+    answer: "Con PayPal, Payoneer, Binance o AirTM. Si hace falta, también en bolívares."
+  },
+  {
+    question: "¿Trabajas también fuera de Caracas?",
+    answer: "Sí. Trabajo con negocios de toda Venezuela, de Latinoamérica y de España, en remoto."
+  },
+  {
+    question: "¿El código y los accesos son míos?",
+    answer: "Sí, siempre. Al terminar te entrego el código y los accesos al hosting, al dominio y a los paneles."
+  }
+];
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Darwin Cedeño — Desarrollo web en Caracas",
+  "url": pageUrl,
+  "description": "Desarrollo de páginas web, sistemas a medida, tiendas online con Pago Móvil y aplicaciones móviles para negocios de Caracas.",
+  "email": "contacto@darwincd.com",
+  "telephone": "+584125447114",
+  "areaServed": { "@type": "City", "name": "Caracas" },
+  "founder": { "@type": "Person", "name": "Darwin Cedeño", "url": siteUrl },
+  "paymentAccepted": "PayPal, Payoneer, Binance, AirTM, Bolívares"
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Inicio", "item": siteUrl },
+    { "@type": "ListItem", "position": 2, "name": "Desarrollo web en Caracas", "item": pageUrl }
+  ]
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map((faq) => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": { "@type": "Answer", "text": faq.answer }
+  }))
+};
+---
+
+<Layout
+  title="Desarrollo web en Caracas: páginas web, sistemas y apps"
+  description="Desarrollador web en Caracas: páginas web, sistemas a medida, tiendas con Pago Móvil y apps para negocios. Reuniones en persona y respuesta en menos de 24 horas."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <main id="main-content" class="city-page" tabindex="-1">
+    <div class="container">
+      <nav aria-label="Ruta de navegación">
+        <ol>
+          <li><a href="/">Inicio</a></li>
+          <li aria-current="page">Desarrollo web en Caracas</li>
+        </ol>
+      </nav>
+
+      <h1>Desarrollo web en Caracas</h1>
+      <p class="lead">
+        Soy Darwin Cedeño, desarrollador web. Hago páginas web, sistemas a medida, tiendas online y
+        aplicaciones móviles para negocios de Caracas. Hablas directo conmigo, sin intermediarios, y si lo
+        prefieres, nos reunimos en persona.
+      </p>
+
+      <div class="actions">
+        <a href={WHATSAPP_CCS} class="btn-primary" target="_blank" rel="noopener noreferrer">
+          <Icon name="fab fa-whatsapp me-1" /> Escríbeme por WhatsApp
+        </a>
+        <a href={CALENDLY_URL} class="btn-secondary" target="_blank" rel="noopener noreferrer">
+          Agendar una llamada de 15 min
+        </a>
+      </div>
+
+      <h2>Qué hago para negocios de Caracas</h2>
+      <ul class="offer">
+        {offer.map((item) => (
+          <li>
+            <h3><a href={item.href}>{item.title}</a></h3>
+            <p>{item.text}</p>
+          </li>
+        ))}
+      </ul>
+
+      <h2>Reuniones en persona</h2>
+      <p>
+        Muchas cosas se resuelven por WhatsApp o por videollamada. Pero si prefieres explicarme tu proyecto
+        cara a cara, o que vea cómo trabaja tu equipo antes de proponerte un sistema, me reúno contigo en
+        Caracas. Ver el proceso en el sitio ahorra muchas idas y vueltas.
+      </p>
+
+      <h2>Proyectos para clientes de Caracas</h2>
+      <ul class="cases">
+        {projects.map((item) => (
+          <li>
+            <a href={item.href}>{item.title}</a>
+            <p>{item.text}</p>
+          </li>
+        ))}
+      </ul>
+      <p>
+        Más de 300 proyectos entregados desde 2017. <a href="/proyectos">Ver todos los proyectos</a>.
+      </p>
+
+      <h2>Lo que puedes esperar</h2>
+      <ul class="checks">
+        <li><strong>Trato directo:</strong> hablas con quien escribe el código, no con un intermediario.</li>
+        <li><strong>Pago Móvil y tasa BCV:</strong> tu tienda o sistema puede cobrar como cobran tus clientes.</li>
+        <li><strong>Pagos flexibles:</strong> PayPal, Payoneer, Binance, AirTM o bolívares.</li>
+        <li><strong>Presupuesto por escrito:</strong> con lo que incluye, el plazo y lo que no incluye.</li>
+        <li><strong>Todo es tuyo:</strong> al terminar te entrego el código y los accesos.</li>
+      </ul>
+      <p>
+        Si estás comparando opciones, te puede servir esta lista:
+        <a href="/blog/como-elegir-una-empresa-de-desarrollo-web-en-venezuela/">cómo elegir una empresa de desarrollo web en Venezuela</a>.
+      </p>
+
+      <h2>Preguntas frecuentes</h2>
+      <div class="faq">
+        {faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+
+      <div class="final-cta">
+        <h2>¿Me cuentas tu proyecto?</h2>
+        <p>Te respondo en menos de 24 horas.</p>
+        <div class="actions">
+          <a href={WHATSAPP_CCS} class="btn-primary" target="_blank" rel="noopener noreferrer">
+            <Icon name="fab fa-whatsapp me-1" /> Escríbeme por WhatsApp
+          </a>
+          <a href="/#contact-section" class="btn-secondary">Dejar un mensaje</a>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .city-page {
+    padding: 7rem 0 4rem;
+  }
+
+  .container {
+    max-width: 46rem;
+  }
+
+  nav ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+
+  nav li + li::before {
+    content: "/";
+    margin-right: 0.5rem;
+  }
+
+  nav a {
+    color: inherit;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 3rem 0 1rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    margin: 0 0 0.25rem;
+  }
+
+  .lead {
+    font-size: 1.15rem;
+    line-height: 1.6;
+  }
+
+  p {
+    line-height: 1.7;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    display: inline-block;
+    padding: 0.75rem 1.25rem;
+    border-radius: 2rem;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .btn-primary {
+    background: linear-gradient(90deg, var(--gradient-3), var(--gradient-2), var(--gradient-1));
+    color: #f8fafc;
+  }
+
+  .btn-secondary {
+    border: 1px solid var(--gradient-1);
+    color: inherit;
+  }
+
+  .offer,
+  .cases {
+    list-style: none;
+    padding: 0;
+  }
+
+  .offer li,
+  .cases li {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--secondary-bg);
+  }
+
+  .offer a,
+  .cases a {
+    color: var(--gradient-1);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .offer p,
+  .cases p {
+    margin: 0.25rem 0 0;
+  }
+
+  .checks {
+    padding-left: 1.25rem;
+  }
+
+  .checks li {
+    margin-bottom: 0.6rem;
+    line-height: 1.6;
+  }
+
+  .faq details {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--secondary-bg);
+  }
+
+  .faq summary {
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .faq details p {
+    margin: 0.75rem 0 0;
+  }
+
+  .final-cta {
+    margin-top: 3rem;
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 1px solid var(--secondary-bg);
+    text-align: center;
+  }
+
+  .final-cta h2 {
+    margin-top: 0;
+  }
+
+  .final-cta .actions {
+    justify-content: center;
+  }
+</style>

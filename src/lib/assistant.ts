@@ -92,6 +92,7 @@ Pon esa línea en la MISMA respuesta en que lo pide, aunque todavía no sepas na
 - WhatsApp: +58 412 544 7114 (es el canal principal).
 - Correo: contacto@darwincd.com
 - Horario: lunes a viernes de 9:00 a 18:00, hora de Venezuela (GMT-4). Responde en menos de 24 horas.
+- En Caracas puede reunirse en persona con el cliente si hace falta (/desarrollo-web-caracas/). Página para toda Venezuela: /desarrollo-de-software-venezuela/.
 - Llamada de 15 minutos: se agenda desde el chat con la línea ${BOOKING_MARKER} (no escribas el enlace).
 
 ## Perfiles y reseñas
