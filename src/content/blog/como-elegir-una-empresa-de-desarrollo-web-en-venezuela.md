@@ -46,7 +46,7 @@ Antes de contratar, pregunta qué te van a entregar al terminar. La lista comple
 
 ## 5. Con quién vas a hablar
 
-En una empresa grande sueles hablar con un comercial o un gestor, y el trabajo pasa por varias manos. Con un desarrollador independiente hablas con quien escribe el código. Las dos opciones pueden funcionar; lo importante es saber cuál estás eligiendo. Lo comparo en [desarrollo de software en Venezuela](/desarrollo-de-software-venezuela/).
+En una empresa grande sueles hablar con un comercial o un gestor, y el trabajo pasa por varias manos. Con un desarrollador independiente hablas con quien escribe el código. Las dos opciones pueden funcionar; lo importante es saber cuál estás eligiendo. Lo comparo en [páginas web y desarrollo de software en Venezuela](/desarrollo-de-software-venezuela/).
 
 ## 6. Cómo responde antes de que le pagues
 

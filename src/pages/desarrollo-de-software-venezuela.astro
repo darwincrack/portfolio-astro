@@ -40,8 +40,16 @@ const cases = ["poligono-club", "pago-movil-woocommerce", "misca-studio", "cropl
 
 const faqs = [
   {
-    question: "¿Cuánto cuesta desarrollar una página web o un sistema en Venezuela?",
-    answer: "Depende de lo que necesites: una web informativa no cuesta lo mismo que un sistema con usuarios o una tienda. Después de una conversación corta te envío un presupuesto por escrito, sin compromiso."
+    question: "¿Cuánto cuesta una página web en Venezuela?",
+    answer: "Depende de lo que necesites: una página informativa no cuesta lo mismo que una tienda o un sistema con usuarios. Después de una conversación corta te envío un presupuesto por escrito, sin compromiso."
+  },
+  {
+    question: "¿Cuánto tarda hacer una página web?",
+    answer: "Depende del alcance. El plazo queda escrito en la propuesta antes de empezar, junto con lo que incluye y lo que no."
+  },
+  {
+    question: "¿Mi página web va a aparecer en Google?",
+    answer: "La dejo preparada para Google: rápida, bien estructurada, con títulos y descripciones claros y conectada a tu Perfil de Empresa. Salir arriba también depende del contenido y del tiempo; te explico qué conviene hacer después."
   },
   {
     question: "¿Cómo se paga?",
@@ -64,9 +72,9 @@ const faqs = [
 const serviceSchema = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  "name": "Darwin Cedeño — Desarrollo de software en Venezuela",
+  "name": "Darwin Cedeño — Páginas web y desarrollo de software en Venezuela",
   "url": pageUrl,
-  "description": "Desarrollo de software, páginas web, sistemas a medida, tiendas online con Pago Móvil y aplicaciones móviles para negocios en Venezuela.",
+  "description": "Páginas web para negocios en Venezuela, sistemas a medida, tiendas online con Pago Móvil y aplicaciones móviles.",
   "email": "contacto@darwincd.com",
   "telephone": "+584125447114",
   "address": { "@type": "PostalAddress", "addressCountry": "VE" },
@@ -82,7 +90,7 @@ const breadcrumbSchema = {
   "@type": "BreadcrumbList",
   "itemListElement": [
     { "@type": "ListItem", "position": 1, "name": "Inicio", "item": siteUrl },
-    { "@type": "ListItem", "position": 2, "name": "Desarrollo de software en Venezuela", "item": pageUrl }
+    { "@type": "ListItem", "position": 2, "name": "Páginas web en Venezuela", "item": pageUrl }
   ]
 };
 
@@ -98,8 +106,8 @@ const faqSchema = {
 ---
 
 <Layout
-  title="Desarrollo de software y páginas web en Venezuela"
-  description="Desarrollador de software en Venezuela: páginas web, sistemas a medida, tiendas con Pago Móvil y apps. Trato directo, respuesta en menos de 24 horas."
+  title="Páginas web en Venezuela para negocios | Darwin Cedeño"
+  description="Páginas web para negocios en Venezuela: rápidas, con WhatsApp y Pago Móvil. También sistemas a medida, tiendas online y apps. Respuesta en menos de 24 horas."
 >
   <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
@@ -110,14 +118,14 @@ const faqSchema = {
       <nav aria-label="Ruta de navegación">
         <ol>
           <li><a href="/">Inicio</a></li>
-          <li aria-current="page">Desarrollo de software en Venezuela</li>
+          <li aria-current="page">Páginas web en Venezuela</li>
         </ol>
       </nav>
 
-      <h1>Desarrollo de software y páginas web en Venezuela</h1>
+      <h1>Páginas web y desarrollo de software en Venezuela</h1>
       <p class="lead">
-        Soy Darwin Cedeño, desarrollador de software en Venezuela. Hago páginas web, sistemas a medida,
-        tiendas online y aplicaciones móviles para negocios de todo el país. Hablas directo conmigo,
+        Soy Darwin Cedeño, desarrollador en Venezuela. Hago páginas web para negocios de todo el país,
+        además de sistemas a medida, tiendas online y aplicaciones móviles. Hablas directo conmigo,
         sin intermediarios, y te respondo en menos de 24 horas.
       </p>
 
@@ -140,6 +148,24 @@ const faqSchema = {
         ))}
       </ul>
 
+      <h2>Qué lleva una página web para un negocio en Venezuela</h2>
+      <p>
+        Una página web no es solo verse bien. Para que te traiga clientes en Venezuela, tiene que funcionar
+        con la forma en que la gente busca, escribe y paga aquí:
+      </p>
+      <ul class="checks">
+        <li><strong>Que cargue rápido</strong>, también con datos móviles y conexiones lentas. Si tarda, la gente se va antes de verla.</li>
+        <li><strong>Que se vea bien en el celular</strong>, porque desde ahí llega casi todo el mundo.</li>
+        <li><strong>Botón de WhatsApp a la vista</strong>, que es como prefieren escribir tus clientes, y un formulario para quien no.</li>
+        <li><strong>Pago Móvil</strong> si vendes en línea, y precios en dólares o en bolívares con la tasa del día si lo necesitas.</li>
+        <li><strong>Preparada para Google</strong>: títulos, descripciones y tu Perfil de Empresa conectados, para que te encuentren en tu ciudad.</li>
+        <li><strong>Dominio y hosting a tu nombre</strong>, para que la página sea tuya y no dependas de nadie.</li>
+      </ul>
+      <p>
+        El precio depende de lo que necesites; lo explico en
+        <a href="/blog/cuanto-cuesta-una-web-o-un-sistema-de-que-depende/">cuánto cuesta una web o un sistema</a>.
+      </p>
+
       <h2>¿Empresa de desarrollo o desarrollador independiente?</h2>
       <p>
         Con una empresa de desarrollo de software sueles hablar con un comercial o un gestor, y el trabajo
@@ -158,12 +184,10 @@ const faqSchema = {
         ¿Tu negocio está en Caracas? Mira <a href="/desarrollo-web-caracas/">desarrollo web en Caracas</a>, con reuniones en persona.
       </p>
 
-      <h2>Pensado para negocios en Venezuela</h2>
+      <h2>Cómo trabajo con negocios en Venezuela</h2>
       <ul class="checks">
-        <li><strong>Pago Móvil:</strong> tu tienda o sistema puede cobrar con Pago Móvil.</li>
         <li><strong>Pagos flexibles:</strong> PayPal, Payoneer, Binance, AirTM o bolívares.</li>
         <li><strong>Mismo horario:</strong> lunes a viernes de 9:00 a 18:00, hora de Venezuela.</li>
-        <li><strong>Webs ligeras:</strong> optimizadas para que carguen bien también con conexiones lentas.</li>
         <li><strong>Todo es tuyo:</strong> al terminar te entrego el código y los accesos.</li>
       </ul>
 
