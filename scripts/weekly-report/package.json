@@ -1,0 +1,14 @@
+{
+  "name": "darwincd-weekly-report",
+  "private": true,
+  "type": "module",
+  "description": "Informe semanal de Search Console y Google Analytics por correo",
+  "scripts": {
+    "report": "node report.mjs",
+    "report:dry": "node report.mjs --dry-run"
+  },
+  "dependencies": {
+    "google-auth-library": "^9.15.0",
+    "nodemailer": "^6.9.16"
+  }
+}
