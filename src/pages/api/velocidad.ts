@@ -41,12 +41,19 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     const lh = data.lighthouseResult;
     const audits = lh.audits ?? {};
     const metric = (id: string) => (audits[id] ? { value: audits[id].displayValue ?? '', score: audits[id].score } : null);
-    // Las mejoras con más ahorro, ya en español
-    const opportunities = Object.values(audits as Record<string, any>)
-      .filter((a) => a.details?.type === 'opportunity' && (a.details.overallSavingsMs ?? 0) >= 300)
-      .sort((a, b) => b.details.overallSavingsMs - a.details.overallSavingsMs)
+    // Lo que más la frena, ya en español. Lighthouse 13 lo reporta como "insights"
+    // con ahorro por métrica; las versiones anteriores, como "opportunity".
+    const savingsMs = (a: any) =>
+      Math.max(a.details?.overallSavingsMs ?? 0, a.metricSavings?.LCP ?? 0, a.metricSavings?.FCP ?? 0);
+    const opportunities = Object.entries(audits as Record<string, any>)
+      .filter(([id, a]) =>
+        a.score !== null && a.score < 0.9 &&
+        (id.endsWith('-insight') || a.details?.type === 'opportunity') &&
+        id !== 'network-dependency-tree-insight')
+      .map(([, a]) => ({ title: a.title as string, ms: savingsMs(a), score: a.score as number }))
+      .sort((a, b) => b.ms - a.ms || a.score - b.score)
       .slice(0, 4)
-      .map((a) => ({ title: a.title, savings: Math.round(a.details.overallSavingsMs / 100) / 10 }));
+      .map((o) => ({ title: o.title, savings: o.ms >= 300 ? Math.round(o.ms / 100) / 10 : null }));
 
     return jsonResponse(200, {
       score: Math.round((lh.categories?.performance?.score ?? 0) * 100),

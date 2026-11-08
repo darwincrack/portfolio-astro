@@ -592,7 +592,7 @@ const faqSchema = {
       if (data.opportunities.length) {
         speedResult.append(el('p', '', 'Lo que más la frena:'));
         const list = el('ul');
-        for (const o of data.opportunities) list.append(el('li', '', `${o.title} (ahorraría unos ${o.savings} s)`));
+        for (const o of data.opportunities) list.append(el('li', '', o.savings ? `${o.title} (ahorraría unos ${o.savings} s)` : o.title));
         speedResult.append(list);
       }
       speedResult.hidden = false;
