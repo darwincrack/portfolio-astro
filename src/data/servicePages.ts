@@ -33,7 +33,7 @@ export const servicePages: ServicePage[] = [
     note: "Si el encargo encaja mejor en WordPress, una tienda o un módulo concreto, también lo hago. No es por donde empiezo.",
     caseSlugs: ["poligono-club", "misca-studio", "pago-movil-woocommerce", "meridiano-net"],
     also: {
-      href: "/servicios/aplicaciones-moviles",
+      href: "/servicios/aplicaciones-moviles/",
       label: "También hago aplicaciones móviles"
     }
   },
@@ -53,7 +53,7 @@ export const servicePages: ServicePage[] = [
     note: "El mismo negocio puede necesitar la app y el sistema que hay detrás. Las dos partes las puedo hacer.",
     caseSlugs: ["croplife", "estrellitas", "gravity-painter"],
     also: {
-      href: "/servicios/webs-y-sistemas",
+      href: "/servicios/webs-y-sistemas/",
       label: "También hago webs y sistemas"
     }
   },
@@ -74,7 +74,7 @@ export const servicePages: ServicePage[] = [
     note: "El asistente de esta web lo hice yo: pruébalo con el botón de abajo. Antes de construir uno, vemos si de verdad te conviene o si basta con una buena sección de preguntas frecuentes.",
     caseSlugs: ["asistente-ia-darwincd", "poligono-club"],
     also: {
-      href: "/servicios/webs-y-sistemas",
+      href: "/servicios/webs-y-sistemas/",
       label: "También hago webs y sistemas"
     },
     whatsappMessage: "Hola Darwin, me interesa un asistente con IA para mi negocio.",

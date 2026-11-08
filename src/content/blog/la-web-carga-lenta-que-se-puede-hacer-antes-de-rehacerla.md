@@ -17,7 +17,7 @@ Lo primero que miro es esto.
 
 ## Qué pesa de verdad
 
-Suele ser un vídeo de fondo, un carrusel o unas imágenes enormes. En el celular se nota antes que en el escritorio. En [Misca Studio](/proyectos/misca-studio), un estudio de interiorismo en Girona, la portada dependía de un vídeo de unos 24 MB. Pasó a unos 3,6 MB, y en el móvil se muestra una imagen fija en lugar del vídeo.
+Suele ser un vídeo de fondo, un carrusel o unas imágenes enormes. En el celular se nota antes que en el escritorio. En [Misca Studio](/proyectos/misca-studio/), un estudio de interiorismo en Girona, la portada dependía de un vídeo de unos 24 MB. Pasó a unos 3,6 MB, y en el móvil se muestra una imagen fija en lugar del vídeo.
 
 Eso no es un número mágico que se repita en todos los sitios. Es lo que pesaba ese archivo, y lo que pesa ahora.
 
@@ -29,7 +29,7 @@ Una portada puede cargar y, aun así, esconder el teléfono, el correo o WhatsAp
 
 Caché, una base técnica al día y limpieza de lo que ya no se usa. A veces con eso la web vuelve a responder. Rehacerla entera tiene sentido cuando la estructura ya no sirve para el negocio, no cuando el problema es un archivo de más.
 
-Si la tuya va lenta, se puede mirar antes de decidir un sitio nuevo. Ese trabajo entra en [webs y sistemas a medida](/servicios/webs-y-sistemas), junto con el mantenimiento de lo que ya está publicado.
+Si la tuya va lenta, se puede mirar antes de decidir un sitio nuevo. Ese trabajo entra en [webs y sistemas a medida](/servicios/webs-y-sistemas/), junto con el mantenimiento de lo que ya está publicado.
 
 [Agendar una consulta de 15 minutos](https://calendly.com/darwinc-dev/consulta-15-min)
 

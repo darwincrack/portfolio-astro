@@ -25,13 +25,13 @@ No es lo mismo una portada para quien llega de fuera que una pantalla para quien
 
 ## Qué existe ya
 
-Una web vieja, una tienda, una app, una hoja de cálculo que hoy hace de sistema. Traer eso evita rehacer lo que ya funciona. En [Misca Studio](/proyectos/misca-studio), en Girona, no había que inventar el estudio: había que quitarle peso a la portada y dejar el contacto a mano. El vídeo de fondo pasó de unos 24 MB a unos 3,6 MB.
+Una web vieja, una tienda, una app, una hoja de cálculo que hoy hace de sistema. Traer eso evita rehacer lo que ya funciona. En [Misca Studio](/proyectos/misca-studio/), en Girona, no había que inventar el estudio: había que quitarle peso a la portada y dejar el contacto a mano. El vídeo de fondo pasó de unos 24 MB a unos 3,6 MB.
 
 ## Cómo se sabe que quedó listo
 
 Una frase alcanza: «una persona puede pedir cita desde el celular» o «el equipo cierra un pedido sin salir del sistema». Sin eso, el proyecto se estira porque nadie comparte el mismo final.
 
-Con eso se puede hablar de [webs y sistemas a medida](/servicios/webs-y-sistemas) sin empezar por la herramienta. Si el encargo encaja mejor en una tienda o en un módulo concreto, se dice en la conversación. No es el punto de partida.
+Con eso se puede hablar de [webs y sistemas a medida](/servicios/webs-y-sistemas/) sin empezar por la herramienta. Si el encargo encaja mejor en una tienda o en un módulo concreto, se dice en la conversación. No es el punto de partida.
 
 [Agendar una consulta de 15 minutos](https://calendly.com/darwinc-dev/consulta-15-min)
 

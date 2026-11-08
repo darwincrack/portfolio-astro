@@ -20,19 +20,19 @@ No son lo mismo. Encargar el formato equivocado cuesta más que pararse un momen
 
 Sirve cuando la gente tiene que encontrarte, entender qué haces y escribirte. Una web clara, usable en el celular, suele ser el primer encargo. Si además tiene que sostener mucho tráfico, el trabajo ya no es solo la portada: es cómo está armada y cómo se mantiene.
 
-[meridiano.net](/proyectos/meridiano-net) era un portal deportivo de medios. Esas plataformas de Bloque de Armas superaban el millón de visitas mensuales, y el SEO y el rendimiento acompañaron un aumento del 200 % en tráfico orgánico.
+[meridiano.net](/proyectos/meridiano-net/) era un portal deportivo de medios. Esas plataformas de Bloque de Armas superaban el millón de visitas mensuales, y el SEO y el rendimiento acompañaron un aumento del 200 % en tráfico orgánico.
 
 ## Un sistema
 
 Hace falta cuando el negocio tiene una lógica propia: quién entra, qué datos se guardan, qué se conecta con otro servicio. Ahí el trabajo es la aplicación web y lo que hay detrás.
 
-Eso es lo que describo en [webs y sistemas a medida](/servicios/webs-y-sistemas).
+Eso es lo que describo en [webs y sistemas a medida](/servicios/webs-y-sistemas/).
 
 ## Una aplicación móvil
 
 Tiene sentido cuando la persona va a usar el servicio como app instalada, no como una web abierta en el navegador. También cuando ya existe una app y se quedó varias versiones atrás.
 
-[CropLife](/proyectos/croplife) no era una app nueva. Había que actualizar la que ya estaba publicada, de React Native 0.67 a 0.79.6, para iOS y Android. Ese tipo de trabajo está en [aplicaciones móviles](/servicios/aplicaciones-moviles).
+[CropLife](/proyectos/croplife/) no era una app nueva. Había que actualizar la que ya estaba publicada, de React Native 0.67 a 0.79.6, para iOS y Android. Ese tipo de trabajo está en [aplicaciones móviles](/servicios/aplicaciones-moviles/).
 
 ## Cómo decidir
 

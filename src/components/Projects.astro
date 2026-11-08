@@ -85,7 +85,7 @@ const githubIconHtml = `<i class="icon" aria-hidden="true"><svg viewBox="${icons
                 </a>
               )}
               {caseStudyByTitle.get(project.title) ? (
-                <a href={`/proyectos/${caseStudyByTitle.get(project.title)?.slug}`} class="btn btn-info">
+                <a href={`/proyectos/${caseStudyByTitle.get(project.title)?.slug}/`} class="btn btn-info">
                   Ver caso
                 </a>
               ) : project.detailedDescription && (
@@ -99,7 +99,7 @@ const githubIconHtml = `<i class="icon" aria-hidden="true"><svg viewBox="${icons
             <h4 class="h5">{project.title}</h4>
             <p class="text-sm" title={project.description}>{project.description}</p>
             {caseStudyByTitle.get(project.title) && (
-              <a class="case-link" href={`/proyectos/${caseStudyByTitle.get(project.title)?.slug}`}>Ver el caso</a>
+              <a class="case-link" href={`/proyectos/${caseStudyByTitle.get(project.title)?.slug}/`}>Ver el caso</a>
             )}
             <div class="project-tags">
               {project.tags.map(tag => (

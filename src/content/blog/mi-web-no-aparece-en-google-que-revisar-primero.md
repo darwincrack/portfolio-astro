@@ -26,7 +26,7 @@ Google necesita entender qué ofreces y dónde. Una portada que solo dice «Bien
 
 ## Si carga bien en el celular
 
-La mayoría de las búsquedas se hacen desde el teléfono. Una web pesada se abandona antes de cargar, y eso también cuenta. En [Misca Studio](/proyectos/misca-studio) el vídeo de fondo pasó de unos 24 MB a unos 3,6 MB, con caché, CDN y SEO técnico. Lo conté en [la web carga lenta: qué se puede hacer antes de rehacerla](/blog/la-web-carga-lenta-que-se-puede-hacer-antes-de-rehacerla/).
+La mayoría de las búsquedas se hacen desde el teléfono. Una web pesada se abandona antes de cargar, y eso también cuenta. En [Misca Studio](/proyectos/misca-studio/) el vídeo de fondo pasó de unos 24 MB a unos 3,6 MB, con caché, CDN y SEO técnico. Lo conté en [la web carga lenta: qué se puede hacer antes de rehacerla](/blog/la-web-carga-lenta-que-se-puede-hacer-antes-de-rehacerla/).
 
 ## Si el contenido es tuyo
 
@@ -34,9 +34,9 @@ Copiar o reescribir textos de otros sitios no suele posicionar. Google tiende a 
 
 ## Lo que sí da resultado con el tiempo
 
-En [meridiano.net](/proyectos/meridiano-net) y los demás medios de Bloque de Armas, el SEO y el rendimiento acompañaron un aumento del 200 % en tráfico orgánico. No fue un truco. Fue una base técnica sana y contenido publicado con constancia durante años.
+En [meridiano.net](/proyectos/meridiano-net/) y los demás medios de Bloque de Armas, el SEO y el rendimiento acompañaron un aumento del 200 % en tráfico orgánico. No fue un truco. Fue una base técnica sana y contenido publicado con constancia durante años.
 
-Si tu web no aparece, se puede revisar antes de decidir rehacerla. Ese trabajo entra en [webs y sistemas a medida](/servicios/webs-y-sistemas).
+Si tu web no aparece, se puede revisar antes de decidir rehacerla. Ese trabajo entra en [webs y sistemas a medida](/servicios/webs-y-sistemas/).
 
 [Agendar una consulta de 15 minutos](https://calendly.com/darwinc-dev/consulta-15-min)
 

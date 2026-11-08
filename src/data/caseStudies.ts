@@ -27,7 +27,7 @@ export const caseStudies: CaseStudy[] = [
     tags: ["WordPress", "PHP", "SQL Server", "Profit", "Pago Móvil", "QR"],
     link: "https://poligonovalencia.com/app",
     github: "",
-    serviceHref: "/servicios/webs-y-sistemas",
+    serviceHref: "/servicios/webs-y-sistemas/",
     serviceLabel: "Ver webs y sistemas a medida"
   },
   {
@@ -41,7 +41,7 @@ export const caseStudies: CaseStudy[] = [
     tags: ["React Native", "iOS", "Android"],
     link: "",
     github: "",
-    serviceHref: "/servicios/aplicaciones-moviles",
+    serviceHref: "/servicios/aplicaciones-moviles/",
     serviceLabel: "Ver aplicaciones móviles"
   },
   {
@@ -55,7 +55,7 @@ export const caseStudies: CaseStudy[] = [
     tags: ["WordPress", "Elementor", "LiteSpeed", "SEO", "UX"],
     link: "https://miscastudio.com/",
     github: "",
-    serviceHref: "/servicios/webs-y-sistemas",
+    serviceHref: "/servicios/webs-y-sistemas/",
     serviceLabel: "Ver webs y sistemas a medida"
   },
   {
@@ -69,7 +69,7 @@ export const caseStudies: CaseStudy[] = [
     tags: ["WordPress", "Plugins", "WooCommerce"],
     link: "https://iqsalud.app/tienda/",
     github: "https://github.com/darwincrack/wp-payment-pago-movil",
-    serviceHref: "/servicios/webs-y-sistemas",
+    serviceHref: "/servicios/webs-y-sistemas/",
     serviceLabel: "Ver webs y sistemas a medida"
   },
   {
@@ -83,7 +83,7 @@ export const caseStudies: CaseStudy[] = [
     tags: ["PHP", "JavaScript", "MySQL", "CMS"],
     link: "https://meridiano.net",
     github: "",
-    serviceHref: "/servicios/webs-y-sistemas",
+    serviceHref: "/servicios/webs-y-sistemas/",
     serviceLabel: "Ver webs y sistemas a medida"
   },
   {
@@ -97,7 +97,7 @@ export const caseStudies: CaseStudy[] = [
     tags: ["IA", "Gemini", "Astro", "Vercel", "WhatsApp"],
     link: "",
     github: "",
-    serviceHref: "/servicios/asistentes-ia",
+    serviceHref: "/servicios/asistentes-ia/",
     serviceLabel: "Ver asistentes con IA para negocios",
     tryAssistant: true
   },
@@ -112,7 +112,7 @@ export const caseStudies: CaseStudy[] = [
     tags: ["Android", "Fire TV", "Google Play", "Sin conexión"],
     link: "https://play.google.com/store/apps/details?id=com.estrellitas.firetv",
     github: "",
-    serviceHref: "/servicios/aplicaciones-moviles",
+    serviceHref: "/servicios/aplicaciones-moviles/",
     serviceLabel: "Ver aplicaciones móviles"
   },
   {
@@ -126,7 +126,7 @@ export const caseStudies: CaseStudy[] = [
     tags: ["Android", "Google Play", "Sensor de inclinación", "AdMob"],
     link: "https://play.google.com/store/apps/details?id=com.gamegota.gravitypainter",
     github: "",
-    serviceHref: "/servicios/aplicaciones-moviles",
+    serviceHref: "/servicios/aplicaciones-moviles/",
     serviceLabel: "Ver aplicaciones móviles"
   }
 ];

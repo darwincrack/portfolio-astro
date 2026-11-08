@@ -14,7 +14,7 @@ image:
 
 Un club social lleva a sus socios en un sistema administrativo. Los socios, en cambio, preguntan por WhatsApp cuánto deben, mandan capturas de pago y llaman para reservar una cancha. En la puerta, el vigilante revisa una lista en papel.
 
-Eso fue lo que se resolvió en [Polígono Valencia](/proyectos/poligono-club).
+Eso fue lo que se resolvió en [Polígono Valencia](/proyectos/poligono-club/).
 
 ## Qué puede hacer el socio
 
@@ -36,7 +36,7 @@ La conexión es de solo lectura, mediante un agente dentro de la red del club. L
 
 Clubes, academias, gimnasios, condominios, cualquier sitio con miembros que pagan, reservan y entran. El orden de las piezas cambia según el caso. Lo importante es empezar por lo que ya tienes, como un sistema administrativo o una forma de cobrar, y no reemplazarlo sin necesidad.
 
-Si quieres cobrar con Pago Móvil en una tienda en lugar de un club, lo conté en [cobrar con Pago Móvil en una tienda online](/blog/cobrar-con-pago-movil-en-una-tienda-online/). Este tipo de trabajo está en [webs y sistemas a medida](/servicios/webs-y-sistemas).
+Si quieres cobrar con Pago Móvil en una tienda en lugar de un club, lo conté en [cobrar con Pago Móvil en una tienda online](/blog/cobrar-con-pago-movil-en-una-tienda-online/). Este tipo de trabajo está en [webs y sistemas a medida](/servicios/webs-y-sistemas/).
 
 [Agendar una consulta de 15 minutos](https://calendly.com/darwinc-dev/consulta-15-min)
 

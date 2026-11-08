@@ -17,13 +17,13 @@ El encargo, en ese caso, no es «hacer otra tienda». Es agregar el cobro que fa
 
 ## Qué se construye
 
-Un módulo que recibe el pago por transferencia bancaria móvil desde la propia tienda, conectado con los principales bancos del país. El caso está en [Pago Móvil para WooCommerce](/proyectos/pago-movil-woocommerce).
+Un módulo que recibe el pago por transferencia bancaria móvil desde la propia tienda, conectado con los principales bancos del país. El caso está en [Pago Móvil para WooCommerce](/proyectos/pago-movil-woocommerce/).
 
 Es un trabajo concreto: la tienda ya existía y le faltaba esa forma de cobrar. WordPress entra porque la tienda estaba hecha ahí, no porque todo proyecto tenga que empezar por ahí.
 
 ## Cuándo no es esto
 
-Si todavía no hay tienda, o si el negocio necesita usuarios, inventario propio o un proceso que la plataforma no cubre, el encargo es otro. Puede ser una web, un sistema, o las dos cosas. Lo describo en [webs y sistemas a medida](/servicios/webs-y-sistemas).
+Si todavía no hay tienda, o si el negocio necesita usuarios, inventario propio o un proceso que la plataforma no cubre, el encargo es otro. Puede ser una web, un sistema, o las dos cosas. Lo describo en [webs y sistemas a medida](/servicios/webs-y-sistemas/).
 
 Pago Móvil es una pieza cuando la tienda en Venezuela la necesita. No es el único trabajo que hago.
 

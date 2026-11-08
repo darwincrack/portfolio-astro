@@ -40,7 +40,7 @@ Una explicación de cómo cambiar lo básico: un texto, una foto, un precio. Y s
 
 Al terminar entrego el código, los accesos al hosting, al dominio y a los paneles. No dependes de mí para seguir. Si quieres, sigo con el mantenimiento, pero es una opción, no una condición.
 
-Si ya tienes una web o una app y no sabes bien qué tienes, se puede revisar. Te digo qué hay, qué falta y qué conviene antes de proponerte hacer algo nuevo. Ver [webs y sistemas a medida](/servicios/webs-y-sistemas) y [aplicaciones móviles](/servicios/aplicaciones-moviles).
+Si ya tienes una web o una app y no sabes bien qué tienes, se puede revisar. Te digo qué hay, qué falta y qué conviene antes de proponerte hacer algo nuevo. Ver [webs y sistemas a medida](/servicios/webs-y-sistemas/) y [aplicaciones móviles](/servicios/aplicaciones-moviles/).
 
 [Agendar una consulta de 15 minutos](https://calendly.com/darwinc-dev/consulta-15-min)
 

@@ -28,7 +28,7 @@ La web se vuelve lenta, aparecen avisos de error o, en el peor caso, alguien ent
 
 ## Un caso: Misca Studio
 
-[Misca Studio](/proyectos/misca-studio) es un estudio de interiorismo en Girona. Su web en WordPress funcionaba, pero cargaba pesada y arrastraba restos de la plantilla. El trabajo fue actualizar plugins, pasar a PHP 8.3, eliminar temas inactivos y limpiar el código y las plantillas de demostración.
+[Misca Studio](/proyectos/misca-studio/) es un estudio de interiorismo en Girona. Su web en WordPress funcionaba, pero cargaba pesada y arrastraba restos de la plantilla. El trabajo fue actualizar plugins, pasar a PHP 8.3, eliminar temas inactivos y limpiar el código y las plantillas de demostración.
 
 Además se cambió el slider de la portada, el vídeo de fondo pasó de unos 24 MB a unos 3,6 MB y se dejaron visibles los botones de WhatsApp, email y llamada. Se mantuvo la web que ya tenían y se puso al día. Lo conté en [la web carga lenta: qué se puede hacer antes de rehacerla](/blog/la-web-carga-lenta-que-se-puede-hacer-antes-de-rehacerla/).
 
@@ -36,7 +36,7 @@ Además se cambió el slider de la portada, el vídeo de fondo pasó de unos 24 
 
 Si tu web tiene formularios, una tienda o cualquier cosa por la que te escriban clientes, sí. Si lleva meses sin que nadie la actualice, conviene una revisión antes que nada.
 
-Después de entregar un proyecto, puedo seguir con el mantenimiento: actualizaciones, copias de seguridad y corrección de fallos. También lo hago con webs que no hice yo. Ver [webs y sistemas a medida](/servicios/webs-y-sistemas).
+Después de entregar un proyecto, puedo seguir con el mantenimiento: actualizaciones, copias de seguridad y corrección de fallos. También lo hago con webs que no hice yo. Ver [webs y sistemas a medida](/servicios/webs-y-sistemas/).
 
 [Agendar una consulta de 15 minutos](https://calendly.com/darwinc-dev/consulta-15-min)
 

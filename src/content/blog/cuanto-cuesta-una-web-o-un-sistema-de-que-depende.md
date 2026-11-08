@@ -18,11 +18,11 @@ Es la primera pregunta que llega por WhatsApp: «¿cuánto cuesta una página?»
 
 Una web para que te encuentren, te lean y te escriban no cuesta lo mismo que un sistema con usuarios, pagos y datos. Tampoco cuesta lo mismo que una app instalada en el celular.
 
-Un ejemplo de lo segundo es [Polígono Valencia](/proyectos/poligono-club): los socios entran con su cédula, ven su saldo, reportan pagos con Pago Móvil, reservan y entran al club con un QR. Eso ya no es una página. Es un sistema, y se presupuesta como tal.
+Un ejemplo de lo segundo es [Polígono Valencia](/proyectos/poligono-club/): los socios entran con su cédula, ven su saldo, reportan pagos con Pago Móvil, reservan y entran al club con un QR. Eso ya no es una página. Es un sistema, y se presupuesta como tal.
 
 ## Si se parte de cero o de algo que ya existe
 
-Muchas veces no hace falta empezar de nuevo. En [Misca Studio](/proyectos/misca-studio) la web ya existía: el trabajo fue quitarle peso a la portada y dejar el contacto a la vista. En [CropLife](/proyectos/croplife) la app ya estaba publicada y había que actualizarla. Arreglar o mejorar lo que hay suele salir más a cuenta que rehacerlo.
+Muchas veces no hace falta empezar de nuevo. En [Misca Studio](/proyectos/misca-studio/) la web ya existía: el trabajo fue quitarle peso a la portada y dejar el contacto a la vista. En [CropLife](/proyectos/croplife/) la app ya estaba publicada y había que actualizarla. Arreglar o mejorar lo que hay suele salir más a cuenta que rehacerlo.
 
 ## Con qué se tiene que conectar
 
