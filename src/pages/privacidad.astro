@@ -1,0 +1,145 @@
+---
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+
+const updated = '8 de noviembre de 2026';
+const email = 'contacto@darwincd.com';
+---
+
+<Layout
+  title="Política de privacidad | Darwin Cedeño"
+  description="Qué datos se recogen en darwincd.com, para qué se usan y con qué servicios: Google Analytics, Microsoft Clarity, el asistente con IA, el formulario de contacto y Calendly."
+>
+  <main id="main-content" class="privacy-page" tabindex="-1">
+    <div class="container">
+      <h1>Política de privacidad</h1>
+      <p class="meta">Última actualización: {updated}</p>
+
+      <p class="summary">
+        <strong>En resumen:</strong> esta web no tiene cuentas ni vende datos. Uso Google Analytics y
+        Microsoft Clarity para entender cómo se usa la web, y solo recibo tus datos de contacto si tú me
+        escribes, agendas una llamada o usas el formulario.
+      </p>
+
+      <h2>Quién es el responsable</h2>
+      <p>
+        Darwin Cedeño, desarrollador de software en Venezuela, responsable de darwincd.com.
+        Para cualquier tema de privacidad: <a href={`mailto:${email}`}>{email}</a>.
+      </p>
+
+      <h2>Datos que tú me envías</h2>
+      <ul>
+        <li>
+          <strong>Formulario de contacto:</strong> nombre, correo y mensaje. Se envían a través de
+          Formspree y me llegan por correo. Solo los uso para responderte.
+        </li>
+        <li>
+          <strong>WhatsApp:</strong> si pulsas un botón de WhatsApp, la conversación ocurre en WhatsApp,
+          con sus propias condiciones. La web solo prepara el mensaje inicial.
+        </li>
+        <li>
+          <strong>Agendar una llamada:</strong> la agenda es de Calendly. Allí indicas tu nombre, tu correo
+          y, si quieres, notas sobre tu proyecto. Calendly me envía esos datos para la reunión.
+        </li>
+      </ul>
+
+      <h2>El asistente con IA</h2>
+      <p>
+        El asistente de la web usa Gemini, de Google, para generar las respuestas. Lo que escribes se envía
+        a Google para responderte y no lo guardo en ningún servidor propio. La conversación se conserva solo
+        en tu navegador mientras dura la visita. Por eso conviene no escribir datos sensibles. Si eliges
+        enviar el resumen por WhatsApp o agendar una llamada, se aplican los puntos anteriores.
+      </p>
+
+      <h2>Estadísticas de uso</h2>
+      <ul>
+        <li>
+          <strong>Google Analytics</strong> mide visitas, páginas vistas, de dónde llega la gente y qué
+          botones de contacto se pulsan. Usa cookies y datos técnicos como el navegador, el dispositivo y la
+          ubicación aproximada.
+        </li>
+        <li>
+          <strong>Microsoft Clarity</strong> registra cómo se navega la web (clics, desplazamiento y
+          grabaciones anónimas de la sesión) para encontrar lo que no funciona bien. Los campos de los
+          formularios y las conversaciones con el asistente se ocultan en esas grabaciones.
+        </li>
+      </ul>
+      <p>
+        Estos datos se usan solo para mejorar la web y saber qué páginas ayudan a conseguir clientes. No los
+        uso para publicidad ni los vendo.
+      </p>
+
+      <h2>Otros servicios de la web</h2>
+      <ul>
+        <li><strong>Vercel y Cloudflare</strong> alojan y protegen la web. Como cualquier servidor, registran datos técnicos de las visitas, como la dirección IP.</li>
+        <li><strong>Elfsight</strong> muestra las reseñas de Google en la portada.</li>
+      </ul>
+
+      <h2>Cookies y almacenamiento en tu navegador</h2>
+      <p>
+        Google Analytics y Microsoft Clarity usan cookies propias. Además, la web guarda en tu navegador si
+        prefieres el tema claro u oscuro y, mientras dura la visita, la conversación con el asistente. Puedes
+        borrar todo esto desde los ajustes de tu navegador.
+      </p>
+
+      <h2>Tus derechos</h2>
+      <p>
+        Puedes pedirme que te diga qué datos tengo tuyos, que los corrija o que los borre, escribiendo a
+        <a href={`mailto:${email}`}>{email}</a>. Te respondo en menos de 30 días.
+      </p>
+
+      <h2>Cambios</h2>
+      <p>
+        Si cambio esta política, publicaré la nueva versión en esta misma página con la fecha actualizada.
+      </p>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .privacy-page {
+    padding: 7rem 0 4rem;
+  }
+
+  .container {
+    max-width: 46rem;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 2.6rem);
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin: 2.25rem 0 0.75rem;
+  }
+
+  .meta {
+    opacity: 0.7;
+    font-size: 0.95rem;
+  }
+
+  .summary {
+    padding: 1rem 1.25rem;
+    border-left: 4px solid var(--gradient-1);
+    background: var(--secondary-bg);
+    border-radius: 0 0.5rem 0.5rem 0;
+  }
+
+  p,
+  li {
+    line-height: 1.7;
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+  }
+
+  a {
+    color: var(--gradient-1);
+  }
+</style>

@@ -16,6 +16,7 @@ const routes = [
   '/sobre-mi/',
   '/desarrollo-de-software-venezuela/',
   '/desarrollo-web-caracas/',
+  '/privacidad/',
   ...servicePages.map((s) => `/servicios/${s.slug}/`),
   ...caseStudies.map((c) => `/proyectos/${c.slug}/`),
   ...posts.map((p) => `/blog/${p.slug}/`),
@@ -67,7 +68,7 @@ const projectLinks = projects
       <Icon name="paper-plane" />
     </button>
   </form>
-  <p class="chat-note">Asistente con IA: puede equivocarse y Darwin confirma todo. No compartas datos sensibles.</p>
+  <p class="chat-note">Asistente con IA: puede equivocarse y Darwin confirma todo. No compartas datos sensibles. <a href="/privacidad/">Privacidad</a></p>
 </section>
 
 <style>
@@ -371,6 +372,10 @@ const projectLinks = projects
     padding: 0 1rem 0.6rem;
     font-size: 0.7rem;
     opacity: 0.6;
+  }
+
+  .chat-note a {
+    color: inherit;
   }
 
   .visually-hidden {
