@@ -1,0 +1,641 @@
+---
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+
+const CALENDLY_URL = import.meta.env.PUBLIC_CALENDLY_URL || 'https://calendly.com/darwinc-dev/consulta-15-min';
+const siteUrl = 'https://darwincd.com';
+const pageUrl = `${siteUrl}/revisa-tu-web/`;
+
+const basics = [
+  ['Título y descripción para Google', 'Es lo que aparece en los resultados de búsqueda. Sin ellos, Google inventa algo o muestra un texto cualquiera.'],
+  ['Que Google pueda leerla', 'Muchas webs hechas con IA cargan el texto con JavaScript. Se ven bien, pero a Google le cuesta leerlas y posicionarlas.'],
+  ['Imagen al compartir', 'Cuando mandas el enlace por WhatsApp debería salir una imagen y un título. Sin eso, se ve como un enlace sospechoso.'],
+  ['Favicon', 'El icono de la pestaña y de los favoritos. Sin él, tu web parece a medio terminar.'],
+  ['Adaptada al celular', 'La mayoría de tus clientes entra desde el teléfono. Si no está configurada, se ve diminuta.'],
+  ['Una forma clara de contactarte', 'Un botón de WhatsApp a la vista, teléfono o formulario. Si no te encuentran, no te escriben.'],
+  ['Conexión segura (HTTPS)', 'El candado del navegador. Sin él, Chrome marca tu web como "No segura".'],
+  ['Mapa del sitio y robots.txt', 'Le indican a Google qué páginas tienes y cuáles revisar.'],
+  ['Estadísticas', 'Para saber cuánta gente entra, de dónde llega y si te escribe.'],
+];
+
+const faqs = [
+  {
+    question: '¿Es gratis?',
+    answer: 'Sí. No pide registro ni correo. Pegas la dirección de tu web y ves el resultado al momento.',
+  },
+  {
+    question: '¿Sirve para webs hechas con IA, Wix, WordPress o Shopify?',
+    answer: 'Sí. Revisa la web publicada, sin importar con qué se hizo: Lovable, Bolt, v0, Wix, Framer, WordPress, Shopify o código a medida.',
+  },
+  {
+    question: '¿Guardan mi web o mis datos?',
+    answer: 'No. La revisión se hace en el momento y no se guarda. Solo se mide la página que indicas, como lo haría un buscador.',
+  },
+  {
+    question: '¿La nota es la misma que la de Google?',
+    answer: 'No exactamente. La nota resume si tu web tiene lo básico. La velocidad sí viene directamente de PageSpeed, la herramienta de Google.',
+  },
+];
+
+const toolSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Revisa tu web gratis',
+  url: pageUrl,
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  description: 'Revisa gratis si tu web tiene lo básico: título y descripción para Google, favicon, vista previa al compartir, adaptación al celular, contacto y velocidad.',
+  author: { '@type': 'Person', name: 'Darwin Cedeño', url: siteUrl },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })),
+};
+---
+
+<Layout
+  title="Revisa tu web gratis: ¿tiene lo básico? | Darwin Cedeño"
+  description="¿Hiciste tu web con IA o un constructor? Revisa gratis si tiene lo básico: descripción para Google, favicon, imagen al compartir, celular, contacto y velocidad."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(toolSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <main id="main-content" class="tool-page" tabindex="-1">
+    <div class="container">
+      <nav aria-label="Ruta de navegación">
+        <ol>
+          <li><a href="/">Inicio</a></li>
+          <li aria-current="page">Revisa tu web</li>
+        </ol>
+      </nav>
+
+      <span class="badge-free">Herramienta gratis</span>
+      <h1>¿Tu web tiene lo básico? Revísala gratis</h1>
+      <p class="lead">
+        Hoy es fácil hacer una web con IA o con un constructor, y se ve bonita. Pero muchas quedan sin lo que
+        Google y tus clientes necesitan: descripción para los buscadores, favicon, imagen al compartir por
+        WhatsApp, un contacto visible… Pega tu dirección y te digo qué le falta, en lenguaje sencillo.
+      </p>
+
+      <form id="audit-form" class="audit-form">
+        <label for="audit-url" class="visually-hidden">Dirección de tu web</label>
+        <input id="audit-url" name="url" type="text" inputmode="url" autocomplete="url" placeholder="minegocio.com" required />
+        <button type="submit" id="audit-submit">Revisar mi web</button>
+      </form>
+      <p class="form-note">Sin registro. No se guarda nada.</p>
+
+      <p id="audit-error" class="audit-error" role="alert" hidden></p>
+
+      <section id="audit-result" class="audit-result" hidden aria-live="polite">
+        <div class="score-row">
+          <div class="score-ring" id="score-ring"><span id="score-value">0</span><small>/100</small></div>
+          <div>
+            <p class="score-host" id="score-host"></p>
+            <p class="score-text" id="score-text"></p>
+            <p class="score-builder" id="score-builder" hidden></p>
+          </div>
+        </div>
+
+        <div id="groups"></div>
+
+        <div class="speed">
+          <h2>Velocidad en el celular</h2>
+          <p id="speed-status" class="muted">Midiendo con Google PageSpeed… suele tardar entre 20 y 40 segundos.</p>
+          <div id="speed-result" hidden></div>
+        </div>
+
+        <div class="cta">
+          <h2>¿Te ayudo a arreglarlo?</h2>
+          <p>Te envío por WhatsApp lo que encontré y te digo qué conviene hacer primero, sin compromiso.</p>
+          <div class="actions">
+            <a id="cta-whatsapp" class="btn-primary" target="_blank" rel="noopener noreferrer" data-channel="revisor">
+              <Icon name="whatsapp" class="me-1" /> Enviar el resultado a Darwin
+            </a>
+            <a href={CALENDLY_URL} class="btn-secondary" target="_blank" rel="noopener noreferrer">Agendar una llamada de 15 min</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="explain">
+        <h2>Lo que toda web debería tener</h2>
+        <p>Da igual si la hiciste con IA, con Wix o con un programador. Esto es lo mínimo para que Google te encuentre y la gente te escriba:</p>
+        <ul class="basics">
+          {basics.map(([title, text]) => (
+            <li><strong>{title}.</strong> {text}</li>
+          ))}
+        </ul>
+        <p>
+          Si tu web está lenta, también te puede servir
+          <a href="/blog/la-web-carga-lenta-que-se-puede-hacer-antes-de-rehacerla/">qué se puede hacer antes de rehacerla</a>, y si no aparece en Google,
+          <a href="/blog/mi-web-no-aparece-en-google-que-revisar-primero/">qué revisar primero</a>.
+        </p>
+      </section>
+
+      <section class="faq">
+        <h2>Preguntas frecuentes</h2>
+        {faqs.map((f) => (
+          <details>
+            <summary>{f.question}</summary>
+            <p>{f.answer}</p>
+          </details>
+        ))}
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .tool-page {
+    padding: 7rem 0 4rem;
+  }
+
+  .container {
+    max-width: 48rem;
+  }
+
+  nav ol {
+    display: flex;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.25rem;
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+
+  nav li + li::before {
+    content: '/';
+    margin-right: 0.5rem;
+  }
+
+  nav a {
+    color: inherit;
+  }
+
+  .badge-free {
+    display: inline-block;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    background: linear-gradient(45deg, var(--gradient-1), var(--gradient-2));
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 2.7rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0.75rem 0 1rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 2.5rem 0 1rem;
+  }
+
+  .lead {
+    font-size: 1.1rem;
+    line-height: 1.65;
+  }
+
+  .audit-form {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 1.75rem;
+  }
+
+  .audit-form input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--secondary-bg);
+    border-radius: 0.75rem;
+    background: var(--secondary-bg);
+    color: var(--text);
+    font: inherit;
+    font-size: 1.05rem;
+  }
+
+  .audit-form input:focus {
+    outline: 2px solid var(--gradient-1);
+  }
+
+  .audit-form button {
+    padding: 0.85rem 1.4rem;
+    border: none;
+    border-radius: 0.75rem;
+    background: linear-gradient(90deg, var(--gradient-3, var(--gradient-2)), var(--gradient-2), var(--gradient-1));
+    color: #fff;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .audit-form button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+
+  .form-note,
+  .muted {
+    font-size: 0.85rem;
+    opacity: 0.7;
+    margin-top: 0.5rem;
+  }
+
+  .audit-error {
+    margin-top: 1rem;
+    padding: 0.8rem 1rem;
+    border-radius: 0.6rem;
+    background: rgba(220, 38, 38, 0.12);
+    border: 1px solid rgba(220, 38, 38, 0.4);
+  }
+
+  .audit-result {
+    margin-top: 2rem;
+    /* que el menú fijo no tape la nota al hacer scroll */
+    scroll-margin-top: 90px;
+  }
+
+  .score-row {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.25rem;
+    border: 1px solid var(--secondary-bg);
+    border-radius: 1rem;
+  }
+
+  .score-ring {
+    --score-color: #dc2626;
+    flex-shrink: 0;
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+    text-align: center;
+    border: 8px solid var(--score-color);
+  }
+
+  .score-ring span {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .score-ring small {
+    opacity: 0.7;
+  }
+
+  .score-host {
+    margin: 0;
+    font-weight: 700;
+    word-break: break-all;
+  }
+
+  .score-text {
+    margin: 0.3rem 0 0;
+  }
+
+  .score-builder {
+    margin: 0.4rem 0 0;
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+
+  .audit-result :global(.group) {
+    margin-top: 1.75rem;
+  }
+
+  .audit-result :global(.group h3) {
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .audit-result :global(.check) {
+    display: grid;
+    grid-template-columns: 1.6rem 1fr;
+    gap: 0.4rem 0.6rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--secondary-bg);
+  }
+
+  .audit-result :global(.check-icon) {
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #fff;
+  }
+
+  .audit-result :global(.check-ok) {
+    background: #16a34a;
+  }
+
+  .audit-result :global(.check-warn) {
+    background: #d97706;
+  }
+
+  .audit-result :global(.check-fail) {
+    background: #dc2626;
+  }
+
+  .audit-result :global(.check-title) {
+    font-weight: 600;
+  }
+
+  .audit-result :global(.check-detail),
+  .audit-result :global(.check-fix) {
+    grid-column: 2;
+    margin: 0;
+    font-size: 0.93rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .audit-result :global(.check-fix) {
+    opacity: 0.8;
+  }
+
+  .audit-result :global(.metrics) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.75rem;
+    margin: 0.5rem 0 1rem;
+  }
+
+  .audit-result :global(.metric) {
+    padding: 0.75rem;
+    border: 1px solid var(--secondary-bg);
+    border-radius: 0.6rem;
+  }
+
+  .audit-result :global(.metric small) {
+    display: block;
+    opacity: 0.7;
+  }
+
+  .audit-result :global(.metric strong) {
+    font-size: 1.2rem;
+  }
+
+  .cta {
+    margin-top: 2.5rem;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    border: 1px solid var(--secondary-bg);
+    text-align: center;
+  }
+
+  .cta h2 {
+    margin-top: 0;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1.25rem;
+    border-radius: 2rem;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .btn-primary {
+    background: #25d366;
+    color: #fff;
+  }
+
+  .btn-secondary {
+    border: 1px solid var(--gradient-1);
+    color: inherit;
+  }
+
+  .basics li {
+    margin-bottom: 0.6rem;
+    line-height: 1.6;
+  }
+
+  .explain a {
+    color: var(--gradient-1);
+  }
+
+  .faq details {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--secondary-bg);
+  }
+
+  .faq summary {
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .faq details p {
+    margin: 0.75rem 0 0;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  @media (max-width: 576px) {
+    .audit-form {
+      flex-direction: column;
+    }
+
+    .score-row {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+</style>
+
+<script>
+  import { whatsappLink } from '../data/contact';
+
+  type Check = { id: string; group: string; title: string; status: 'ok' | 'warn' | 'fail'; detail: string; fix?: string };
+  type Audit = { finalUrl: string; builder: string | null; score: number; checks: Check[] };
+
+  const GROUPS: [string, string][] = [
+    ['google', 'Google'],
+    ['compartir', 'Al compartir en WhatsApp y redes'],
+    ['movil', 'Celular y apariencia'],
+    ['contacto', 'Contacto y confianza'],
+    ['tecnico', 'Seguridad'],
+  ];
+  const ICON = { ok: '✓', warn: '!', fail: '✕' };
+
+  const form = document.getElementById('audit-form') as HTMLFormElement;
+  const input = document.getElementById('audit-url') as HTMLInputElement;
+  const submit = document.getElementById('audit-submit') as HTMLButtonElement;
+  const errorBox = document.getElementById('audit-error')!;
+  const result = document.getElementById('audit-result')!;
+  const groupsBox = document.getElementById('groups')!;
+  const speedStatus = document.getElementById('speed-status')!;
+  const speedResult = document.getElementById('speed-result')!;
+  const cta = document.getElementById('cta-whatsapp') as HTMLAnchorElement;
+
+  const track = (name: string, params: Record<string, unknown> = {}) =>
+    (window as unknown as { gtag?: (...a: unknown[]) => void }).gtag?.('event', name, params);
+
+  // Todo el contenido externo (títulos de la web revisada) se inserta como texto
+  function el<K extends keyof HTMLElementTagNameMap>(tag: K, className?: string, text?: string) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text) node.textContent = text;
+    return node;
+  }
+
+  let lastAudit: Audit | null = null;
+  let lastSpeed: number | null = null;
+
+  function updateCta() {
+    if (!lastAudit) return;
+    const host = new URL(lastAudit.finalUrl).hostname;
+    const failing = lastAudit.checks.filter((c) => c.status === 'fail').map((c) => c.title.toLowerCase());
+    const lines = [
+      `Hola Darwin, revisé mi web ${host} con tu herramienta: ${lastAudit.score}/100.`,
+      failing.length ? `Le falta: ${failing.slice(0, 5).join(', ')}.` : '',
+      lastSpeed !== null ? `Velocidad en celular: ${lastSpeed}/100.` : '',
+      '¿Me ayudas a mejorarla?',
+    ];
+    cta.href = whatsappLink(lines.filter(Boolean).join(' '));
+  }
+
+  function renderAudit(audit: Audit) {
+    lastAudit = audit;
+    const ring = document.getElementById('score-ring')!;
+    ring.style.setProperty('--score-color', audit.score >= 80 ? '#16a34a' : audit.score >= 55 ? '#d97706' : '#dc2626');
+    document.getElementById('score-value')!.textContent = String(audit.score);
+    document.getElementById('score-host')!.textContent = new URL(audit.finalUrl).hostname;
+    const fails = audit.checks.filter((c) => c.status === 'fail').length;
+    const warns = audit.checks.filter((c) => c.status === 'warn').length;
+    document.getElementById('score-text')!.textContent =
+      fails === 0 && warns === 0
+        ? '¡Muy bien! Tu web tiene todo lo básico.'
+        : `${fails} ${fails === 1 ? 'problema importante' : 'problemas importantes'} y ${warns} ${warns === 1 ? 'mejora recomendada' : 'mejoras recomendadas'}.`;
+    const builder = document.getElementById('score-builder')!;
+    builder.hidden = !audit.builder;
+    if (audit.builder) builder.textContent = `Parece hecha con ${audit.builder}.`;
+
+    groupsBox.replaceChildren();
+    for (const [id, name] of GROUPS) {
+      const checks = audit.checks.filter((c) => c.group === id);
+      if (!checks.length) continue;
+      // Primero lo que falla
+      checks.sort((a, b) => ['fail', 'warn', 'ok'].indexOf(a.status) - ['fail', 'warn', 'ok'].indexOf(b.status));
+      const group = el('div', 'group');
+      group.append(el('h3', '', name));
+      for (const c of checks) {
+        const row = el('div', 'check');
+        row.append(el('span', `check-icon check-${c.status}`, ICON[c.status]), el('span', 'check-title', c.title));
+        row.append(el('p', 'check-detail', c.detail));
+        if (c.fix && c.status !== 'ok') row.append(el('p', 'check-fix', `Cómo arreglarlo: ${c.fix}`));
+        group.append(row);
+      }
+      groupsBox.append(group);
+    }
+    updateCta();
+  }
+
+  async function measureSpeed(url: string) {
+    speedResult.hidden = true;
+    speedStatus.hidden = false;
+    speedStatus.textContent = 'Midiendo con Google PageSpeed… suele tardar entre 20 y 40 segundos.';
+    try {
+      const res = await fetch('/api/velocidad/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      lastSpeed = data.score;
+      speedStatus.hidden = true;
+      speedResult.replaceChildren();
+      const verdict = data.score >= 90 ? 'Rápida' : data.score >= 50 ? 'Mejorable' : 'Lenta';
+      speedResult.append(el('p', '', `Nota de velocidad en el celular: ${data.score}/100 (${verdict}).`));
+      const metrics = el('div', 'metrics');
+      const labels: [string, string][] = [['fcp', 'Primer contenido'], ['lcp', 'Contenido principal'], ['tbt', 'Bloqueo'], ['cls', 'Saltos de diseño']];
+      for (const [key, label] of labels) {
+        const m = data.metrics[key];
+        if (!m) continue;
+        const box = el('div', 'metric');
+        box.append(el('small', '', label), el('strong', '', m.value));
+        metrics.append(box);
+      }
+      speedResult.append(metrics);
+      if (data.opportunities.length) {
+        speedResult.append(el('p', '', 'Lo que más la frena:'));
+        const list = el('ul');
+        for (const o of data.opportunities) list.append(el('li', '', `${o.title} (ahorraría unos ${o.savings} s)`));
+        speedResult.append(list);
+      }
+      speedResult.hidden = false;
+      updateCta();
+    } catch (error) {
+      speedStatus.textContent = error instanceof Error && error.message ? error.message : 'No se pudo medir la velocidad ahora.';
+    }
+  }
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const url = input.value.trim();
+    if (!url) return;
+    submit.disabled = true;
+    submit.textContent = 'Revisando…';
+    errorBox.hidden = true;
+    lastSpeed = null;
+    try {
+      const res = await fetch('/api/revisar-web/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'No pude revisar esa web.');
+      renderAudit(data);
+      result.hidden = false;
+      result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      track('tool_check', { score: data.score, builder: data.builder ?? 'desconocido' });
+      measureSpeed(data.finalUrl);
+    } catch (error) {
+      errorBox.textContent = error instanceof Error ? error.message : 'No pude revisar esa web.';
+      errorBox.hidden = false;
+    } finally {
+      submit.disabled = false;
+      submit.textContent = 'Revisar mi web';
+    }
+  });
+
+  // Permite enlazar con ?url=… para revisar directamente
+  const preset = new URLSearchParams(location.search).get('url');
+  if (preset) {
+    input.value = preset;
+    form.requestSubmit();
+  }
+</script>

@@ -17,6 +17,7 @@ const routes = [
   '/desarrollo-de-software-venezuela/',
   '/desarrollo-web-caracas/',
   '/privacidad/',
+  '/revisa-tu-web/',
   ...servicePages.map((s) => `/servicios/${s.slug}/`),
   ...caseStudies.map((c) => `/proyectos/${c.slug}/`),
   ...posts.map((p) => `/blog/${p.slug}/`),
@@ -499,7 +500,7 @@ const projectLinks = projects
     // Una sola pasada: [texto](enlace), una URL suelta o una ruta del sitio.
     // Así un enlace ya convertido no se vuelve a procesar.
     const LINKS =
-      /\[([^\]]+)\]\((\/[\w\-/#]*|https:\/\/[^\s)]+)\)|(https:\/\/[^\s<)]+[^\s<).,;:!?])|(^|[\s(])(\/(?:servicios|proyectos|blog|sobre-mi|desarrollo-de-software-venezuela|desarrollo-web-caracas)[\w\-/]*)/gm;
+      /\[([^\]]+)\]\((\/[\w\-/#]*|https:\/\/[^\s)]+)\)|(https:\/\/[^\s<)]+[^\s<).,;:!?])|(^|[\s(])(\/(?:servicios|proyectos|blog|sobre-mi|desarrollo-de-software-venezuela|desarrollo-web-caracas|privacidad|revisa-tu-web)[\w\-/]*)/gm;
     const html = escapeHtml(text)
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
       .replace(LINKS, (_m, label, href, bareUrl, before, path) => {

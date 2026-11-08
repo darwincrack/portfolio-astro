@@ -5,6 +5,7 @@
 import type { APIRoute } from 'astro';
 import { GEMINI_API_KEY, ASSISTANT_MODEL } from 'astro:env/server';
 import { getSystemPrompt } from '../../lib/assistant';
+import { allowedOrigin, clientIp, createRateLimiter } from '../../lib/api-guard';
 
 export const prerender = false;
 
@@ -12,36 +13,8 @@ const MAX_TURNS = 12; // mensajes del visitante por conversación
 const MAX_CHARS = 800; // por mensaje
 const MAX_HISTORY = 16; // mensajes que se envían al modelo
 
-// Límite por IP en memoria. Cada instancia de Vercel lleva su cuenta, así que
-// no es exacto, pero frena el abuso básico; el tope fuerte es el límite de
-// gasto configurado en Google AI Studio.
-const WINDOW_MS = 10 * 60 * 1000;
-const MAX_REQUESTS = 30;
-const hits = new Map<string, number[]>();
-
-function rateLimited(ip: string): boolean {
-  const now = Date.now();
-  const recent = (hits.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
-  recent.push(now);
-  hits.set(ip, recent);
-  if (hits.size > 5000) hits.clear();
-  return recent.length > MAX_REQUESTS;
-}
-
-function allowedOrigin(origin: string | null): boolean {
-  if (!origin) return false;
-  try {
-    const { hostname } = new URL(origin);
-    return (
-      hostname === 'darwincd.com' ||
-      hostname === 'www.darwincd.com' ||
-      hostname === 'localhost' ||
-      hostname.endsWith('-darwincracks-projects.vercel.app')
-    );
-  } catch {
-    return false;
-  }
-}
+// El tope fuerte es el límite de gasto configurado en Google AI Studio
+const rateLimited = createRateLimiter(30, 10 * 60 * 1000);
 
 type ChatMessage = { role: 'user' | 'model'; text: string };
 
@@ -66,8 +39,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!GEMINI_API_KEY) return json(503, 'El asistente no está disponible ahora mismo.');
   if (!allowedOrigin(request.headers.get('origin'))) return json(403, 'Origen no permitido.');
 
-  const ip = request.headers.get('cf-connecting-ip') ?? clientAddress ?? 'desconocida';
-  if (rateLimited(ip)) return json(429, 'Demasiados mensajes seguidos. Prueba en unos minutos o escribe a Darwin por WhatsApp.');
+  if (rateLimited(clientIp(request, clientAddress))) return json(429, 'Demasiados mensajes seguidos. Prueba en unos minutos o escribe a Darwin por WhatsApp.');
 
   let messages: ChatMessage[] | null = null;
   try {

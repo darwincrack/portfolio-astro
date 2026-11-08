@@ -36,7 +36,7 @@ Copiar o reescribir textos de otros sitios no suele posicionar. Google tiende a 
 
 En [meridiano.net](/proyectos/meridiano-net/) y los demás medios de Bloque de Armas, el SEO y el rendimiento acompañaron un aumento del 200 % en tráfico orgánico. No fue un truco. Fue una base técnica sana y contenido publicado con constancia durante años.
 
-Si tu web no aparece, se puede revisar antes de decidir rehacerla. Ese trabajo entra en [webs y sistemas a medida](/servicios/webs-y-sistemas/).
+Si tu web no aparece, se puede revisar antes de decidir rehacerla. Para una primera idea, [revísala gratis aquí](/revisa-tu-web/): te dice si le falta la descripción para Google, si Google puede leerla y más. Ese trabajo entra en [webs y sistemas a medida](/servicios/webs-y-sistemas/).
 
 [Agendar una consulta de 15 minutos](https://calendly.com/darwinc-dev/consulta-15-min)
 

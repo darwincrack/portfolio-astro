@@ -29,7 +29,7 @@ Una portada puede cargar y, aun así, esconder el teléfono, el correo o WhatsAp
 
 Caché, una base técnica al día y limpieza de lo que ya no se usa. A veces con eso la web vuelve a responder. Rehacerla entera tiene sentido cuando la estructura ya no sirve para el negocio, no cuando el problema es un archivo de más.
 
-Si la tuya va lenta, se puede mirar antes de decidir un sitio nuevo. Ese trabajo entra en [webs y sistemas a medida](/servicios/webs-y-sistemas/), junto con el mantenimiento de lo que ya está publicado.
+Si la tuya va lenta, se puede mirar antes de decidir un sitio nuevo. Puedes empezar por [revisarla gratis](/revisa-tu-web/): mide su velocidad en el celular y te dice qué le falta. Ese trabajo entra en [webs y sistemas a medida](/servicios/webs-y-sistemas/), junto con el mantenimiento de lo que ya está publicado.
 
 [Agendar una consulta de 15 minutos](https://calendly.com/darwinc-dev/consulta-15-min)
 

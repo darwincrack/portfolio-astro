@@ -25,6 +25,8 @@ export default defineConfig({
     schema: {
       GEMINI_API_KEY: envField.string({ context: 'server', access: 'secret', optional: true }),
       ASSISTANT_MODEL: envField.string({ context: 'server', access: 'secret', default: 'gemini-3.5-flash-lite' }),
+      // Herramienta /revisa-tu-web/: sin clave funciona, pero con un cupo compartido muy bajo
+      PAGESPEED_API_KEY: envField.string({ context: 'server', access: 'secret', optional: true }),
     },
   },
   site: 'https://darwincd.com',
@@ -35,5 +37,6 @@ export default defineConfig({
   },
   integrations: [sitemap()],
   output: 'server',
-  adapter: vercel(),
+  // 60 s: la medición de velocidad de /revisa-tu-web/ tarda 20-40 s
+  adapter: vercel({ maxDuration: 60 }),
 });
