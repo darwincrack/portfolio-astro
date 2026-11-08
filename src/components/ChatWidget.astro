@@ -52,7 +52,7 @@ const projectLinks = projects
     </button>
   </header>
 
-  <div class="chat-messages" aria-live="polite"></div>
+  <div class="chat-messages" aria-live="polite" data-clarity-mask="true"></div>
 
   <div class="chat-suggestions">
     <button type="button" data-suggestion="Necesito una web para mi negocio">Necesito una web</button>
@@ -62,7 +62,7 @@ const projectLinks = projects
 
   <form class="chat-form">
     <label for="chat-input" class="visually-hidden">Escribe tu mensaje</label>
-    <textarea id="chat-input" rows="1" maxlength="800" placeholder="Cuéntame qué necesitas…" autocomplete="off"></textarea>
+    <textarea id="chat-input" data-clarity-mask="true" rows="1" maxlength="800" placeholder="Cuéntame qué necesitas…" autocomplete="off"></textarea>
     <button type="submit" class="chat-send" aria-label="Enviar mensaje">
       <Icon name="paper-plane" />
     </button>
