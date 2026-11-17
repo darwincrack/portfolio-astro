@@ -25,11 +25,12 @@ import project17_2 from '../images/project17_2.avif';
 import project18 from '../images/project18.avif';
 import project19 from '../images/project19.avif';
 import projectClarityJobs from '../images/project-clarityjobs.jpg';
-import poligonoApp from '../images/poligono-app.jpg';
-import poligonoReservas from '../images/poligono-reservas.jpg';
-import poligonoBcv from '../images/poligono-bcv.jpg';
+import clubApp from '../images/club-app.jpg';
+import clubReservas from '../images/club-reservas.jpg';
+import clubBcv from '../images/club-bcv.jpg';
 import asistenteIa from '../images/asistente-ia.jpg';
 import asistenteIaPanel from '../images/asistente-ia-panel.jpg';
+import extensionIa from '../images/extension-ia.jpg';
 import estrellitas from '../images/estrellitas.jpg';
 import estrellitasAjustes from '../images/estrellitas-ajustes.jpg';
 import gravityPainter from '../images/gravity-painter.jpg';
@@ -74,13 +75,25 @@ export const projects = [
     type: "tools"
   },
   {
-    title: "Polígono Valencia — App de socios conectada a Profit",
+    title: "Extensión de Chrome con IA para redactar propuestas",
+    description: "Pegas el proyecto que te interesa, la IA redacta un borrador corto y concreto, y tú lo revisas y lo envías.",
+    detailedDescription: "Extensión de Chrome de uso personal para responder más rápido a proyectos de clientes. Se pega el título y la descripción, la IA escribe un borrador breve que va al grano y termina con preguntas para entender mejor el proyecto, y se puede pedir otra versión. La persona siempre lo revisa y lo envía: la extensión no lee ni modifica la página, no envía nada por su cuenta y tiene un límite diario de borradores. La misma idea sirve para un equipo de ventas o de soporte que responde mensajes parecidos todos los días.",
+    tags: ["Extensión de Chrome", "IA", "JavaScript"],
+    link: "",
+    image: extensionIa,
+    additionalImages: [extensionIa],
+    priority: 0,
+    github: "",
+    type: "tools"
+  },
+  {
+    title: "App de socios para un club social, conectada a Profit",
     description: "Socios que pagan con Pago Móvil, reservan y entran con un QR, con saldos sincronizados desde Profit.",
-    detailedDescription: "Sistema a medida para el club social Polígono Valencia: app web para socios y vigilantes, y panel de administración. Los socios entran con su cédula, ven su saldo y solvencia, reportan pagos con Pago Móvil, reservan áreas deportivas y sociales, anotan invitados y entran con un código QR que el vigilante escanea en la puerta. Saldos y facturas se sincronizan cada 5 minutos con Profit (SQL Server, solo lectura) y los montos se convierten con la tasa BCV del día. La landing del club no es parte de este trabajo.",
+    detailedDescription: "Sistema a medida para un club social en Venezuela: app web para socios y vigilantes, y panel de administración. Los socios entran con su cédula, ven su saldo y solvencia, reportan pagos con Pago Móvil, reservan áreas deportivas y sociales, anotan invitados y entran con un código QR que el vigilante escanea en la puerta. Saldos y facturas se sincronizan cada 5 minutos con Profit (SQL Server, solo lectura) y los montos se convierten con la tasa BCV del día. La landing del club no es parte de este trabajo.",
     tags: ["WordPress", "PHP", "SQL Server", "Profit", "Pago Móvil"],
-    link: "https://poligonovalencia.com/app",
-    image: poligonoApp,
-    additionalImages: [poligonoApp, poligonoReservas, poligonoBcv],
+    link: "",
+    image: clubApp,
+    additionalImages: [clubApp, clubReservas, clubBcv],
     priority: 0,
     github: "",
     type: "fullstack"

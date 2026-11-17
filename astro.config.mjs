@@ -4,6 +4,8 @@ import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
+  // El caso del club se publicó primero con el nombre del cliente
+  redirects: { '/proyectos/poligono-club': '/proyectos/app-socios-club/' },
   vite: {
     ssr: {
       noExternal: ['bootstrap'],

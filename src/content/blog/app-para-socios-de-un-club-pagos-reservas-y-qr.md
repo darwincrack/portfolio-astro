@@ -1,7 +1,7 @@
 ---
 title: "App para socios de un club: pagos, reservas y acceso con QR"
 pubDate: 2026-10-26
-description: "Cómo funciona una app para que los socios de un club paguen con Pago Móvil, reserven áreas y entren con un QR, conectada con Profit. El caso de Polígono Valencia."
+description: "Cómo funciona una app para que los socios de un club paguen con Pago Móvil, reserven áreas y entren con un QR, conectada con Profit. Un caso real de un club social."
 author: "Darwin Cedeño"
 tags:
   - para-contratar
@@ -9,12 +9,12 @@ tags:
   - aplicaciones
 image:
   url: "/images/blog/app-para-socios-de-un-club-pagos-reservas-y-qr.jpg"
-  alt: "Portada: App para socios de un club, con captura de la app de socios de Polígono Valencia: saldo, reportar pago y reservas"
+  alt: "Portada: App para socios de un club, con captura de la app de socios de un club social: saldo, reportar pago y reservas"
 ---
 
 Un club social lleva a sus socios en un sistema administrativo. Los socios, en cambio, preguntan por WhatsApp cuánto deben, mandan capturas de pago y llaman para reservar una cancha. En la puerta, el vigilante revisa una lista en papel.
 
-Eso fue lo que se resolvió en [Polígono Valencia](/proyectos/poligono-club/).
+Eso fue lo que se resolvió en [la app de socios de un club social](/proyectos/app-socios-club/).
 
 ## Qué puede hacer el socio
 

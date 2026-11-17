@@ -9,7 +9,7 @@ tags:
   - venezuela
 image:
   url: "/images/blog/como-elegir-una-empresa-de-desarrollo-web-en-venezuela.jpg"
-  alt: "Portada: Cómo elegir una empresa de desarrollo web en Venezuela, con captura de la app de socios de Polígono Valencia"
+  alt: "Portada: Cómo elegir una empresa de desarrollo web en Venezuela, con captura de la app de socios de un club social"
 ---
 
 «¿Cuál es la mejor empresa de desarrollo web en Venezuela?» Es una pregunta que se busca mucho en Google. La respuesta honesta es que no hay una mejor para todos. La mejor para ti es la que ya hizo algo parecido a lo que necesitas, te da un presupuesto claro y te deja el control de lo que paga.
@@ -28,7 +28,7 @@ Mejor todavía si el caso se parece al tuyo. No es lo mismo una web informativa 
 
 Pago Móvil, transferencias, la tasa BCV del día, precios en dólares y en bolívares. Quien no trabaja con eso a diario suele tratarlo como un detalle, y no lo es.
 
-En [Polígono Valencia](/proyectos/poligono-club/), los socios reportan sus pagos con Pago Móvil y los saldos se convierten con la tasa BCV automáticamente. Ese tipo de cosas conviene preguntarlas desde la primera conversación.
+En [la app de socios de un club social](/proyectos/app-socios-club/), los socios reportan sus pagos con Pago Móvil y los saldos se convierten con la tasa BCV automáticamente. Ese tipo de cosas conviene preguntarlas desde la primera conversación.
 
 Pregunta también cómo le pagas tú a él: en mi caso se puede con PayPal, Payoneer, Binance o AirTM, y si hace falta, en bolívares.
 

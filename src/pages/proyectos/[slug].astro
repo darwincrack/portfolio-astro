@@ -10,9 +10,9 @@ import meridianoImage from '../../images/project5.avif';
 import croplifeImage from '../../images/project16_1.avif';
 import miscaImage from '../../images/project19.avif';
 import pagoMovilImage from '../../images/project11.avif';
-import poligonoAppImage from '../../images/poligono-app.jpg';
-import poligonoReservasImage from '../../images/poligono-reservas.jpg';
-import poligonoBcvImage from '../../images/poligono-bcv.jpg';
+import clubAppImage from '../../images/club-app.jpg';
+import clubReservasImage from '../../images/club-reservas.jpg';
+import clubBcvImage from '../../images/club-bcv.jpg';
 import asistenteImage from '../../images/asistente-ia.jpg';
 import asistentePanelImage from '../../images/asistente-ia-panel.jpg';
 import estrellitasImage from '../../images/estrellitas.jpg';
@@ -25,16 +25,16 @@ const images: Record<string, ImageMetadata> = {
   croplife: croplifeImage,
   'misca-studio': miscaImage,
   'pago-movil-woocommerce': pagoMovilImage,
-  'poligono-club': poligonoAppImage,
+  'app-socios-club': clubAppImage,
   'asistente-ia-darwincd': asistenteImage,
   estrellitas: estrellitasImage,
   'gravity-painter': gravityImage
 };
 
 const extraImages: Record<string, { src: ImageMetadata; alt: string }[]> = {
-  'poligono-club': [
-    { src: poligonoReservasImage, alt: 'Calendario de reservas en el panel de administración' },
-    { src: poligonoBcvImage, alt: 'Configuración de la tasa BCV automática' }
+  'app-socios-club': [
+    { src: clubReservasImage, alt: 'Calendario de reservas en el panel de administración' },
+    { src: clubBcvImage, alt: 'Configuración de la tasa BCV automática' }
   ],
   'asistente-ia-darwincd': [
     { src: asistentePanelImage, alt: 'El asistente en escritorio, con el botón para enviar el resumen por WhatsApp' }

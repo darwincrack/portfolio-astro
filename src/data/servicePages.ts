@@ -31,7 +31,7 @@ export const servicePages: ServicePage[] = [
       "Rendimiento y mantenimiento cuando la web ya existe y dejó de responder."
     ],
     note: "Si el encargo encaja mejor en WordPress, una tienda o un módulo concreto, también lo hago. No es por donde empiezo.",
-    caseSlugs: ["poligono-club", "misca-studio", "pago-movil-woocommerce", "meridiano-net"],
+    caseSlugs: ["app-socios-club", "misca-studio", "pago-movil-woocommerce", "meridiano-net"],
     also: {
       href: "/servicios/aplicaciones-moviles/",
       label: "También hago aplicaciones móviles"
@@ -72,7 +72,7 @@ export const servicePages: ServicePage[] = [
       "Reglas claras: qué puede decir y qué no, como precios o fechas, y aviso de que es una IA."
     ],
     note: "El asistente de esta web lo hice yo: pruébalo con el botón de abajo. Antes de construir uno, vemos si de verdad te conviene o si basta con una buena sección de preguntas frecuentes.",
-    caseSlugs: ["asistente-ia-darwincd", "poligono-club"],
+    caseSlugs: ["asistente-ia-darwincd", "app-socios-club"],
     also: {
       href: "/servicios/webs-y-sistemas/",
       label: "También hago webs y sistemas"

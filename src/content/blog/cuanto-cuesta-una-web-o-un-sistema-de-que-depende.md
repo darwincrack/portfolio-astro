@@ -9,7 +9,7 @@ tags:
   - presupuesto
 image:
   url: "/images/blog/cuanto-cuesta-una-web-o-un-sistema-de-que-depende.jpg"
-  alt: "Portada: Cuánto cuesta una web o un sistema, con captura de la configuración de la tasa BCV en el sistema de Polígono Valencia"
+  alt: "Portada: Cuánto cuesta una web o un sistema, con captura de la configuración de la tasa BCV en el sistema de un club social"
 ---
 
 Es la primera pregunta que llega por WhatsApp: «¿cuánto cuesta una página?». La respuesta honesta es que depende, pero no de cualquier cosa. Depende de unas pocas preguntas que se pueden contestar en una conversación corta.
@@ -18,7 +18,7 @@ Es la primera pregunta que llega por WhatsApp: «¿cuánto cuesta una página?»
 
 Una web para que te encuentren, te lean y te escriban no cuesta lo mismo que un sistema con usuarios, pagos y datos. Tampoco cuesta lo mismo que una app instalada en el celular.
 
-Un ejemplo de lo segundo es [Polígono Valencia](/proyectos/poligono-club/): los socios entran con su cédula, ven su saldo, reportan pagos con Pago Móvil, reservan y entran al club con un QR. Eso ya no es una página. Es un sistema, y se presupuesta como tal.
+Un ejemplo de lo segundo es [la app de socios de un club social](/proyectos/app-socios-club/): los socios entran con su cédula, ven su saldo, reportan pagos con Pago Móvil, reservan y entran al club con un QR. Eso ya no es una página. Es un sistema, y se presupuesta como tal.
 
 ## Si se parte de cero o de algo que ya existe
 
@@ -26,7 +26,7 @@ Muchas veces no hace falta empezar de nuevo. En [Misca Studio](/proyectos/misca-
 
 ## Con qué se tiene que conectar
 
-Un sistema administrativo, una pasarela de pago, un banco, la tasa del día. Cada conexión es trabajo. En Polígono, los saldos se leen de Profit cada 5 minutos sin tocar la contabilidad, y eso forma parte del presupuesto desde el principio.
+Un sistema administrativo, una pasarela de pago, un banco, la tasa del día. Cada conexión es trabajo. En ese club, los saldos se leen de Profit cada 5 minutos sin tocar la contabilidad, y eso forma parte del presupuesto desde el principio.
 
 ## Qué pasa después de la entrega
 

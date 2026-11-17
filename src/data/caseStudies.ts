@@ -17,15 +17,15 @@ export type CaseStudy = {
 
 export const caseStudies: CaseStudy[] = [
   {
-    slug: "poligono-club",
-    title: "Polígono Valencia — App de socios conectada a Profit",
+    slug: "app-socios-club",
+    title: "App de socios para un club social, conectada a Profit",
     summary: "Socios que pagan con Pago Móvil, reservan y entran con un QR, con saldos sincronizados desde Profit.",
-    problem: "El club social Polígono Valencia administra a sus socios en Profit y necesitaba que pudieran consultar su saldo, reportar pagos y reservar desde el celular, además de controlar quién entra al club, todo sin tocar su sistema administrativo.",
+    problem: "Un club social administra a sus socios en Profit y necesitaba que pudieran consultar su saldo, reportar pagos y reservar desde el celular, además de controlar quién entra al club, todo sin tocar su sistema administrativo.",
     solution: "Un sistema a medida sobre WordPress con una app web para socios y vigilantes. Los socios entran con su cédula, ven su saldo y su solvencia, reportan pagos con Pago Móvil, reservan áreas deportivas y sociales, anotan invitados y entran con un código QR. Los vigilantes escanean el QR en la puerta. El personal valida pagos y reservas desde un panel de administración.",
     result: "Saldos y facturas se sincronizan solos con Profit cada 5 minutos, sin modificar la contabilidad. La solvencia se muestra con un semáforo verde o rojo, los saldos se convierten con la tasa BCV del día y cada ingreso al club queda registrado.",
     details: "Integración de solo lectura con Profit (SQL Server) mediante un agente en la red del club, para no exponer la base de datos. Roles para titular, cónyuge, hijos, padres, transeúntes, vigilantes y administradores; núcleo familiar; reservas con calendario y validación de pagos; tasa BCV automática; reporte de accesos. La landing del club no es parte de este trabajo.",
     tags: ["WordPress", "PHP", "SQL Server", "Profit", "Pago Móvil", "QR"],
-    link: "https://poligonovalencia.com/app",
+    link: "",
     github: "",
     serviceHref: "/servicios/webs-y-sistemas/",
     serviceLabel: "Ver webs y sistemas a medida"

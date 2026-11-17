@@ -26,7 +26,7 @@ const covers = [
     slug: 'que-tener-claro-antes-de-pedir-una-web-o-un-sistema',
     title: 'Qué tener claro antes de pedir una web o un sistema',
     label: 'ANTES DE CONTRATAR',
-    image: 'poligono-reservas.jpg',
+    image: 'club-reservas.jpg',
   },
   {
     slug: 'la-web-carga-lenta-que-se-puede-hacer-antes-de-rehacerla',
@@ -51,7 +51,7 @@ const covers = [
     slug: 'cuanto-cuesta-una-web-o-un-sistema-de-que-depende',
     title: 'Cuánto cuesta una web o un sistema',
     label: 'ANTES DE CONTRATAR · PRESUPUESTO',
-    image: 'poligono-bcv.jpg',
+    image: 'club-bcv.jpg',
   },
   {
     slug: 'mi-web-no-aparece-en-google-que-revisar-primero',
@@ -63,8 +63,8 @@ const covers = [
   {
     slug: 'app-para-socios-de-un-club-pagos-reservas-y-qr',
     title: 'App para socios: pagos, reservas y QR',
-    label: 'SISTEMAS · CASO POLÍGONO VALENCIA',
-    image: 'poligono-app.jpg',
+    label: 'SISTEMAS · CASO CLUB SOCIAL',
+    image: 'club-app.jpg',
   },
   {
     slug: 'que-pedir-cuando-te-entregan-una-web-o-una-app',
@@ -84,7 +84,7 @@ const covers = [
     slug: 'como-elegir-una-empresa-de-desarrollo-web-en-venezuela',
     title: 'Cómo elegir una empresa de desarrollo web en Venezuela',
     label: 'ANTES DE CONTRATAR · VENEZUELA',
-    image: 'poligono-app.jpg',
+    image: 'club-app.jpg',
   },
 ];
 
