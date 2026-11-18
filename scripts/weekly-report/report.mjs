@@ -215,7 +215,8 @@ Contexto: el 29 de octubre de 2026 se publicó una web nueva, se borraron 187 ar
 Del 29 al 31 de octubre de 2026 se probó la web a mano: las visitas directas y los contactos de esos días son pruebas, no clientes. Si el periodo anterior incluye esas fechas, no lo trates como una caída real.
 Las búsquedas que solo llevan a artículos borrados ya están quitadas de las listas; "impresionesDeArticulosBorrados" indica cuánto queda de ellas y es normal que baje.
 El usuario solo puede editar su web y sus perfiles: no recomiendes cosas fuera de su alcance.
-Búsquedas como "meridiano.net", "portal meridiano" o "poligono valencia" vienen de sus casos de éxito publicados en la web: son buenas, no basura.
+Búsquedas como "meridiano.net" o "portal meridiano" vienen de sus casos de éxito publicados en la web: son buenas, no basura. El 17 de noviembre de 2026 el caso del club "Polígono Valencia" pasó a ser anónimo (ahora /proyectos/app-socios-club/), así que es normal que las búsquedas "poligono valencia" desaparezcan; no lo trates como una caída.
+"estadoActualDeLaWeb" es lo que tiene hoy la web publicada: title, description, H1, H2 y textos de los enlaces internos de cada página, y los enlaces del pie que salen en todas las páginas. Antes de recomendar un cambio de título, encabezado o enlace, compruébalo ahí: no recomiendes algo que ya existe. Si ya está hecho y la página sigue sin clics, dilo y propón otra cosa (por ejemplo un artículo o enlaces desde otras páginas). Evita recomendar que la portada compita por la misma búsqueda que una página dedicada (Caracas, Venezuela): refuerza la página dedicada.
 
 Escribe en español, tuteando a Darwin, en HTML simple (solo <h3>, <p>, <ul>, <li>, <strong>), sin tablas, con estas secciones:
 <h3>Resumen</h3> 2-3 frases: ¿la semana fue mejor, igual o peor, y por qué?
@@ -223,6 +224,43 @@ Escribe en español, tuteando a Darwin, en HTML simple (solo <h3>, <p>, <ul>, <l
 <h3>Qué empeoró o hay que vigilar</h3>
 <h3>En qué trabajar esta semana</h3> 2 a 4 acciones concretas y priorizadas (por ejemplo: una página o artículo para una búsqueda en posición 8-20, mejorar el título de una página con impresiones y sin clics). Nada genérico.
 Usa solo los datos dados; no inventes cifras.`;
+
+// ---------------------------------------------------------------------------
+// Cómo está hoy la web: así el análisis no recomienda lo que ya existe
+// ---------------------------------------------------------------------------
+
+const clean = (h) => h.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&#39;|&#x27;/g, "'").replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim();
+const INTERNAL_LINK = /<a[^>]+href="\/[^"]*"[^>]*>([\s\S]*?)<\/a>/gi;
+const all = (html, re) => [...html.matchAll(re)].map((m) => clean(m[1])).filter(Boolean);
+
+async function pageState(pathname) {
+  try {
+    const res = await fetch(new URL(pathname, 'https://darwincd.com'), { signal: AbortSignal.timeout(15000), redirect: 'follow' });
+    if (!res.ok) return { pagina: pathname, estado: res.status };
+    const html = await res.text();
+    const main = html.split(/<footer/i)[0];
+    return {
+      pagina: pathname,
+      title: all(html, /<title[^>]*>([\s\S]*?)<\/title>/gi)[0] ?? '',
+      description: html.match(/<meta[^>]+name="description"[^>]+content="([^"]*)"/i)?.[1] ?? '',
+      h1: all(main, /<h1[^>]*>([\s\S]*?)<\/h1>/gi),
+      h2: all(main, /<h2[^>]*>([\s\S]*?)<\/h2>/gi).slice(0, 12),
+      enlacesInternos: [...new Set(all(main, INTERNAL_LINK))].slice(0, 40),
+    };
+  } catch (error) {
+    return { pagina: pathname, error: error.message };
+  }
+}
+
+async function siteState(data) {
+  const pages = [...new Set(['/', ...data.google.paginas.map((p) => p.pagina)])].slice(0, 10);
+  const home = await fetch('https://darwincd.com/', { signal: AbortSignal.timeout(15000) }).then((r) => r.text()).catch(() => '');
+  const footer = home.split(/<footer/i)[1] ?? '';
+  return {
+    paginas: await Promise.all(pages.map(pageState)),
+    enlacesDelPieEnTodaLaWeb: [...new Set(all(footer, INTERNAL_LINK))],
+  };
+}
 
 async function analyze(data) {
   if (!process.env.GEMINI_API_KEY) return null;
@@ -232,7 +270,7 @@ async function analyze(data) {
       headers: { 'Content-Type': 'application/json', 'x-goog-api-key': process.env.GEMINI_API_KEY },
       body: JSON.stringify({
         systemInstruction: { parts: [{ text: PROMPT }] },
-        contents: [{ role: 'user', parts: [{ text: JSON.stringify(data) }] }],
+        contents: [{ role: 'user', parts: [{ text: JSON.stringify({ ...data, estadoActualDeLaWeb: await siteState(data) }) }] }],
         // El razonamiento también consume tokens: margen amplio para que no se corte
         generationConfig: { temperature: 0.3, maxOutputTokens: 12000, thinkingConfig: { thinkingLevel: 'low' } },
       }),
