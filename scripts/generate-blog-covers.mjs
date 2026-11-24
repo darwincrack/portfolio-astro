@@ -81,6 +81,13 @@ const covers = [
     position: 'northeast',
   },
   {
+    slug: 'cuanto-tarda-en-cargar-tu-web-en-venezuela',
+    title: 'Cuánto tarda en cargar tu web en Venezuela',
+    label: 'RENDIMIENTO · VENEZUELA',
+    image: 'project19.avif',
+    position: 'northeast',
+  },
+  {
     slug: 'como-elegir-una-empresa-de-desarrollo-web-en-venezuela',
     title: 'Cómo elegir una empresa de desarrollo web en Venezuela',
     label: 'ANTES DE CONTRATAR · VENEZUELA',

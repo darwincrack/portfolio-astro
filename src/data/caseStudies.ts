@@ -50,7 +50,7 @@ export const caseStudies: CaseStudy[] = [
     summary: "La portada pesaba demasiado y el contacto quedaba escondido.",
     problem: "La portada dependía de Revolution Slider y un vídeo de fondo de unos 24 MB, pesado sobre todo en el móvil.",
     solution: "Hero nuevo en Elementor, vídeo reducido a unos 3,6 MB, imagen estática en móvil, LiteSpeed Cache, PHP 8.3, SEO técnico y botones de contacto.",
-    result: "El vídeo de fondo pasó de unos 24 MB a unos 3,6 MB, con caché, CDN y la base técnica actualizada.",
+    result: "El vídeo de fondo pasó de unos 24 MB a unos 3,6 MB, con caché, CDN y la base técnica actualizada. En PageSpeed Insights de Google, la nota pasó de unos 40 a unos 80 en celular y de unos 60 a 100 en computadora.",
     details: "Trabajo integral en miscastudio.com, estudio de interiorismo en Girona: nuevo hero en Elementor sin Revolution Slider, vídeo de fondo reducido de unos 24 MB a unos 3,6 MB e imagen estática en móvil; LiteSpeed Cache y QUIC.cloud (WebP, minificación, CDN); limpieza de código demo y plantillas; SEO técnico; botones de contacto (WhatsApp, email, llamada) y selector de idiomas; actualización de plugins, PHP 8.3 y eliminación de temas inactivos.",
     tags: ["WordPress", "Elementor", "LiteSpeed", "SEO", "UX"],
     link: "https://miscastudio.com/",
